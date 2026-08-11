@@ -27,7 +27,13 @@ export default function ItineraryDay({ day, index }: Props) {
             className="row-in visible flex flex-col gap-1 border-b border-rule py-4 first:border-t sm:flex-row sm:items-baseline sm:gap-10"
             style={{ "--i": row } as React.CSSProperties}
           >
-            <dt className="shrink-0 text-small font-semibold text-muted tabular-nums sm:w-36">
+            {/*
+              `font-display` here is for the figures, not the voice: these are a stacked
+              column of HH:MM–HH:MM ranges, and Poppins ships no `tnum`, so `tabular-nums`
+              is inert on the body font and the en-dash drifts row to row. Jakarta has it.
+              At text-small/600 the two faces are near-indistinguishable anyway.
+            */}
+            <dt className="shrink-0 font-display text-small font-semibold text-muted tabular-nums sm:w-36">
               {entry.time}
             </dt>
             <dd className="text-lead text-ink">{entry.label}</dd>

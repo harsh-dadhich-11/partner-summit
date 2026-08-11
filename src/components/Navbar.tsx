@@ -14,19 +14,34 @@ const navLinks = [
 const Wordmark = () => (
   <div className="flex items-center gap-3.5">
     <a href="https://www.botconsulting.io/" target="_blank" rel="noopener noreferrer">
+      {/*
+        The asset fills its wordmark #000816, which is invisible on the dark bar. Two
+        utilities flatten it to white without a second file — at the cost of the cyan
+        tick, which goes white with everything else. Drop these classes if a light
+        variant of the SVG ever exists.
+      */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/assets/bot-logo.svg" alt="BOT Consulting" className="h-7 w-auto" />
+      <img
+        src="/assets/bot-logo.svg"
+        alt="BOT Consulting"
+        className="h-7 w-auto brightness-0 invert"
+      />
     </a>
-    <span className="h-5 w-px bg-rule" aria-hidden="true" />
-    <Link href="/" className="font-display text-lg text-ink">
-      Odyssey <span className="text-orange-deep italic">2026</span>
+    <span className="h-5 w-px bg-rule-light" aria-hidden="true" />
+    <Link href="/" className="font-display text-lg text-cream">
+      Odyssey <span className="text-orange-soft italic">2026</span>
     </Link>
   </div>
 );
 
+/**
+ * Dark, on every page. The hero is now a dark video and this bar sits over it, and
+ * PageHeader — the first element on /faq and /itinerary — is already bg-teal-dark, so the
+ * top of every route in the site is dark teal. No scroll listener needed.
+ */
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 z-100 w-full border-b border-rule bg-surface/85 backdrop-blur-md">
+    <nav className="fixed top-0 left-0 z-100 w-full border-b border-rule-light bg-teal-dark/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-[80rem] items-center justify-between gap-6 px-6 py-4">
         <Wordmark />
 
@@ -37,7 +52,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 data-spy={link.href.startsWith("/#") ? link.href.slice(2) : undefined}
-                className="nav-link text-small font-medium text-ink transition-colors duration-300 hover:text-accent"
+                className="nav-link text-small font-medium text-cream/85 transition-colors duration-300 hover:text-cyan-bright"
               >
                 {link.label}
               </Link>
@@ -57,18 +72,20 @@ export default function Navbar() {
             no JS, keyboard and screen-reader support for free.
           */}
           <details className="relative lg:hidden">
-            <summary className="flex cursor-pointer list-none items-center text-ink [&::-webkit-details-marker]:hidden">
+            <summary className="flex cursor-pointer list-none items-center text-cream [&::-webkit-details-marker]:hidden">
               <span className="sr-only">Menu</span>
               <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
                 <path d="M3.5 7.5h17M3.5 12h17M3.5 16.5h17" />
               </svg>
             </summary>
-            <div className="absolute top-full right-0 mt-4 flex w-56 flex-col border border-rule bg-surface py-2">
+            {/* Opaque, not /85: the panel hangs below the bar, where there is no
+                backdrop-filter behind it to blur the page underneath. */}
+            <div className="absolute top-full right-0 mt-4 flex w-56 flex-col border border-rule-light bg-teal-dark py-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-5 py-3 text-small font-medium text-ink transition-colors hover:bg-surface-sunk hover:text-accent"
+                  className="px-5 py-3 text-small font-medium text-cream transition-colors hover:bg-cream/10 hover:text-cyan-bright"
                 >
                   {link.label}
                 </Link>

@@ -15,7 +15,7 @@ export default function PageHeader({ kicker, title, description }: Props) {
           <span className="h-px w-8 bg-cyan-soft/40" />
           {kicker}
         </p>
-        <h1 className="rise visible max-w-[20ch] font-display wonk text-h1 text-cream">{title}</h1>
+        <h1 className="rise visible max-w-[20ch] font-display text-h1 text-cream">{title}</h1>
         <p className="fade-in visible mt-7 max-w-[52ch] text-lead text-cream/70">{description}</p>
       </div>
     </header>

@@ -24,18 +24,25 @@
   --color-accent: var(--color-orange-bright);
   --color-accent-quiet: var(--color-gold);
 
-  /* ---- Two-font system. Display carries character; sans carries information. ---- */
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  /* ---- Two-font system. Display carries character; sans carries information.
+         The fallback tails are sans on both lines on purpose: `display: swap` means
+         the tail is what renders during the FOUT, and a serif there would flash the
+         exact letterforms this system replaced. Nasalization slots in ahead of
+         Jakarta once the licensed files exist. ---- */
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-display: /* var(--font-nasalization), */ var(--font-jakarta), ui-sans-serif,
+    system-ui, sans-serif;
 
-  /* ---- Type scale. Replaces ~30 one-off clamps. Headlines get weight from size. ---- */
+  /* ---- Type scale. Replaces ~30 one-off clamps. Headlines get weight from size.
+         Tracking on the top two steps is tighter than a serif needed: a geometric
+         sans has no serif sidebearing, so it reads gappy at headline sizes. ---- */
   --text-display: clamp(3rem, 8vw, 6.5rem);
-  --text-display--line-height: 0.94;
-  --text-display--letter-spacing: -0.025em;
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.035em;
 
   --text-h1: clamp(2.4rem, 5vw, 3.8rem);
   --text-h1--line-height: 1.04;
-  --text-h1--letter-spacing: -0.02em;
+  --text-h1--letter-spacing: -0.03em;
 
   --text-h2: clamp(1.9rem, 3.6vw, 2.8rem);
   --text-h2--line-height: 1.1;
@@ -72,14 +79,11 @@
 }
 
 @layer base {
-  /* Fraunces is variable: size drives optical sizing so headlines stay properly drawn. */
+  /* The display weight, set once. Jakarta is loaded variable, so this is a free axis
+     position rather than another font file — and living in `@layer base` means any
+     `font-*` utility at a call site still overrides it. */
   .font-display {
-    font-optical-sizing: auto;
-  }
-
-  /* Fraunces' quirk axes, kept for the two or three largest moments only. */
-  .wonk {
-    font-variation-settings: "SOFT" 40, "WONK" 1, "wght" 400;
+    font-weight: 600;
   }
 
   /* One visible focus ring for everything. The old design had none. */
@@ -219,8 +223,9 @@
   .nav-link {
     position: relative;
   }
+  /* Cyan, not accent orange: the bar is dark teal now, where orange is 3.9:1. */
   .nav-link.is-current {
-    color: var(--color-accent);
+    color: var(--color-cyan-bright);
   }
   .nav-link.is-current::after {
     content: "";

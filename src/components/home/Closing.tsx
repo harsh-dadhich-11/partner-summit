@@ -7,7 +7,7 @@ export default function Closing() {
     <section className="bg-teal-dark text-cream">
       <div className="mx-auto max-w-[80rem] px-6 py-28 lg:py-40">
         <div className="max-w-[38rem]">
-          <h2 className="rise visible font-display wonk text-h1 text-cream">
+          <h2 className="rise visible font-display text-h1 text-cream">
             This exists because of you.
           </h2>
           <p className="fade-in visible mt-8 text-lead text-cream/70">

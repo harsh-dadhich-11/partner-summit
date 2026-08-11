@@ -1,28 +1,38 @@
 import type { Metadata } from "next";
-import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Poppins } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageScripts from "@/components/PageScripts";
 import "@/app/globals.css";
 
-/** Body and UI. Trimmed to the three weights the design actually uses. */
+/**
+ * Display face. `weight` is deliberately omitted so next/font ships the variable file
+ * (two files, ~60KB) instead of one static instance per weight — which also means the
+ * display weight is retunable in CSS rather than here. Do not add `axes`: Jakarta's only
+ * axis is `wght`, and next/font throws for that.
+ *
+ * `style` must include italic — six headings are italic, and without it the browser
+ * synthesises the slant.
+ *
+ * Standing in for Nasalization, which is licensed and not on Google Fonts. When those
+ * files land, they go in front of this in `--font-display` (globals.css).
+ */
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
   display: "swap",
   variable: "--font-jakarta",
 });
 
 /**
- * Display face. Variable, so `opsz` redraws the letterforms for headline sizes
- * and `SOFT`/`WONK` give the hero real character rather than a generic serif.
+ * Body and UI. Trimmed to the three weights the design actually uses. Poppins is not a
+ * variable font, so `weight` is mandatory. Standing in for PP Mori (also licensed).
  */
-const fraunces = Fraunces({
+const poppins = Poppins({
   subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
   display: "swap",
-  variable: "--font-fraunces",
+  variable: "--font-poppins",
 });
 
 const description =
@@ -45,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${jakarta.variable} ${fraunces.variable} scroll-smooth overflow-x-hidden`}
+      className={`${jakarta.variable} ${poppins.variable} scroll-smooth overflow-x-hidden`}
     >
       <body className="overflow-x-hidden bg-surface font-sans text-ink antialiased">
         {/*

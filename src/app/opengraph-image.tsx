@@ -19,11 +19,11 @@ export default function OpengraphImage() {
           // Flat, not the diagonal brand gradient — this card is the first thing anyone
           // sees when the invite gets shared, so it should not lead with the one tell
           // the rest of the site just removed.
-          // ponytail: no Fraunces here. Satori needs the font as a binary, which means a
+          // ponytail: no Jakarta here. Satori needs the font as a binary, which means a
           // network fetch during build; not worth making the build fail offline for one card.
           background: "#183944",
           color: "#faf5ee",
-          fontFamily: "serif",
+          fontFamily: "sans-serif",
         }}
       >
         <div style={{ fontSize: 24, letterSpacing: 6, color: "#7dd8e5", textTransform: "uppercase" }}>
