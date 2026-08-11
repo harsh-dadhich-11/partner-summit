@@ -34,7 +34,7 @@ export default function Hero() {
           <source src="/assets/hero.mp4" type="video/mp4" />
         </video>
         {/* Scrim weighted left, where the copy sits — footage that reads through on the right. */}
-        <div className="absolute inset-0 bg-linear-to-r from-teal-dark/90 via-teal-dark/70 to-teal-dark/45" />
+        <div className="hero-scrim absolute inset-0" />
       </div>
 
       <div className="mx-auto flex min-h-[85svh] max-w-[80rem] flex-col justify-center px-6 pt-32 pb-16 lg:min-h-[94vh] lg:pt-40 lg:pb-20">
