@@ -1,17 +1,31 @@
-import Photo from "@/components/ui/Photo";
+import ReliveCarousel from "@/components/home/ReliveCarousel";
 import { gallery } from "@/data/gallery";
 import { HIGHLIGHTS_HREF } from "@/data/site";
 
 /**
- * Runs edge to edge: the text column is padded to line up with the rest of the page
- * while the film still bleeds off the right of the screen. That break in the container
- * is the point — every other section used to sit in the same centred box.
+ * The dark band the site spends on photography. One posed still with a play triangle
+ * painted on it stood in for a whole year; five real frames of it say more, and the text
+ * link below still reaches the film.
+ *
+ * Server component on purpose — gallery.ts runs existsSync at module load. Only the
+ * rotation needs a client, and that lives in ReliveCarousel.
+ *
+ * gallery.sessions is deliberately absent: EventExperience renders it in the arch one
+ * section above, and the same photograph twice on one page is obvious.
+ *
+ * ponytail: awards/sri/families are 18-23MB straight off the camera. next/image serves
+ * ~200KB, but the first request per variant pays for sharp decoding the original, five
+ * images over. Fix the files, not this component:
+ * sips -Z 2400 public/assets/{awards,sri,families}.jpg
  */
+const shots = [gallery.awards, gallery.sri, gallery.evening, gallery.families, gallery.heroStill];
+
 export default function Relive() {
   return (
-    <section id="relive" className="bg-teal-dark text-cream lg:grid lg:grid-cols-2 lg:items-stretch">
-      <div className="flex items-center px-6 py-20 lg:justify-end lg:py-32">
-        <div className="max-w-[32rem] lg:pr-20">
+    // Keep id="relive": Navbar links to /#relive and PageScripts scroll-spies this id.
+    <section id="relive" className="bg-teal-dark py-20 text-cream lg:py-32">
+      <div className="mx-auto max-w-[80rem] px-6">
+        <div className="max-w-[38rem]">
           <p className="fade-in visible mb-6 flex items-center gap-4 text-micro font-semibold uppercase text-cyan-soft">
             <span className="h-px w-8 bg-cyan-soft/40" />
             Relive 2025
@@ -25,6 +39,7 @@ export default function Relive() {
             gathering — the atmosphere and the moments that continue to shape every one that
             follows.
           </p>
+          {/* The only route to the film now that the thumbnail is gone. */}
           <a
             href={HIGHLIGHTS_HREF}
             target="_blank"
@@ -37,29 +52,11 @@ export default function Relive() {
             </span>
           </a>
         </div>
-      </div>
 
-      <a
-        href={HIGHLIGHTS_HREF}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Watch the Odyssey 2025 highlights film"
-        className="group img-in visible relative block aspect-[4/3] overflow-hidden lg:aspect-auto lg:min-h-[38rem]"
-      >
-        <Photo
-          shot={gallery.heroStill}
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          className="transition-transform duration-700 group-hover:scale-[1.04]"
-        />
-        <span className="absolute inset-0 bg-[linear-gradient(200deg,rgba(16,29,34,0)_45%,rgba(16,29,34,.6)_100%)]" />
-        <span className="absolute inset-0 flex items-center justify-center">
-          <span className="flex h-20 w-20 items-center justify-center rounded-full bg-cream/95 transition-transform duration-300 group-hover:scale-110">
-            <svg viewBox="0 0 24 24" className="ml-1 h-6 w-6 fill-orange-deep" aria-hidden="true">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </span>
-        </span>
-      </a>
+        <div className="mt-14 lg:mt-20">
+          <ReliveCarousel shots={shots} />
+        </div>
+      </div>
     </section>
   );
 }

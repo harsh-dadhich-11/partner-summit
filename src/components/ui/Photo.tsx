@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-type Shot = { src: string | null; alt: string };
+export type Shot = { src: string | null; alt: string };
 
 type Props = {
   shot: Shot;

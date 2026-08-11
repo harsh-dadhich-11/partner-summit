@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { RSVP_HREF, SUMMIT_EMAIL } from "@/data/site";
+import { SUMMIT_EMAIL } from "@/data/site";
 
 const footerLinks = [
-  { label: "Confirm attendance", href: RSVP_HREF },
   { label: "Event experience", href: "/#experience" },
   { label: "Itinerary", href: "/itinerary" },
   { label: "Speaker updates", href: "/#agenda" },
@@ -31,20 +30,15 @@ export default function Footer() {
 
         <div>
           <h2 className="mb-4 text-micro font-semibold uppercase text-ink">Odyssey 2026</h2>
-          {footerLinks.map((link) =>
-            link.href.startsWith("mailto:") ? (
-              <a key={link.href} href={link.href} className={linkStyles}>
-                {link.label}
-              </a>
-            ) : (
-              <Link key={link.href} href={link.href} className={linkStyles}>
-                {link.label}
-              </Link>
-            )
-          )}
+          {footerLinks.map((link) => (
+            <Link key={link.href} href={link.href} className={linkStyles}>
+              {link.label}
+            </Link>
+          ))}
         </div>
 
-        <div>
+        {/* Every "Contact" control on the site scrolls here; scroll-mt clears the fixed navbar. */}
+        <div id="contact" className="scroll-mt-24">
           <h2 className="mb-4 text-micro font-semibold uppercase text-ink">Support</h2>
           <a href={`mailto:${SUMMIT_EMAIL}`} className={linkStyles}>
             {SUMMIT_EMAIL}

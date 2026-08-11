@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { gallery } from "@/data/gallery";
-import { RSVP_HREF, SUMMIT_FACTS } from "@/data/site";
+import { SUMMIT_FACTS } from "@/data/site";
 
 export default function Hero() {
   return (
-    <header id="confirm" className="relative isolate">
+    <header className="relative isolate">
       {/*
         The one asset that is unarguably real: footage of the actual event, now the ground
         the headline stands on rather than a panel beside it. `isolate` keeps the -z-10
@@ -33,8 +33,6 @@ export default function Hero() {
         >
           <source src="/assets/hero.mp4" type="video/mp4" />
         </video>
-        {/* Scrim weighted left, where the copy sits — footage that reads through on the right. */}
-        <div className="hero-scrim absolute inset-0" />
       </div>
 
       <div className="mx-auto flex min-h-[85svh] max-w-[80rem] flex-col justify-center px-6 pt-32 pb-16 lg:min-h-[94vh] lg:pt-40 lg:pb-20">
@@ -56,7 +54,7 @@ export default function Hero() {
           </p>
 
           <div className="fade-in visible mt-10 flex flex-wrap items-center gap-4">
-            <Button href={RSVP_HREF}>Confirm your attendance</Button>
+            <Button href="/#contact">Contact us</Button>
             <Link
               href="/itinerary"
               className="border-b border-cream/40 pb-1 text-small font-semibold text-cream transition-colors duration-300 hover:border-cyan-bright hover:text-cyan-bright"
@@ -69,7 +67,7 @@ export default function Hero() {
 
       {/* The specifics. A page that never states a fact reads as generated however it is styled. */}
       <div className="relative bg-teal-dark text-cream">
-        <dl className="mx-auto grid max-w-[80rem] grid-cols-2 gap-y-8 px-6 py-10 md:grid-cols-4">
+        <dl className="mx-auto grid max-w-[80rem] grid-cols-2 gap-y-8 px-6 py-10 md:grid-cols-3">
           {SUMMIT_FACTS.map((fact, index) => (
             <div key={fact.label} className="row-in visible" style={{ "--i": index } as React.CSSProperties}>
               <dt className="mb-2 text-micro font-semibold uppercase text-cyan-soft">{fact.label}</dt>

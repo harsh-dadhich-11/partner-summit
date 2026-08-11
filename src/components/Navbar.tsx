@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { RSVP_HREF } from "@/data/site";
 
 /** Labels must match what the destination actually shows — "Speakers" led to a page with none. */
 const navLinks = [
@@ -59,12 +58,13 @@ export default function Navbar() {
             ))}
           </div>
 
-          <a
-            href={RSVP_HREF}
+          {/* Lands on the footer's Support block — the address and numbers live there already. */}
+          <Link
+            href="/#contact"
             className="bg-accent px-5 py-2.5 text-micro font-semibold tracking-normal whitespace-nowrap text-white uppercase transition-colors duration-300 hover:bg-orange-deep"
           >
-            Confirm
-          </a>
+            Contact
+          </Link>
 
           {/*
             Native <details> disclosure: below `lg` the links used to be display:none with no

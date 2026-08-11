@@ -138,26 +138,6 @@
   }
 
   /* ---------------------------------------------------------------
-     Hero scrim. Functional rather than decorative: the hero copy sits
-     directly on live footage, and this is the only thing keeping it
-     legible. Weighted to the left so the right of the frame still
-     reads as video instead of as a tinted panel.
-
-     Spelled out as a gradient rather than reached for as a
-     bg-linear-to-* utility — the directional utilities are banned
-     precisely so a scrim has to justify itself, and color-mix keeps
-     it tied to the token instead of a pasted hex.
-     --------------------------------------------------------------- */
-  .hero-scrim {
-    background-image: linear-gradient(
-      90deg,
-      color-mix(in oklab, var(--color-teal-dark) 90%, transparent),
-      color-mix(in oklab, var(--color-teal-dark) 70%, transparent) 50%,
-      color-mix(in oklab, var(--color-teal-dark) 45%, transparent)
-    );
-  }
-
-  /* ---------------------------------------------------------------
      Paper grain. Kills the flat-plastic digital surface in one element.
      --------------------------------------------------------------- */
   .grain {
