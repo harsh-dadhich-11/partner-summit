@@ -127,17 +127,6 @@
   }
 
   /* ---------------------------------------------------------------
-     The arch. A cusped (multifoil) profile after the jharokha windows
-     at Ananta and across Jaipur — the one shape on this site that could
-     not have come from a template. Applied only to portrait crops, and
-     deliberately not to everything: a motif used uniformly is just
-     another uniformity.
-     --------------------------------------------------------------- */
-  .arch {
-    clip-path: url(#jharokha-arch);
-  }
-
-  /* ---------------------------------------------------------------
      Paper grain. Kills the flat-plastic digital surface in one element.
      --------------------------------------------------------------- */
   .grain {
@@ -181,9 +170,8 @@
   /* Imagery: a wipe up out of a slow push-in.
      The clip lives on the media, never on `.img-in` itself. An observed element that
      clips itself away reports an empty intersection rect, so it can never be told it is
-     on screen — and inside `.arch` the ancestor clip compounds it. Keeping the observed
-     box intact is what makes this fire at all. Scoped to img/video so scrims and play
-     buttons do not ride along. */
+     on screen. Keeping the observed box intact is what makes this fire at all. Scoped to
+     img/video so scrims and dots do not ride along. */
   .img-in :is(img, video) {
     clip-path: inset(0 0 100% 0);
     transform: scale(1.06);

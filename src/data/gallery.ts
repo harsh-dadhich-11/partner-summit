@@ -10,8 +10,8 @@ import { join } from "node:path";
  * Server-only: `existsSync` runs at module load, so never import this from a
  * "use client" component.
  *
- * Crops: portrait entries carry the arch mask, so keep the subject clear of the
- * top third. Landscape entries stay rectangular.
+ * Every file here is landscape 3:2. Frames are sized to match — anything taller
+ * than 4:3 crops the composition hard.
  */
 type Shot = { src: string | null; alt: string };
 
@@ -33,9 +33,9 @@ export const gallery = {
     ["hero-still.jpg", "highlights-thumb.jpg"],
     "Odyssey 2025 at Ananta Spa & Resort, Jaipur"
   ),
-  /** Portrait ≥1400w — arch-masked. */
+  /** Landscape. The sticky image in EventExperience. */
   ananta: resolve("ananta.jpg", "Ananta Spa & Resort, Jaipur"),
-  /** Portrait ≥1400w — arch-masked. */
+  /** Landscape. Unused — the only shot not currently placed anywhere. */
   jaipur: resolve("jaipur.jpg", "Jaipur"),
   /** Landscape. */
   sessions: resolve("sessions.jpg", "Customers and partners in conversation at Odyssey 2025"),

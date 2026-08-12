@@ -5,8 +5,11 @@ import { gallery } from "@/data/gallery";
 import { pillars } from "@/data/pillars";
 
 /**
- * An editorial spread, not a card grid: the arch holds one tall image on the left while
- * the index of six scrolls past it on the right.
+ * An editorial spread, not a card grid: one image sticks on the left while the index of
+ * six scrolls past it on the right.
+ *
+ * The frame is 4:3 because every source in public/assets is a landscape 3:2 — the old
+ * 3:4 portrait box was cropping half of each one away to feed a shape that is now gone.
  */
 export default function EventExperience() {
   return (
@@ -19,10 +22,8 @@ export default function EventExperience() {
 
       <div className="grid gap-14 lg:grid-cols-[0.72fr_1fr] lg:gap-20">
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <div className="arch relative aspect-[3/4] w-full">
-            <div className="img-in visible absolute inset-0 overflow-hidden">
-              <Photo shot={gallery.sessions} sizes="(max-width: 1024px) 100vw, 32vw" />
-            </div>
+          <div className="img-in visible relative aspect-[4/3] w-full overflow-hidden">
+            <Photo shot={gallery.ananta} sizes="(max-width: 1024px) 100vw, 32vw" />
           </div>
         </div>
 

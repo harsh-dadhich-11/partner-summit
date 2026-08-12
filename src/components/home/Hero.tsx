@@ -38,7 +38,7 @@ export default function Hero() {
       <div className="mx-auto flex min-h-[85svh] max-w-[80rem] flex-col justify-center px-6 pt-32 pb-16 lg:min-h-[94vh] lg:pt-40 lg:pb-20">
         <div>
           <p className="fade-in visible mb-8 text-micro font-semibold uppercase text-cyan-soft">
-            BOT Consulting <span className="text-orange-soft">·</span> Annual Partner Summit
+            <span className="text-orange-soft">·</span> Annual Partner Summit
           </p>
 
           <h1 className="rise visible font-display text-display text-cream">

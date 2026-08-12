@@ -10,15 +10,15 @@ import { HIGHLIGHTS_HREF } from "@/data/site";
  * Server component on purpose — gallery.ts runs existsSync at module load. Only the
  * rotation needs a client, and that lives in ReliveCarousel.
  *
- * gallery.sessions is deliberately absent: EventExperience renders it in the arch one
- * section above, and the same photograph twice on one page is obvious.
+ * These five plus EventExperience's `ananta` and the hero's `heroStill` place every shot
+ * in the gallery exactly once, so nothing repeats down the page.
  *
- * ponytail: awards/sri/families are 18-23MB straight off the camera. next/image serves
- * ~200KB, but the first request per variant pays for sharp decoding the original, five
- * images over. Fix the files, not this component:
- * sips -Z 2400 public/assets/{awards,sri,families}.jpg
+ * ponytail: awards/sri/sessions/families are 18-23MB straight off the camera. next/image
+ * serves ~200KB, but the first request per variant pays for sharp decoding the original,
+ * five images over. Fix the files, not this component:
+ * sips -Z 2400 public/assets/{awards,sri,sessions,families}.jpg
  */
-const shots = [gallery.awards, gallery.sri, gallery.evening, gallery.families, gallery.heroStill];
+const shots = [gallery.awards, gallery.sri, gallery.sessions, gallery.evening, gallery.families];
 
 export default function Relive() {
   return (
