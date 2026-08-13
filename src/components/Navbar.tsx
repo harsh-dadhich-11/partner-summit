@@ -9,28 +9,15 @@ const navLinks = [
   { label: "FAQ", href: "/faq" },
 ];
 
-/** The logo is an SVG — next/image has nothing to optimise here, so a plain img is correct. */
+/**
+ * The event name alone. The BOT Consulting mark used to sit to the left of it behind a hair
+ * rule; the footer still carries the corporate logo and the link out to botconsulting.io,
+ * which is where it belongs — the bar is for getting around this site.
+ */
 const Wordmark = () => (
-  <div className="flex items-center gap-3.5">
-    <a href="https://www.botconsulting.io/" target="_blank" rel="noopener noreferrer">
-      {/*
-        The asset fills its wordmark #000816, which is invisible on the dark bar. Two
-        utilities flatten it to white without a second file — at the cost of the cyan
-        tick, which goes white with everything else. Drop these classes if a light
-        variant of the SVG ever exists.
-      */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/assets/bot-logo.svg"
-        alt="BOT Consulting"
-        className="h-7 w-auto brightness-0 invert"
-      />
-    </a>
-    <span className="h-5 w-px bg-rule-light" aria-hidden="true" />
-    <Link href="/" className="font-display text-lg text-cream">
-      Odyssey <span className="text-orange-soft italic">2026</span>
-    </Link>
-  </div>
+  <Link href="/" className="font-display text-lg text-cream">
+    Odyssey <span className="text-orange-soft italic">2026</span>
+  </Link>
 );
 
 /**
