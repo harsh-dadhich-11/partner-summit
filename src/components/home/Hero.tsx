@@ -14,6 +14,11 @@ export default function Hero() {
 
         Keep `id="hero-video"`: PageScripts pauses it for prefers-reduced-motion by that id.
 
+        `brightness-[.45]` in place of a tinted overlay: dimming the footage itself keeps its
+        own colour, where a teal scrim washed it. The filter applies to the poster frame too,
+        so autoplay-blocked visitors get the same contrast. This one number is the only dial —
+        raise it and the cream headline starts to lose the frame's bright areas.
+
         ponytail: hero.mp4 is 41MB and `preload="none"` does NOT prevent that — autoplay
         overrides preload and the file downloads anyway. Now that it is the full-viewport
         LCP element rather than a clipped side panel, the transfer matters more than it did:
@@ -29,7 +34,7 @@ export default function Hero() {
           preload="none"
           poster={gallery.heroStill.src ?? undefined}
           aria-label={gallery.heroStill.alt}
-          className="h-full w-full object-cover object-[center_35%]"
+          className="h-full w-full object-cover object-[center_35%] brightness-[.45]"
         >
           <source src="/assets/hero.mp4" type="video/mp4" />
         </video>
@@ -46,6 +51,12 @@ export default function Hero() {
             <br />
             <span className="italic text-orange-soft">2026</span>
           </h1>
+
+          {/* The summit theme, stated on the landing page rather than only on /itinerary. */}
+          <div className="fade-in visible mt-8">
+            <p className="text-micro font-semibold uppercase text-cream/55">Theme</p>
+            <p className="mt-1.5 font-display text-h3 italic text-cyan-soft">Jaipur to the World</p>
+          </div>
 
           <p className="fade-in visible mt-8 max-w-[46ch] text-lead text-cream/80">
             The work we do together spans countries, time zones and countless conversations. Once a

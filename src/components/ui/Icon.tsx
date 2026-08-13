@@ -79,6 +79,36 @@ const PATHS = {
       <path d="M12 17.7h.01" />
     </>
   ),
+  /* ---- Itinerary categories. ---- */
+  meal: (
+    <>
+      <path d="M6.5 3v5a2.5 2.5 0 005 0V3" />
+      <path d="M9 3v5M9 13v8" />
+      <path d="M16.5 3v18" />
+      <path d="M16.5 3c2.1 1.5 3.2 3.6 3.2 6.2 0 1.2-1 2.1-2.2 2.1h-1" />
+    </>
+  ),
+  session: (
+    <>
+      <rect x="3" y="4" width="18" height="12" rx="2" />
+      <path d="M12 16v4M8.5 20.5h7" />
+    </>
+  ),
+  leaf: (
+    <>
+      <path d="M4 20.5c0-9.1 6.2-16.5 16.5-16.5C20.5 13.1 14.3 20.5 4 20.5z" />
+      <path d="M4 20.5C8.2 14.4 12.5 10.2 17.5 7.4" />
+    </>
+  ),
+  heart: (
+    <path d="M12 20.4l-6.5-6.3a4.4 4.4 0 116.5-5.8 4.4 4.4 0 116.5 5.8z" />
+  ),
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 6.8v5.5l3.6 2.1" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof PATHS;

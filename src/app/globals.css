@@ -127,6 +127,19 @@
   }
 
   /* ---------------------------------------------------------------
+     Corner radius, defined centrally. The itinerary board is a card
+     layout, so `square by default` no longer covers the whole site —
+     but `rounded-*` utilities fail lint precisely so the radius cannot
+     be picked per call site. Two values, named by the thing they wrap.
+     --------------------------------------------------------------- */
+  .card {
+    border-radius: 0.875rem;
+  }
+  .icon-tile {
+    border-radius: 0.625rem;
+  }
+
+  /* ---------------------------------------------------------------
      Paper grain. Kills the flat-plastic digital surface in one element.
      --------------------------------------------------------------- */
   .grain {

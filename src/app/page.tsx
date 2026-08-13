@@ -1,8 +1,8 @@
 import AgendaTeaser from "@/components/home/AgendaTeaser";
 import Closing from "@/components/home/Closing";
 import EventExperience from "@/components/home/EventExperience";
+import Gallery from "@/components/home/Gallery";
 import Hero from "@/components/home/Hero";
-import Relive from "@/components/home/Relive";
 import Travel from "@/components/home/Travel";
 
 export default function HomePage() {
@@ -10,7 +10,7 @@ export default function HomePage() {
     <>
       <Hero />
       <EventExperience />
-      <Relive />
+      <Gallery />
       <Travel />
       <AgendaTeaser />
       <Closing />

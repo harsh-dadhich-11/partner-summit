@@ -3,7 +3,7 @@ import Link from "next/link";
 /** Labels must match what the destination actually shows — "Speakers" led to a page with none. */
 const navLinks = [
   { label: "Experience", href: "/#experience" },
-  { label: "Relive ’25", href: "/#relive" },
+  { label: "Gallery", href: "/#gallery" },
   { label: "Itinerary", href: "/itinerary" },
   { label: "Travel", href: "/#travel" },
   { label: "FAQ", href: "/faq" },

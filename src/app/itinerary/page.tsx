@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ItineraryDay from "@/components/itinerary/ItineraryDay";
+import ItineraryBoard from "@/components/itinerary/ItineraryBoard";
 import PageHeader from "@/components/ui/PageHeader";
 import { itineraryDays } from "@/data/itinerary";
 
@@ -29,9 +29,7 @@ export default function ItineraryPage() {
           </figcaption>
         </figure>
 
-        {itineraryDays.map((day, index) => (
-          <ItineraryDay key={day.label} day={day} index={index} />
-        ))}
+        <ItineraryBoard days={itineraryDays} />
       </div>
     </>
   );
