@@ -10,11 +10,13 @@ import { HIGHLIGHTS_HREF } from "@/data/site";
  * Server component on purpose — gallery.ts runs existsSync at module load. Only the
  * rotation needs a client, and that lives in GalleryFrame.
  *
- * Thirteen shots in one frame, three seconds each. `ananta` and `heroStill` stay out —
- * they are placed elsewhere on the page and would read as a repeat.
+ * Twelve shots in one frame, three seconds each, one dot apiece. `ananta` and `heroStill`
+ * stay out — they are placed elsewhere on the page and would read as a repeat.
+ *
+ * Add or drop a line here and the rotation and the dots both follow; the only rule is that
+ * every entry must exist in data/gallery.ts.
  */
 const shots = [
-  gallery.awards,
   gallery.sri,
   gallery.sessions,
   gallery.evening,
