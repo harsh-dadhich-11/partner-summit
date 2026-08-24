@@ -3,7 +3,7 @@ import Link from "next/link";
 /** Labels must match what the destination actually shows — "Speakers" led to a page with none. */
 const navLinks = [
   { label: "Experience", href: "/#experience" },
-  { label: "Gallery", href: "/#gallery" },
+  { label: "Relive'25", href: "/#gallery" },
   { label: "Itinerary", href: "/itinerary" },
   { label: "Travel", href: "/#travel" },
   { label: "FAQ", href: "/faq" },
@@ -15,8 +15,13 @@ const navLinks = [
  * which is where it belongs — the bar is for getting around this site.
  */
 const Wordmark = () => (
-  <Link href="/" className="font-display text-lg text-cream">
-    Odyssey <span className="text-orange-soft italic">2026</span>
+  <Link href="/" className="flex items-center">
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img
+      src="/assets/bot-logo.svg"
+      alt="BOT Consulting"
+      className="h-7 w-auto brightness-0 invert opacity-90 transition-opacity hover:opacity-100"
+    />
   </Link>
 );
 

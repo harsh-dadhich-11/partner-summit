@@ -39,7 +39,7 @@ export default function Gallery() {
         <div className="max-w-[38rem]">
           <p className="fade-in visible mb-6 flex items-center gap-4 text-micro font-semibold uppercase text-cyan-soft">
             <span className="h-px w-8 bg-cyan-soft/40" />
-            Gallery
+            Relive&rsquo;25
           </p>
           <h2 className="rise visible font-display text-h2 text-cream">
             Every gathering leaves behind a story.

@@ -44,7 +44,7 @@ export default function Footer() {
             {SUMMIT_EMAIL}
           </a>
           <p className="py-1.5 text-small text-muted tabular-nums">
-            +91 92567 68903 · +91 85519 60354
+            +91 92567 68903 | +91 85519 60354
           </p>
           <a
             href="https://www.botconsulting.io/"
