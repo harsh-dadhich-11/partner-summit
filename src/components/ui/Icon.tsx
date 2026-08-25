@@ -1,9 +1,3 @@
-/**
- * Minimal stroke-icon set, drawn on a 24x24 grid so they sit on the same optical weight.
- * Inline SVG rather than an icon package: twelve glyphs is not worth a dependency, and
- * `currentColor` lets the existing CSS tint them.
- */
-
 const PATHS = {
   mail: (
     <>
@@ -107,6 +101,14 @@ const PATHS = {
     <>
       <circle cx="12" cy="12" r="9" />
       <path d="M12 6.8v5.5l3.6 2.1" />
+    </>
+  ),
+  /* Drawn as strokes, not the filled brand glyph — this component hardcodes fill="none". */
+  linkedin: (
+    <>
+      <rect x="3.5" y="3.5" width="17" height="17" rx="2.5" />
+      <path d="M8 10.5V17M8 7.3v.01" />
+      <path d="M12 17v-6.5M12 13.4a2.6 2.6 0 015.2 0V17" />
     </>
   ),
 } as const;

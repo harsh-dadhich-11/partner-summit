@@ -4,7 +4,6 @@ type Props = {
   kicker: string;
   title: ReactNode;
   description?: ReactNode;
-  /** Left is the default — centring every heading is what flattened the old rhythm. */
   align?: "center" | "left";
 };
 
@@ -14,9 +13,8 @@ export default function SectionHeading({ kicker, title, description, align = "le
   return (
     <div className={`mb-14 max-w-[46rem] ${centred ? "mx-auto text-center" : ""}`}>
       <p
-        className={`fade-in visible mb-6 flex items-center gap-4 text-micro font-semibold uppercase text-accent ${
-          centred ? "justify-center" : ""
-        }`}
+        className={`fade-in visible mb-6 flex items-center gap-4 text-micro font-semibold uppercase text-accent ${centred ? "justify-center" : ""
+          }`}
       >
         <span className="h-px w-8 bg-accent/40" />
         {kicker}

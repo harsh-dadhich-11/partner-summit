@@ -4,11 +4,11 @@ import { SUMMIT_EMAIL } from "@/data/site";
 const footerLinks = [
   { label: "Event experience", href: "/#experience" },
   { label: "Itinerary", href: "/itinerary" },
-  { label: "Speaker updates", href: "/#agenda" },
+  { label: "Speakers", href: "/speakers" },
 ];
 
 const linkStyles =
-  "block py-1.5 text-small text-muted transition-colors duration-300 hover:text-accent";
+  "block py-1.5 text-small text-muted transition-colors duration-300 hover:text-accent break-all";
 
 export default function Footer() {
   return (

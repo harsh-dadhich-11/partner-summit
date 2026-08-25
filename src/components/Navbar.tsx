@@ -1,19 +1,14 @@
 import Link from "next/link";
 
-/** Labels must match what the destination actually shows — "Speakers" led to a page with none. */
 const navLinks = [
   { label: "Experience", href: "/#experience" },
   { label: "Relive'25", href: "/#gallery" },
   { label: "Itinerary", href: "/itinerary" },
+  { label: "Speakers", href: "/speakers" },
   { label: "Travel", href: "/#travel" },
   { label: "FAQ", href: "/faq" },
 ];
 
-/**
- * The event name alone. The BOT Consulting mark used to sit to the left of it behind a hair
- * rule; the footer still carries the corporate logo and the link out to botconsulting.io,
- * which is where it belongs — the bar is for getting around this site.
- */
 const Wordmark = () => (
   <a
     href="https://www.botconsulting.io/"
@@ -30,11 +25,6 @@ const Wordmark = () => (
   </a>
 );
 
-/**
- * Dark, on every page. The hero is now a dark video and this bar sits over it, and
- * PageHeader — the first element on /faq and /itinerary — is already bg-teal-dark, so the
- * top of every route in the site is dark teal. No scroll listener needed.
- */
 export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 z-100 w-full border-b border-rule-light bg-teal-dark/85 backdrop-blur-md">

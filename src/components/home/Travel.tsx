@@ -14,28 +14,28 @@ export default function Travel() {
       />
 
       {/* A rule and a column split carry this now — it used to be a bordered white card. */}
-      <div className="grid gap-12 border-t border-rule pt-12 lg:grid-cols-2 lg:gap-24">
+      <div className="grid gap-12 border-t border-rule pt-12 lg:grid-cols-2 lg:gap-24 overflow-hidden">
         <div className="fade-in visible">
           <span className="text-accent">
             <Icon name="luggage" size={30} />
           </span>
-          <h3 className="mt-5 font-display text-h3 text-ink">Questions before your journey?</h3>
+          <h3 className="mt-5 font-display text-h3 text-ink break-words">Questions before your journey?</h3>
           <p className="mt-3 max-w-[42ch] text-small text-muted">
             Reach out and we&rsquo;ll sort the details, so the only thing left to plan is what
             you&rsquo;ll say when you get there.
           </p>
         </div>
 
-        <dl className="space-y-8">
+        <dl className="space-y-8 min-w-0">
           <div className="row-in visible" style={{ "--i": 0 } as React.CSSProperties}>
             <dt className="mb-2 flex items-center gap-2.5 text-micro font-semibold uppercase text-muted">
               <Icon name="mail" size={15} />
               Email
             </dt>
-            <dd>
+            <dd className="min-w-0">
               <a
                 href={`mailto:${SUMMIT_EMAIL}`}
-                className="font-display text-h3 text-ink underline decoration-rule decoration-1 underline-offset-[6px] transition-colors duration-300 hover:decoration-accent hover:text-accent"
+                className="font-display text-lead sm:text-h3 text-ink underline decoration-rule decoration-1 underline-offset-[6px] transition-colors duration-300 hover:decoration-accent hover:text-accent break-all"
               >
                 {SUMMIT_EMAIL}
               </a>
@@ -46,7 +46,7 @@ export default function Travel() {
               <Icon name="phone" size={15} />
               Phone
             </dt>
-            <dd className="font-display text-h3 text-ink tabular-nums">{PHONE}</dd>
+            <dd className="font-display text-lead sm:text-h3 text-ink tabular-nums break-words">{PHONE}</dd>
           </div>
         </dl>
       </div>

@@ -5,21 +5,10 @@ import ItineraryDay from "@/components/itinerary/ItineraryDay";
 import { ITINERARY_AUDIENCES } from "@/data/itinerary";
 import type { ItineraryAudience, ItineraryDay as Day } from "@/types";
 
-/** "everyone" is a tag on entries, not a filter — "All activities" covers that end. */
 const FILTERS = (Object.keys(ITINERARY_AUDIENCES) as ItineraryAudience[]).filter(
   (audience) => audience !== "everyone"
 );
 
-/**
- * The three day columns plus the audience filter above them.
- *
- * Filtering is inclusive: picking "Kids & Families" keeps everything tagged for them *and*
- * everything tagged for everyone, because the question a filter answers here is "what am I
- * meant to turn up to", not "what is exclusive to my group".
- *
- * Client component for the one piece of state. The data has no server-only dependency —
- * it arrives as props purely so the days stay renderable from the server page.
- */
 export default function ItineraryBoard({ days }: { days: Day[] }) {
   const [active, setActive] = useState<ItineraryAudience | null>(null);
 
@@ -74,11 +63,10 @@ function FilterPill({
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`cursor-pointer rounded-full px-4 py-2 text-micro font-semibold tracking-normal transition-colors duration-300 ${
-        selected
-          ? "bg-accent text-white"
-          : "border border-rule bg-white text-muted hover:border-accent/40 hover:text-ink"
-      }`}
+      className={`cursor-pointer rounded-full px-4 py-2 text-micro font-semibold tracking-normal transition-colors duration-300 ${selected
+        ? "bg-accent text-white"
+        : "border border-rule bg-white text-muted hover:border-accent/40 hover:text-ink"
+        }`}
     >
       {label}
     </button>

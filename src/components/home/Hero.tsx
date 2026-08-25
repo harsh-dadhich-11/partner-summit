@@ -23,7 +23,7 @@ export default function Hero() {
           muted
           loop
           playsInline
-          preload="none"
+          preload="auto"
           poster={gallery.heroStill.src ?? undefined}
           aria-label={gallery.heroStill.alt}
           className="h-full w-full object-cover object-[center_35%] brightness-[.45]"

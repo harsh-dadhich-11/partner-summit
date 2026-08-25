@@ -6,18 +6,11 @@ import Photo, { type Shot } from "@/components/ui/Photo";
 const DWELL_MS = 6000;
 
 type FrameState = {
-  /** Both layers stay mounted for the life of the component; `front` says which is shown. */
   layers: [Shot, Shot];
   front: 0 | 1;
-  /** Index into the pool of whatever is currently on screen — also drives the active dot. */
   current: number;
 };
 
-/**
- * Put `index` on screen. The incoming photo is written into whichever layer is hidden and
- * then `front` flips to it, so the opacity transition actually runs — swapping the src of a
- * single <Image> would remount it and cut instead.
- */
 function show(state: FrameState, index: number, shots: Shot[]): FrameState {
   if (index === state.current) return state;
   const back: 0 | 1 = state.front === 0 ? 1 : 0;
@@ -26,13 +19,6 @@ function show(state: FrameState, index: number, shots: Shot[]): FrameState {
   return { layers, front: back, current: index };
 }
 
-/**
- * One large frame, crossfading through the whole pool every three seconds, with a dot per
- * photo so a visitor can go straight to one instead of waiting out the dwell.
- *
- * The client boundary is drawn exactly here. data/gallery.ts calls existsSync at module
- * load and must stay on the server, so the shots arrive as plain props.
- */
 export default function GalleryFrame({ shots }: { shots: Shot[] }) {
   const [state, setState] = useState<FrameState>({
     layers: [shots[0], shots[0]],
@@ -41,12 +27,6 @@ export default function GalleryFrame({ shots }: { shots: Shot[] }) {
   });
   const [focused, setFocused] = useState(false);
 
-  // Keyed on `state` rather than one long-lived setInterval: choosing a dot restarts the
-  // dwell instead of inheriting whatever was left of the previous one.
-  //
-  // The rotation is deliberately always running — no hover pause, no pause button. The one
-  // exception is keyboard focus: tabbing along thirteen dots while the frame changes
-  // underneath makes them impossible to aim at.
   useEffect(() => {
     if (focused) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -58,8 +38,6 @@ export default function GalleryFrame({ shots }: { shots: Shot[] }) {
   }, [state, focused, shots]);
 
   return (
-    // .img-in belongs on this wrapper, never on the layers: PageScripts strips .visible on
-    // mount and re-adds it on intersection, and the layers are not separately observed.
     <div
       className="img-in visible relative aspect-[4/3] overflow-hidden sm:aspect-[16/9]"
       onFocus={() => setFocused(true)}

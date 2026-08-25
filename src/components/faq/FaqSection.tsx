@@ -5,11 +5,6 @@ type Props = {
   categories: FaqCategory[];
 };
 
-/**
- * Still the native <details> element — it was already the right call, and no disclosure
- * library beats free keyboard support and in-page find. Only the surface changed: ruled
- * rows on the page ground instead of white cards floating on cream.
- */
 export default function FaqSection({ categories }: Props) {
   return (
     <div className="max-w-[58rem] border-b border-rule">

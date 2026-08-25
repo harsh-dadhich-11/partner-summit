@@ -3,16 +3,6 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-/**
- * Scroll-reveal, plus pausing the hero video for visitors who ask for reduced motion.
- *
- * One observer drives four different behaviours (`.rise`, `.fade-in`, `.img-in`, `.row-in`)
- * — the animation itself lives in CSS, this only decides when an element has been seen.
- * Stagger comes from an inline `--i` on the element, so it survives without JS too.
- *
- * Markup ships with `.visible` so the page reads fine without JS; strip it, then re-add on scroll.
- * Re-runs per route so client-side navigations observe the new page's elements.
- */
 const ANIMATED = ".rise, .fade-in, .img-in, .row-in";
 export default function PageScripts() {
   const pathname = usePathname();
@@ -23,10 +13,17 @@ export default function PageScripts() {
     const syncVideo = () => {
       if (!video) return;
       if (stillness.matches) video.pause();
-      else video.play().catch(() => {}); // autoplay may still be blocked; poster stays up
+      else video.play().catch(() => { });
+    };
+    const handleMobilePlay = () => {
+      if (video && video.paused && !stillness.matches) {
+        video.play().catch(() => { });
+      }
     };
     syncVideo();
     stillness.addEventListener("change", syncVideo);
+    window.addEventListener("touchstart", handleMobilePlay, { passive: true, once: true });
+    window.addEventListener("scroll", handleMobilePlay, { passive: true, once: true });
 
     const els = document.querySelectorAll(ANIMATED);
     els.forEach((el) => el.classList.remove("visible"));
@@ -35,16 +32,10 @@ export default function PageScripts() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) entry.target.classList.add("visible");
         }),
-      // threshold MUST stay 0. `.rise` and `.img-in` hide themselves with clip-path, and
-      // Chrome subtracts an element's own clip-path from its intersection rect — so their
-      // ratio is pinned at 0 and any non-zero threshold can never be crossed. The element
-      // stays hidden because it is hidden. `rootMargin` gives the "wait until it is
-      // properly on screen" behaviour that the old threshold was reaching for.
       { threshold: 0, rootMargin: "0px 0px -10% 0px" }
     );
     els.forEach((el) => io.observe(el));
 
-    // Scroll-spy: underline the nav link for whichever section crosses the middle of the screen.
     const spied = document.querySelectorAll<HTMLAnchorElement>("[data-spy]");
     const spy = new IntersectionObserver(
       (entries) =>
@@ -63,6 +54,8 @@ export default function PageScripts() {
       io.disconnect();
       spy.disconnect();
       stillness.removeEventListener("change", syncVideo);
+      window.removeEventListener("touchstart", handleMobilePlay);
+      window.removeEventListener("scroll", handleMobilePlay);
     };
   }, [pathname]);
   return null;

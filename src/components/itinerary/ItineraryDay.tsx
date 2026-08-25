@@ -4,17 +4,9 @@ import type { ItineraryDay as Day, ItineraryEntry } from "@/types";
 
 type Props = {
   day: Day;
-  /** Already filtered by the board — the day still renders when this is empty. */
   entries: ItineraryEntry[];
 };
 
-/**
- * One day as one column of cards: a header card, then a card per entry. The icon tile
- * carries the entry's category colour, which is the second axis after the day itself.
- *
- * A list rather than the description list this used to be: a card now holds a title, a
- * time, a sentence and an audience, which is no longer a term-and-definition pair.
- */
 export default function ItineraryDay({ day, entries }: Props) {
   return (
     <section className="flex flex-col gap-4">
@@ -55,6 +47,10 @@ export default function ItineraryDay({ day, entries }: Props) {
                   */}
                   <p className="mt-0.5 font-display text-micro tracking-normal text-muted tabular-nums">
                     {entry.time}
+                  </p>
+                  <p className="mt-1 flex items-center gap-1.5 text-micro tracking-normal text-muted">
+                    <Icon name="pin" size={12} />
+                    {entry.location}
                   </p>
                   <p className="mt-2 text-small text-muted">{entry.description}</p>
                   <p className="mt-3">

@@ -1,7 +1,3 @@
-/**
- * Type only. Gallery already spends a full dark band on photography, so this one closes
- * on restraint instead of reaching for a second image.
- */
 export default function Closing() {
   return (
     <section className="bg-teal-dark text-cream">

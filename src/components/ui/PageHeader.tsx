@@ -6,7 +6,6 @@ type Props = {
   description: ReactNode;
 };
 
-/** Shared by /itinerary and /faq, which had the same markup and the same diagonal gradient. */
 export default function PageHeader({ kicker, title, description }: Props) {
   return (
     <header className="bg-teal-dark text-cream">

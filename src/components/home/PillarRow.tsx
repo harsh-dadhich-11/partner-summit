@@ -11,10 +11,6 @@ const labelTint = {
   teal: "text-teal-base",
 };
 
-/**
- * A ruled row rather than a card: no radius, no shadow, no hover-lift. The number is
- * set large and faint so the column reads as a printed index.
- */
 export default function PillarRow({ pillar, index }: Props) {
   return (
     <li

@@ -4,20 +4,11 @@ export type Shot = { src: string | null; alt: string };
 
 type Props = {
   shot: Shot;
-  /** Sizes hint for the responsive srcset — pass the widest the image ever renders. */
   sizes: string;
   className?: string;
   priority?: boolean;
 };
 
-/**
- * Every photo on the site. Renders through next/image for AVIF/WebP and a correct
- * srcset, and falls back to a quiet colour field when the file has not been supplied
- * yet (see data/gallery.ts) so a missing asset never reads as a broken page.
- *
- * The caller owns the shape: give this a positioned, sized parent — `fill` means we
- * never need the intrinsic dimensions, which is what keeps the manifest zero-config.
- */
 export default function Photo({ shot, sizes, className = "", priority = false }: Props) {
   if (!shot.src) {
     return (

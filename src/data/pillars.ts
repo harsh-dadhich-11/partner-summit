@@ -1,9 +1,5 @@
 import type { Pillar } from "@/types";
 
-/**
- * Deliberately uneven: lengths run from 17 to 28 words. Six identically-shaped blurbs is
- * what made this read as generated.
- */
 export const pillars: Pillar[] = [
   {
     label: "Sessions",

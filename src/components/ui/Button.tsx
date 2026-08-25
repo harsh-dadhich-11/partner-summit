@@ -3,18 +3,11 @@ import type { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
-  /** Renders a link when given; otherwise a submit button. */
   href?: string;
-  /** `quiet` is the outline treatment for secondary actions and dark grounds. */
   variant?: "solid" | "quiet";
   className?: string;
 };
 
-/**
- * Square corners, no drop shadow — the border and the colour carry it. The arrow is
- * rendered here rather than typed into each label so the hover micro-interaction has
- * something to move.
- */
 const base =
   "group/cta inline-flex cursor-pointer items-center gap-2.5 px-8 py-4 text-small font-semibold " +
   "transition-colors duration-300 ease-out";
@@ -35,7 +28,6 @@ export default function Button({ children, href, variant = "solid", className = 
     </>
   );
 
-  // mailto:/tel:/external URLs must not go through the client router.
   if (href && /^(mailto:|tel:|https?:)/.test(href)) {
     const offsite = href.startsWith("http");
     return (

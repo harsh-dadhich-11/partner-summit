@@ -2,20 +2,6 @@ import GalleryFrame from "@/components/home/GalleryFrame";
 import { gallery } from "@/data/gallery";
 import { HIGHLIGHTS_HREF } from "@/data/site";
 
-/**
- * The dark band the site spends on photography. One posed still with a play triangle
- * painted on it stood in for a whole year; a grid of real frames says more, and the text
- * link below still reaches the film.
- *
- * Server component on purpose — gallery.ts runs existsSync at module load. Only the
- * rotation needs a client, and that lives in GalleryFrame.
- *
- * Twelve shots in one frame, three seconds each, one dot apiece. `ananta` and `heroStill`
- * stay out — they are placed elsewhere on the page and would read as a repeat.
- *
- * Add or drop a line here and the rotation and the dots both follow; the only rule is that
- * every entry must exist in data/gallery.ts.
- */
 const shots = [
   gallery.relive1,
   gallery.relive2,
@@ -24,11 +10,11 @@ const shots = [
   gallery.relive5,
   gallery.relive6,
   gallery.relive7,
+  gallery.relive8,
 ];
 
 export default function Gallery() {
   return (
-    // Keep id="gallery": Navbar links to /#gallery and PageScripts scroll-spies this id.
     <section id="gallery" className="bg-teal-dark py-20 text-cream lg:py-32">
       <div className="mx-auto max-w-[80rem] px-6">
         <div className="max-w-[38rem]">

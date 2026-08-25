@@ -1,21 +1,8 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 
-/**
- * Photography from Odyssey 2025. Drop the files into `public/assets/` using the
- * names below and they appear — no code change needed. Anything not yet supplied
- * resolves to `src: null` and its component renders a colour field instead of a
- * broken image, so the site is never mid-redesign in public.
- *
- * Server-only: `existsSync` runs at module load, so never import this from a
- * "use client" component.
- *
- * Every file here is landscape 3:2. Frames are sized to match — anything taller
- * than 4:3 crops the composition hard.
- */
 type Shot = { src: string | null; alt: string };
 
-/** First path that actually exists wins; null if none do. */
 const resolve = (files: string | string[], alt: string): Shot => {
   const found = (Array.isArray(files) ? files : [files])
     .map((file) => `/assets/${file}`)
@@ -24,15 +11,6 @@ const resolve = (files: string | string[], alt: string): Shot => {
 };
 
 export const gallery = {
-  /**
-   * The hero video's poster — the previous poster path pointed at a file that was never
-   * committed, so autoplay-blocked visitors got a blank hero. Falls back to the highlights
-   * thumbnail, which is already in the repo and is a real frame from the 2025 film.
-   *
-   * `hero-poster.jpg` comes first and is the one that should be there: `poster` is a bare
-   * HTML attribute, so next/image never sees it and whatever file this resolves to is
-   * served at full size. hero-still.jpg is the 6000px master and was costing 19MB.
-   */
   heroStill: resolve(
     ["hero-poster.jpg", "hero-still.jpg", "highlights-thumb.jpg"],
     "Odyssey 2025 at Ananta Spa & Resort, Jaipur"
