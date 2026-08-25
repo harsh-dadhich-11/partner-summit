@@ -16,8 +16,15 @@ export default function Footer() {
       <div className="grid gap-12 border-t border-rule pt-12 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <div className="mb-5 flex items-center gap-3.5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/bot-logo.svg" alt="BOT Consulting" className="h-7 w-auto" />
+            <a
+              href="https://www.botconsulting.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-opacity hover:opacity-80"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/assets/bot-logo.svg" alt="BOT Consulting" className="h-7 w-auto" />
+            </a>
             <span className="h-5 w-px bg-rule" aria-hidden="true" />
             <span className="font-display text-lg text-ink">
               Odyssey <span className="text-orange-deep italic">2026</span>

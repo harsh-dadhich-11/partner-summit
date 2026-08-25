@@ -15,14 +15,19 @@ const navLinks = [
  * which is where it belongs — the bar is for getting around this site.
  */
 const Wordmark = () => (
-  <Link href="/" className="flex items-center">
+  <a
+    href="https://www.botconsulting.io/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center"
+  >
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
       src="/assets/bot-logo-light.svg"
       alt="BOT Consulting"
       className="h-7 w-auto transition-opacity hover:opacity-90"
     />
-  </Link>
+  </a>
 );
 
 /**
