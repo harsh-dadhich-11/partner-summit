@@ -18,9 +18,9 @@ const Wordmark = () => (
   <Link href="/" className="flex items-center">
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
-      src="/assets/bot-logo.svg"
+      src="/assets/bot-logo-light.svg"
       alt="BOT Consulting"
-      className="h-7 w-auto brightness-0 invert opacity-90 transition-opacity hover:opacity-100"
+      className="h-7 w-auto transition-opacity hover:opacity-90"
     />
   </Link>
 );

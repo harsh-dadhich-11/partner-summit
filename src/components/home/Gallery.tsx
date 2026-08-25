@@ -17,18 +17,13 @@ import { HIGHLIGHTS_HREF } from "@/data/site";
  * every entry must exist in data/gallery.ts.
  */
 const shots = [
-  gallery.sri,
-  gallery.sessions,
-  gallery.evening,
-  gallery.families,
-  gallery.jaipur,
-  gallery.groupPhoto,
-  gallery.arrival,
-  gallery.panel,
-  gallery.wellness,
-  gallery.dancers,
-  gallery.ceremony,
-  gallery.celebration,
+  gallery.relive1,
+  gallery.relive2,
+  gallery.relive3,
+  gallery.relive4,
+  gallery.relive5,
+  gallery.relive6,
+  gallery.relive7,
 ];
 
 export default function Gallery() {

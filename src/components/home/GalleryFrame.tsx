@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Photo, { type Shot } from "@/components/ui/Photo";
 
-const DWELL_MS = 3000;
+const DWELL_MS = 6000;
 
 type FrameState = {
   /** Both layers stay mounted for the life of the component; `front` says which is shown. */
@@ -69,9 +69,8 @@ export default function GalleryFrame({ shots }: { shots: Shot[] }) {
         <div
           key={layer}
           aria-hidden={layer !== state.front}
-          className={`absolute inset-0 transition-opacity duration-700 ease-out ${
-            layer === state.front ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 transition-opacity duration-700 ease-out ${layer === state.front ? "opacity-100" : "opacity-0"
+            }`}
         >
           <Photo shot={shot} sizes="(max-width: 1024px) 100vw, 80rem" priority={layer === 0} />
         </div>
@@ -88,9 +87,8 @@ export default function GalleryFrame({ shots }: { shots: Shot[] }) {
             onClick={() => setState((current) => show(current, index, shots))}
             aria-label={`Show photo ${index + 1} of ${shots.length}`}
             aria-current={index === state.current}
-            className={`h-2.5 w-2.5 cursor-pointer rounded-full border border-cream/70 transition-colors duration-300 ${
-              index === state.current ? "bg-cream" : "bg-transparent hover:bg-cream/50"
-            }`}
+            className={`h-2.5 w-2.5 cursor-pointer rounded-full border border-cream/70 transition-colors duration-300 ${index === state.current ? "bg-cream" : "bg-transparent hover:bg-cream/50"
+              }`}
           />
         ))}
       </div>
