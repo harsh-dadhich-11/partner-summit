@@ -3,7 +3,7 @@ import { gallery } from "@/data/gallery";
 
 export default function Hero() {
   return (
-    <header className="relative isolate">
+    <header id="hero" className="relative isolate">
       {/*
         The one asset that is unarguably real: footage of the actual event, now the ground
         the headline stands on rather than a panel beside it. `isolate` keeps the -z-10

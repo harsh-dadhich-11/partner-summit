@@ -1,4 +1,5 @@
 import type { IconName } from "@/components/ui/Icon";
+import type { gallery } from "@/data/gallery";
 
 export type Pillar = {
   title: string;
@@ -6,6 +7,51 @@ export type Pillar = {
   label: string;
   body: string;
   accent: "cyan" | "orange" | "teal";
+  /**
+   * Key into `gallery`, not a path: the shot is resolved server-side (gallery.ts hits the
+   * filesystem) and handed to the client carousel already resolved.
+   */
+  image: keyof typeof gallery;
+};
+
+/**
+ * One tile in the Relive'25 fold. Same `keyof typeof gallery` contract as Pillar: the
+ * shot is resolved server-side and handed down, because gallery.ts hits the filesystem.
+ *
+ * `kind` is what the tile renders, not what it depicts — a video tile still needs an
+ * `image` for its poster frame, so the fold has something to draw before the clip decodes.
+ */
+export type ReliveItem = {
+  image: keyof typeof gallery;
+  /** Large label at the left edge of the stage. */
+  title: string;
+  /** Small label at the right edge — the kind of moment, not a caption. */
+  category: string;
+  kind: "image" | "video";
+  /** Required when `kind` is "video". A path under /assets, not a gallery key: clips are
+   *  too few to be worth a resolver, and a missing one would fail loudly rather than
+   *  quietly degrading the way a missing photo does. */
+  video?: string;
+  /** Click target. Only video tiles carry one — a still has nowhere of its own to go. */
+  href?: string;
+};
+
+/**
+ * The three parallel tracks the Day 1 breakouts run across — one per theatre.
+ * Named from the summit's own framing: "across our ecosystems, AI and industries".
+ */
+export type SessionTrack = "ecosystems" | "ai" | "industries";
+
+export type Session = {
+  /** Matches the en-dash format of ItineraryEntry.time, so the two pages agree. */
+  slot: string;
+  track: SessionTrack;
+  title: string;
+  description: string;
+  /** Which theatre in Sakura to actually walk to. */
+  room: string;
+  /** Omitted until a name is confirmed; the card drops the line rather than guessing. */
+  speaker?: string;
 };
 
 export type Speaker = {

@@ -1,21 +1,18 @@
-import GalleryFrame from "@/components/home/GalleryFrame";
+import ReliveFold, { type ReliveSlide } from "@/components/home/ReliveFold";
 import { gallery } from "@/data/gallery";
+import { reliveItems } from "@/data/relive";
 import { HIGHLIGHTS_HREF } from "@/data/site";
 
-const shots = [
-  gallery.relive1,
-  gallery.relive2,
-  gallery.relive3,
-  gallery.relive4,
-  gallery.relive5,
-  gallery.relive6,
-  gallery.relive7,
-  gallery.relive8,
-];
+/* gallery.ts reads the filesystem, so the keys are resolved here and the fold — a client
+   component — is handed finished shots. Same boundary as EventExperience. */
+const slides: ReliveSlide[] = reliveItems.map(({ image, ...item }) => ({
+  ...item,
+  shot: gallery[image],
+}));
 
 export default function Gallery() {
   return (
-    <section id="gallery" className="bg-teal-dark py-20 text-cream lg:py-32">
+    <section id="gallery" className="bg-teal-dark pt-20 pb-20 text-cream lg:pt-32 lg:pb-32">
       <div className="mx-auto max-w-[80rem] px-6">
         <div className="max-w-[38rem]">
           <p className="fade-in visible mb-6 flex items-center gap-4 text-micro font-semibold uppercase text-cyan-soft">
@@ -44,10 +41,15 @@ export default function Gallery() {
             </span>
           </a>
         </div>
+      </div>
 
-        <div className="mt-14 lg:mt-20">
-          <GalleryFrame shots={shots} />
-        </div>
+      {/*
+        Outside the content column on purpose: the fold pins itself to the viewport and
+        needs the full width to do it. It carries its own height — several viewports of it
+        once JS is running, and nothing at all before that.
+      */}
+      <div className="mt-14 lg:mt-20">
+        <ReliveFold items={slides} />
       </div>
     </section>
   );

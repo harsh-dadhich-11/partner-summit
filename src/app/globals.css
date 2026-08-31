@@ -24,6 +24,14 @@
   --color-accent: var(--color-orange-bright);
   --color-accent-quiet: var(--color-gold);
 
+  /* ---- Card washes. The experience carousel tints each card by its pillar's accent,
+         so the colour has to survive ink text on top of it — these are the palette hues
+         pulled right down rather than the hues themselves, which would all fail at 16px.
+         Panels, not surfaces: nothing full-bleed should use them. ---- */
+  --color-panel-cyan: #dff3f7;
+  --color-panel-orange: #fdeadf;
+  --color-panel-teal: #e4efee;
+
   /* ---- Two-font system. Display carries character; sans carries information.
          The fallback tails are sans on both lines on purpose: `display: swap` means
          the tail is what renders during the FOUT, and a serif there would flash the
@@ -79,6 +87,20 @@
 }
 
 @layer base {
+  /* Nothing may scroll sideways. This was `overflow-x-hidden` utilities on <html> and
+     <body>, which does contain the overflow but also makes <body> a scroll container —
+     and a scroll container between a sticky element and the viewport silently disables
+     `position: sticky` for everything inside it. That cost the Relive'25 fold its pin.
+
+     `clip` contains overflow exactly as `hidden` does without becoming a scroll container.
+     The `hidden` line above it is the fallback for browsers that predate `clip`; they
+     ignore the second declaration and keep the old behaviour. */
+  html,
+  body {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
   /* The display weight, set once. Jakarta is loaded variable, so this is a free axis
      position rather than another font file — and living in `@layer base` means any
      `font-*` utility at a call site still overrides it. */
@@ -137,6 +159,52 @@
   }
   .icon-tile {
     border-radius: 0.625rem;
+  }
+  /* A third value, for the one thing far bigger than a card: the carousel panel, where
+     0.875rem on a 62rem-wide box reads as an accident rather than a radius. */
+  .card-xl {
+    border-radius: 1.5rem;
+  }
+
+  /* ---------------------------------------------------------------
+     Carousel track. The scrollbar is the one piece of native chrome
+     that cannot be styled into this design, and the dots below the
+     track already say how far along you are.
+     --------------------------------------------------------------- */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ---------------------------------------------------------------
+     Relive'25 fold. The stage is the camera; the tiles are the only
+     things in the scene. Size, position and depth are all written to
+     the nodes from ReliveFold's rAF loop — what is left here is the
+     handful of properties Tailwind has no utility for.
+     --------------------------------------------------------------- */
+  .relive-stage {
+    perspective: var(--relive-perspective, 1700px);
+    perspective-origin: 50% 50%;
+    transform-style: preserve-3d;
+    /* `clip`, not `hidden`. Every overflow value except `visible` and `clip` is a
+       grouping property, and a grouping property on a preserve-3d element forces the
+       browser to flatten the subtree — the fold would collapse into a flat stack of
+       rectangles. `clip` is the documented exception, and it is also the only one that
+       does not create a scroll container, which `hidden` would, breaking the sticky
+       position this sits on. Browsers without it simply do not clip; nothing else
+       changes. */
+    overflow: clip;
+  }
+  .relive-tile {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 50% 50%;
+    /* The fold asymptotes at 90deg and never crosses it, so this is not hiding a reversed
+       face — it is a hint to keep each tile on its own composited layer. */
+    backface-visibility: hidden;
   }
 
   /* ---------------------------------------------------------------

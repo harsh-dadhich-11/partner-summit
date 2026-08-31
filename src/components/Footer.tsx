@@ -2,9 +2,10 @@ import Link from "next/link";
 import { SUMMIT_EMAIL } from "@/data/site";
 
 const footerLinks = [
-  { label: "Event experience", href: "/#experience" },
+  { label: "Sessions", href: "/sessions" },
   { label: "Itinerary", href: "/itinerary" },
   { label: "Speakers", href: "/speakers" },
+  { label: "Event experience", href: "/#experience" },
 ];
 
 const linkStyles =

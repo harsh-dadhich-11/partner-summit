@@ -1,5 +1,4 @@
 import Button from "@/components/ui/Button";
-import { UPDATES_HREF } from "@/data/site";
 
 export default function AgendaTeaser() {
   return (
@@ -17,9 +16,11 @@ export default function AgendaTeaser() {
           one as it&rsquo;s confirmed.
         </p>
         <div className="fade-in visible mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-          <Button href="/speakers">Meet the speakers</Button>
-          <Button href={UPDATES_HREF} variant="quiet">
-            Email us for updates
+          <Button href="/speakers" className="rounded-full">
+            Meet the speakers
+          </Button>
+          <Button href="/sessions" variant="quiet" className="rounded-full">
+            See the breakout sessions
           </Button>
         </div>
       </div>

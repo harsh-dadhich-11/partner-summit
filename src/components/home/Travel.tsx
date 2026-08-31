@@ -2,7 +2,7 @@ import { Icon } from "@/components/ui/Icon";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { SUMMIT_EMAIL } from "@/data/site";
 
-const PHONE = "+91 92567 68903 · +91 85519 60354";
+const PHONE = "+91 92567 68903 | +91 85519 60354";
 
 export default function Travel() {
   return (

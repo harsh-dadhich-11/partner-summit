@@ -25,3 +25,33 @@ export const SUMMIT_FACTS = [
   { label: "Duration", value: "Three days" },
   { label: "Venue", value: "Ananta Spa & Resort, Jaipur" },
 ];
+
+/**
+ * The scale of the thing, in four numbers. This is the answer to the question the rest
+ * of the home page talks around — the copy is all atmosphere, and atmosphere without a
+ * figure attached reads as brochure filler.
+ *
+ * `accent` alternates cyan/orange down the row; it is a rhythm, not a meaning, so a fifth
+ * entry should carry on the alternation rather than pick a colour.
+ */
+export const SUMMIT_STATS = [
+  {
+    value: "9",
+    note: "Breakout sessions across our ecosystems, AI and industries",
+    accent: "cyan",
+  },
+  { value: "15+", note: "Guests and industry leaders", accent: "orange" },
+  {
+    value: "4+",
+    note: "Keynotes and panels across business, technology and leadership",
+    accent: "cyan",
+  },
+  { value: "300+", note: "Attendees from across the globe", accent: "orange" },
+] as const;
+
+/**
+ * TODO: point at the real registration form once one exists. Every other CTA on the site
+ * is either a route or a mailto; this is deliberately neither until the flow is decided,
+ * so the button ships styled and positioned without pretending to work.
+ */
+export const REGISTER_HREF = "#";
