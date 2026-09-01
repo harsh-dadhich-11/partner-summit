@@ -4,18 +4,18 @@ import PageHeader from "@/components/ui/PageHeader";
 import { speakers } from "@/data/speakers";
 
 export const metadata: Metadata = {
-  title: "Speakers | Odyssey 2026",
+  title: "Participants | Odyssey 2026",
   description:
-    "The leaders and partners taking the stage at Odyssey 2026, Ananta Spa & Resort, Jaipur.",
+    "The leaders and partners taking part in Odyssey 2026, Ananta Spa & Resort, Jaipur.",
 };
 
 export default function SpeakersPage() {
   return (
     <>
       <PageHeader
-        kicker="Speakers"
-        title="The people on stage."
-        description="Founders, operators and partners who have built the thing they're talking about. More names are confirmed as the programme comes together."
+        kicker="Participants"
+        title="Great people. Great stories."
+        description="Big bets. Hard calls. Lessons learned. And the ideas making their way from boardrooms into the real world. Hear from the leaders joining us at Odyssey. "
       />
 
       <div className="mx-auto max-w-[80rem] px-6 py-20 lg:py-28">

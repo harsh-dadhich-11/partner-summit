@@ -14,8 +14,8 @@ export default function ItineraryPage() {
     <>
       <PageHeader
         kicker="Itinerary"
-        title="Three days, hour by hour."
-        description="From arrival at Ananta to the journey home. Times are indicative and invited guests will hear first if anything moves."
+        title="What’s happening, when."
+        description="Here’s the plan for three days at Odyssey, from arrivals and sessions to celebrations, experiences and everything in between."
       />
 
       <div className="mx-auto max-w-[80rem] px-6 py-20 lg:py-28">

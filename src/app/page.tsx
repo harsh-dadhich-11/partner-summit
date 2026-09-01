@@ -1,7 +1,5 @@
 import AgendaTeaser from "@/components/home/AgendaTeaser";
-import Closing from "@/components/home/Closing";
 import EventExperience from "@/components/home/EventExperience";
-import Gallery from "@/components/home/Gallery";
 import Hero from "@/components/home/Hero";
 import Stats from "@/components/home/Stats";
 import Travel from "@/components/home/Travel";
@@ -13,10 +11,10 @@ export default function HomePage() {
       {/* The figures land first after the video, then the carousel expands on them. */}
       <Stats />
       <EventExperience />
-      <Gallery />
-      <Travel />
+      {/* The programme before the paperwork: who is coming and what they'll talk about, then
+          the travel and visa help. Relive'25 has its own page at /relive. */}
       <AgendaTeaser />
-      <Closing />
+      <Travel />
     </>
   );
 }

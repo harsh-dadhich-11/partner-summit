@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Button from "@/components/ui/Button";
 import { gallery } from "@/data/gallery";
 
 export default function Hero() {
@@ -53,12 +53,7 @@ export default function Hero() {
           </p>
 
           <div className="fade-in visible mt-10 flex flex-wrap items-center gap-4">
-            <Link
-              href="/itinerary"
-              className="border-b border-cream/40 pb-1 text-small font-semibold text-cream transition-colors duration-300 hover:border-cyan-bright hover:text-cyan-bright"
-            >
-              See the itinerary
-            </Link>
+            <Button href="/itinerary">See the itinerary</Button>
           </div>
         </div>
       </div>

@@ -198,8 +198,8 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
     metricsRef.current = measure();
     applyMetrics();
     readTarget();
-    /* Land on the scroll position rather than gliding to it: arriving mid-section from a
-       reload or a #gallery anchor should not play the whole fold as an entrance. */
+    /* Land on the scroll position rather than gliding to it: arriving mid-page from a reload
+       or a restored scroll position on /relive should not play the whole fold as an entrance. */
     posRef.current = targetRef.current;
     activeRef.current = clamp(Math.round(posRef.current), 0, count - 1);
     setActive(activeRef.current);

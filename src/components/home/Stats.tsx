@@ -23,8 +23,18 @@ export default function Stats() {
                 }`}
               />
               {/* font-display as well as tabular-nums: Poppins ships no `tnum`, so the
-                  figures only align on the display face. */}
-              <p className="font-display text-h1 leading-none text-teal-dark tabular-nums">
+                  figures only align on the display face.
+
+                  data-count hands the figure to the counter in PageScripts. The final
+                  value stays in the markup, so this only ever animates a number that is
+                  already correct — without JS, or under reduced motion, it just stands.
+                  The 55ms step matches the `.row-in` stagger, so each figure starts
+                  counting as its own cell fades in. */}
+              <p
+                data-count={stat.value}
+                data-count-delay={index * 55}
+                className="font-display text-h1 leading-none text-teal-dark tabular-nums"
+              >
                 {stat.value}
               </p>
               <p className="mx-auto mt-4 max-w-[22ch] text-small text-teal-base">{stat.note}</p>

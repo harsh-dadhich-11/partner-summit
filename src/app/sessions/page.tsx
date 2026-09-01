@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import SessionCard from "@/components/sessions/SessionCard";
-import Button from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import PageHeader from "@/components/ui/PageHeader";
 import { sessionSlots } from "@/data/sessions";
-import { REGISTER_HREF } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Sessions | Odyssey 2026",
@@ -15,11 +13,17 @@ export const metadata: Metadata = {
 export default function SessionsPage() {
   return (
     <>
+      {/* The header's action is a static pill, not a Button: registration has no destination
+          yet, so this states the status rather than offering a control that goes nowhere. */}
       <PageHeader
         kicker="Breakout Sessions"
-        title="Nine sessions. Three tracks. One afternoon."
-        description="Day 1 runs three parallel tracks across Sakura Theatres 1 to 3 — ecosystems, AI and industries. Three slots, three rooms, and one choice to make in each."
-        action={<Button href={REGISTER_HREF}>Register</Button>}
+        title="Tech, AI & Industry Sessions"
+        description="Day 1 breaks out into nine immersive sessions across technology, AI, product innovation, industries and ecosystems. Get closer to what teams are building, what’s actually working, and the ideas worth borrowing — with real examples, practical conversations and plenty of room for questions."
+        action={
+          <span className="inline-flex items-center rounded-full border border-cream/40 px-6 py-3 text-micro font-semibold tracking-normal text-cream/75 uppercase">
+            Registrations open soon
+          </span>
+        }
       />
 
       <div className="mx-auto max-w-[80rem] px-6 py-20 lg:py-28">

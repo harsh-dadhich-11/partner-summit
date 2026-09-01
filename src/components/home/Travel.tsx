@@ -1,3 +1,4 @@
+import Button from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { SUMMIT_EMAIL } from "@/data/site";
@@ -24,6 +25,11 @@ export default function Travel() {
             Reach out and we&rsquo;ll sort the details, so the only thing left to plan is what
             you&rsquo;ll say when you get there.
           </p>
+          {/* The home page's only route to /faq — most of these questions are answered there
+              before anyone needs to write an email. */}
+          <Button href="/faq" variant="quiet" className="mt-6">
+            Read the FAQ
+          </Button>
         </div>
 
         <dl className="space-y-8 min-w-0">
