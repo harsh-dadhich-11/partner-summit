@@ -48,7 +48,16 @@ export const gallery = {
           the slideshow it replaced showed one, so these are the 2400px downscales rather
           than the camera originals — 96MB of source became 8MB. Each `resolve` still lists
           its original second, so deleting a downscale falls back rather than breaking. ---- */
-  relive1: resolve("highlights-thumb.jpg", "Odyssey 2025"),
+  /* The one Relive tile that was not a 2400px downscale. It pointed at the highlights
+     video's thumbnail — 1280x720, and 16:9 rather than 1.6:1, so object-cover threw away
+     part of even that. It survived at the old tile size and would not at the new one, and
+     being index 0 it is the `priority` tile, the first thing the fold paints. ceremony.jpg
+     is the same event's opening, already downscaled to 2400px, and the `ceremony` key
+     below has no consumer. Drop a bespoke relive-1.jpg in front of it to override. */
+  relive1: resolve(
+    ["relive-1.jpg", "ceremony.jpg", "highlights-thumb.jpg"],
+    "The opening lamp-lighting ceremony at Odyssey 2025"
+  ),
   relive2: resolve(["relive-2.jpg", "I91A2023.jpg"], "Moments from Odyssey 2025"),
   relive3: resolve(
     ["relive-3.jpg", "I91A2496.jpg"],

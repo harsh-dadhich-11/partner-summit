@@ -42,16 +42,27 @@ function measure(): Metrics {
   const stageH = window.innerHeight;
   const narrow = window.innerWidth < NARROW;
 
-  /* The third term is the one that matters on a short viewport: a tile sized purely off
-     the width would run the fold off the top and bottom of the stage on a laptop in
-     landscape. On a normal desktop the 33vw term wins and this never binds.
+  /* Three caps, smallest wins, and all three genuinely bind somewhere:
 
-     86vw on a phone rather than the 70vw the brief asked for — 70 leaves the fold floating
-     in the middle third of a tall screen with nothing around it, and 86vw is the width the
-     experience carousel's cards already use at this breakpoint. */
+     46vw is as wide as the tile can go before it reaches the edge labels — it leaves 27vw
+     of gutter each side, and the title needs about 25 of that.
+
+     1100px is the asset ceiling, not a taste call. A tile that wide wants 2200px of source
+     on a 2x display and the Relive downscales are 2400px, so past this the photographs get
+     softer rather than bigger.
+
+     The height term is what keeps the fold inside the h-screen stage, which clips. The
+     fold stands 1.79 tile-heights tall at the current SPREAD and RENDER_WINDOW, so 0.55
+     fills 98.5% of the viewport — near enough the ceiling that raising it means giving
+     back a layer of the fold first. It binds on anything wide and short.
+
+     90vw on a phone rather than the 70vw the brief asked for — 70 leaves the fold floating
+     in the middle third of a tall screen with nothing around it, and 90 is the most that
+     still leaves the progress rail somewhere to sit. A phone is width-bound either way:
+     the fold is nowhere near tall enough there for the height term to matter. */
   const tileW = narrow
-    ? Math.min(window.innerWidth * 0.86, 480)
-    : Math.min(window.innerWidth * 0.33, 640, stageH * 0.42 * ASPECT);
+    ? Math.min(window.innerWidth * 0.9, 560)
+    : Math.min(window.innerWidth * 0.46, 1100, stageH * 0.55 * ASPECT);
 
   const tileH = tileW / ASPECT;
   return {
@@ -215,10 +226,13 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
     };
   }, [pinned, count, applyMetrics, readTarget, draw, arm]);
 
-  const wrapperClass = pinned ? "" : "mx-auto max-w-[80rem] px-6";
+  /* Two columns rather than three, in a wider column: the grid is the reduced-motion path,
+     not a lesser one, and three-up in 80rem made the photographs smaller than anything the
+     pinned fold shows. */
+  const wrapperClass = pinned ? "" : "mx-auto max-w-[96rem] px-6";
   const stageClass = pinned
     ? "relive-stage sticky top-0 h-screen"
-    : "grid gap-5 sm:grid-cols-2 lg:grid-cols-3";
+    : "grid gap-5 sm:grid-cols-2";
 
   return (
     <div
@@ -259,7 +273,7 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
               ) : (
                 <Photo
                   shot={item.shot}
-                  sizes="(max-width: 768px) 86vw, 33vw"
+                  sizes="(max-width: 768px) 90vw, 46vw"
                   priority={index === 0}
                 />
               )}
@@ -308,10 +322,14 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
         {pinned && (
           /*
             All the chrome in one box, so the kicker, both labels and the progress line share
-            one alignment. Full width rather than the page's 80rem column: a 33vw tile leaves
-            about 32vw of gutter either side, and boxing the labels into the content column
+            one alignment. Full width rather than the page's 80rem column: a 46vw tile leaves
+            about 27vw of gutter either side, and boxing the labels into the content column
             pushes them straight under the tile instead. The z-index puts the whole box above
             the tiles, which run to 1000, so a long title is never swallowed by a photograph.
+
+            The gutter is the constraint on every inset below. It was roomy at 33vw; at 46vw
+            the title has about 25vw to work in, which is why it sits at left-5 and the
+            kicker follows it in rather than the other way round.
           */
           <div
             aria-hidden="true"
@@ -320,7 +338,7 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
             {/* The section heading has scrolled away by the time the fold is running, so the
                 kicker comes along to say what you are still looking at. top-24 clears the
                 fixed navbar. */}
-            <p className="absolute inset-x-10 top-24 flex items-center gap-4 text-micro font-semibold text-cyan-soft uppercase">
+            <p className="absolute inset-x-5 top-24 flex items-center gap-4 text-micro font-semibold text-cyan-soft uppercase">
               <span className="h-px w-8 bg-cyan-soft/40" />
               Relive&rsquo;25
             </p>
@@ -331,7 +349,7 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
               photograph; eight lines of text are cheap enough to skip the bookkeeping.
               Absolute, so nothing shifts.
 
-              Under md the gutters are too narrow to hold anything beside a 70vw tile, so the
+              Under md the gutters are too narrow to hold anything beside a 90vw tile, so the
               same two labels stack into one centred line below the fold instead.
             */}
             {items.map((item, index) => {
@@ -339,12 +357,12 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
               return (
                 <div key={item.title} className="contents">
                   <p
-                    className={`absolute top-1/2 left-10 hidden max-w-[26vw] -translate-y-1/2 font-display text-h2 text-cream transition-opacity duration-300 md:block ${shown}`}
+                    className={`absolute top-1/2 left-5 hidden max-w-[25vw] -translate-y-1/2 font-display text-h2 text-cream transition-opacity duration-300 md:block ${shown}`}
                   >
                     {item.title}
                   </p>
                   <p
-                    className={`absolute top-1/2 right-20 hidden max-w-[22vw] -translate-y-1/2 text-right text-micro font-semibold text-cyan-soft uppercase transition-opacity duration-300 md:block ${shown}`}
+                    className={`absolute top-1/2 right-16 hidden max-w-[18vw] -translate-y-1/2 text-right text-micro font-semibold text-cyan-soft uppercase transition-opacity duration-300 md:block ${shown}`}
                   >
                     {item.category}
                   </p>
@@ -362,8 +380,9 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
 
             {/* Replaces the native scrollbar the page never shows here: how far through the
                 archive you are, and nothing else. */}
-            {/* right-2 on a phone: an 86vw tile leaves 7vw of gutter, and 32px in would put
-                the line on top of the photograph rather than beside it. */}
+            {/* right-2 on a phone: a 90vw tile leaves 5vw of gutter — about 22px on a large
+                handset — so the line has just enough room beside the photograph. 32px in
+                would put it on top of one. */}
             <div className="absolute top-1/2 right-2 h-[33vh] w-px -translate-y-1/2 bg-cream/15 md:right-8">
               <div
                 ref={thumbRef}

@@ -41,7 +41,7 @@ export default function PillarCard({ pillar, active, duplicate = false }: Props)
           on one box fight, and `.img-in` needs its own observed rect intact. The carousel
           reveals as a whole at the section level, so the cards do not animate individually.
         */}
-        <div className="card relative aspect-[4/3] w-full overflow-hidden md:aspect-[4/5] md:[clip-path:url(#pillar-edge)]">
+        <div className="card relative aspect-[4/5] w-full overflow-hidden md:[clip-path:url(#pillar-edge)]">
           <Photo shot={pillar.shot} sizes="(max-width: 768px) 86vw, 26rem" />
         </div>
 

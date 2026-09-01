@@ -9,7 +9,7 @@ type Props = {
 };
 
 const base =
-  "group/cta inline-flex cursor-pointer items-center gap-2.5 px-8 py-4 text-small font-semibold " +
+  "group/cta inline-flex cursor-pointer items-center gap-2.5 rounded-full px-8 py-4 text-small font-semibold " +
   "transition-colors duration-300 ease-out";
 
 const variants = {

@@ -27,16 +27,22 @@
    tiles would sit 28px *apart* rather than overlapping, and past |d| ~ 2.3 the projected
    height goes negative — the tile turns inside out, inside the render window.
 
-   These values hit the calibration table instead: d=1 lands at 207px tall, 677px near,
-   566px far, all within 1.5% of the target, with real overlap and no inversion out to
-   the edge of the window. Tune them here; nothing downstream hard-codes a number.
+   These values hit the calibration table instead. At the reference 640x400 tile, d=1
+   lands at 211px tall, 692px near, 578px far — all within 1.8% of the target — overlapping
+   the centre tile by 110px, and not inverting until |d| = 2.97, well outside the window.
+   Tune them here; nothing downstream hard-codes a number.
    --------------------------------------------------------------------------- */
 
-/** Vertical placement, as a fraction of tile height. Lower = more overlap. 0.52 hit the
- *  calibration table most precisely but buried 52% of each neighbour behind the centre
- *  tile; the reference hides about a third. 0.60 costs 3% on the projected height and
- *  nothing at all on the edge widths. */
-export const SPREAD = 0.6;
+/** Vertical placement, as a fraction of tile height. Lower = more overlap.
+ *
+ *  This shipped at 0.60 — the value that hides about a third of each neighbour, matching
+ *  the reference — with 0.52 rejected for burying roughly half instead. It is back at 0.52
+ *  deliberately, and the reason is size rather than composition: the fold's vertical
+ *  footprint is what caps how large a tile can be (see measure() in ReliveFold), and
+ *  tightening the overlap here is most of a 21% saving on that footprint, which goes
+ *  straight into the photographs. 0.60 is the value to come back to if the deeper burial
+ *  reads as too much — it costs about a fifth of the tile size to do so. */
+export const SPREAD = 0.52;
 export const SPREAD_EXP = 0.85;
 
 /** How fast tiles recede. A higher exponent pulls the far ones away sooner. */
@@ -46,10 +52,15 @@ export const DEPTH_EXP = 1.9;
 /** How hard the fold bends. rotX asymptotes at 90deg however large this gets. */
 export const FOLD = 1.25;
 
-/** Beyond this distance from centre a tile stops being painted. Past ~2.3 the projected
- *  height is into single digits and the tile reads as a stray line rather than a
- *  photograph, so there is nothing left worth drawing. */
-export const RENDER_WINDOW = 2.2;
+/** Beyond this distance from centre a tile stops being painted.
+ *
+ *  Visibility alone would justify ~2.2, where the projected height finally reaches single
+ *  digits. This cuts earlier, at 25% of tile height, and the reason is vertical budget:
+ *  every layer the window admits is stage height that the centre tile then cannot have.
+ *  The two faintest stripes at each end were worth less than the size of every tile in
+ *  the fold. Raising this back toward 2.2 means lowering the height factor in measure()
+ *  to match, or the outermost tiles clip against the stage. */
+export const RENDER_WINDOW = 1.7;
 
 /** Perspective as a multiple of tile height — shallower on narrow screens. */
 export const PERSPECTIVE = 4.3;
