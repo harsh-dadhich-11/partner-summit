@@ -24,7 +24,7 @@
   --color-accent: var(--color-orange-bright);
   --color-accent-quiet: var(--color-gold);
 
-  /* ---- Card washes. The experience carousel tints each card by its pillar's accent,
+  /* ---- Card washes. The experience mosaic tints each content tile by its pillar's accent,
          so the colour has to survive ink text on top of it — these are the palette hues
          pulled right down rather than the hues themselves, which would all fail at 16px.
          Panels, not surfaces: nothing full-bleed should use them. ---- */
@@ -160,22 +160,11 @@
   .icon-tile {
     border-radius: 0.625rem;
   }
-  /* A third value, for the one thing far bigger than a card: the carousel panel, where
-     0.875rem on a 62rem-wide box reads as an accident rather than a radius. */
+  /* A third value, for panels that wrap a card rather than being one: the mosaic tiles,
+     where the inset photo takes `.card` and the tint around it needs a visibly larger
+     radius or the two read as one mis-drawn edge. */
   .card-xl {
     border-radius: 1.5rem;
-  }
-
-  /* ---------------------------------------------------------------
-     Carousel track. The scrollbar is the one piece of native chrome
-     that cannot be styled into this design, and the dots below the
-     track already say how far along you are.
-     --------------------------------------------------------------- */
-  .no-scrollbar {
-    scrollbar-width: none;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
   }
 
   /* ---------------------------------------------------------------

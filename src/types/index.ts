@@ -8,8 +8,8 @@ export type Pillar = {
   body: string;
   accent: "cyan" | "orange" | "teal";
   /**
-   * Key into `gallery`, not a path: the shot is resolved server-side (gallery.ts hits the
-   * filesystem) and handed to the client carousel already resolved.
+   * Key into `gallery`, not a path: gallery.ts hits the filesystem, so the shot is resolved
+   * where the section is assembled and the tile receives it already resolved.
    */
   image: keyof typeof gallery;
 };

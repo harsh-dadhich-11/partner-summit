@@ -77,9 +77,10 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
 
   /*
     The tall wrapper and the 3D stage are both JS affordances, so neither may be baked into
-    the server HTML — the same reasoning as PillarCarousel's `ready` flag. Shipping the
-    wrapper height would strand a visitor with JS off in four viewport-heights of empty
-    teal. Until this flips, the identical markup below lays out as an ordinary grid.
+    the server HTML — the same reasoning as PageScripts adding `.visible` rather than the
+    markup omitting it. Shipping the wrapper height would strand a visitor with JS off in
+    four viewport-heights of empty teal. Until this flips, the identical markup below lays
+    out as an ordinary grid.
   */
   const [pinned, setPinned] = useState(false);
   const [active, setActive] = useState(0);
@@ -335,14 +336,6 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 z-1100 px-10"
           >
-            {/* The section heading has scrolled away by the time the fold is running, so the
-                kicker comes along to say what you are still looking at. top-24 clears the
-                fixed navbar. */}
-            <p className="absolute inset-x-5 top-24 flex items-center gap-4 text-micro font-semibold text-cyan-soft uppercase">
-              <span className="h-px w-8 bg-cyan-soft/40" />
-              Relive&rsquo;25
-            </p>
-
             {/*
               Every label is mounted and only one is opaque, which is a crossfade for free.
               A slideshow has to swap two layers back and forth because each layer holds a
