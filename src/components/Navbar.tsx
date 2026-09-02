@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Sessions", href: "/sessions" },
   { label: "Itinerary", href: "/itinerary" },
   { label: "Participants", href: "/speakers" },
-  { label: "Relive’25", href: "/relive" },
+  // { label: "Relive’25", href: "/relive" },
   { label: "FAQ", href: "/faq" },
 ];
 
