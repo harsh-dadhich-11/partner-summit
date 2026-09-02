@@ -335,14 +335,6 @@ export default function ReliveFold({ items }: { items: ReliveSlide[] }) {
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 z-1100 px-10"
           >
-            {/* The section heading has scrolled away by the time the fold is running, so the
-                kicker comes along to say what you are still looking at. top-24 clears the
-                fixed navbar. */}
-            <p className="absolute inset-x-5 top-24 flex items-center gap-4 text-micro font-semibold text-cyan-soft uppercase">
-              <span className="h-px w-8 bg-cyan-soft/40" />
-              Relive&rsquo;25
-            </p>
-
             {/*
               Every label is mounted and only one is opaque, which is a crossfade for free.
               A slideshow has to swap two layers back and forth because each layer holds a
