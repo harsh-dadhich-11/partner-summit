@@ -11,7 +11,7 @@ export default function Travel() {
       <SectionHeading
         kicker="Travel & Visa Assistance"
         title="Your journey begins before you arrive."
-        description="Whether you’re travelling across the country or across continents, our team handles invitation letters, visa guidance, accommodation and local travel. Ask us early and none of it has to be your problem."
+        description="Whether you’re travelling from across India or across continents, our team takes care of your invitation letters, visa guidance, accommodation, and local transport. Connect with us early so you can focus entirely on your experience."
       />
 
       {/* A rule and a column split carry this now — it used to be a bordered white card. */}
@@ -22,8 +22,8 @@ export default function Travel() {
           </span>
           <h3 className="mt-5 font-display text-h3 text-ink break-words">Questions before your journey?</h3>
           <p className="mt-3 max-w-[42ch] text-small text-muted">
-            Reach out and we&rsquo;ll sort the details, so the only thing left to plan is what
-            you&rsquo;ll say when you get there.
+            Reach out and we&rsquo;ll handle the logistics, so all you need to focus on is your
+            time with us in Jaipur.
           </p>
           {/* The home page's only route to /faq — most of these questions are answered there
               before anyone needs to write an email. */}

@@ -15,7 +15,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         question: "When & where is the Summit?",
-        answers: [{ text: "23–25 October 2026 · Ananta Spa & Resort, Jaipur, India." }],
+        answers: [{ text: "October 23-25, 2026 · Ananta Spa & Resort, Jaipur, India." }],
       },
       {
         question: "Who can attend?",

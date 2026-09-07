@@ -45,10 +45,16 @@ export default function Hero() {
           </h1>
 
           <p className="fade-in visible mt-6 font-display text-h3 text-cyan-soft">
-            23–25th Oct
+            October 23–25
           </p>
 
+          {/* Two lead paragraphs, so the second sits at mt-4 rather than mt-6: the pair
+              should read as one block under the date, not as two unrelated taglines. */}
           <p className="fade-in visible mt-6 max-w-[46ch] text-lead text-cream/80">
+            Bringing together the people who build, lead, support and grow alongside us.
+          </p>
+
+          <p className="fade-in visible mt-4 max-w-[46ch] text-lead text-cream/80">
             The work we do together spans countries, time zones and countless conversations. Once a year, we swap screens for face time and bring everyone together IRL.
           </p>
 

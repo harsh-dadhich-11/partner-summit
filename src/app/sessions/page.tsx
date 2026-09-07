@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import SessionCard from "@/components/sessions/SessionCard";
-import { Icon } from "@/components/ui/Icon";
+// Commented out with the session list below, not deleted — all three come straight back
+// when the programme is confirmed.
+// import SessionCard from "@/components/sessions/SessionCard";
+// import { Icon } from "@/components/ui/Icon";
 import PageHeader from "@/components/ui/PageHeader";
-import { sessionSlots } from "@/data/sessions";
+// import { sessionSlots } from "@/data/sessions";
 
 export const metadata: Metadata = {
   title: "Sessions | Odyssey 2026",
@@ -18,7 +20,7 @@ export default function SessionsPage() {
       <PageHeader
         kicker="Breakout Sessions"
         title="Tech, AI & Industry Sessions"
-        description="Day 1 breaks out into nine immersive sessions across technology, AI, product innovation, industries and ecosystems. Get closer to what teams are building, what’s actually working, and the ideas worth borrowing — with real examples, practical conversations and plenty of room for questions."
+        description="Day 1 breaks out into nine immersive sessions across technology, AI, product innovation, industries and ecosystems. Get closer to what teams are building, what’s actually working, and the ideas worth borrowing — with real examples, open conversations and plenty of room for questions."
         action={
           <span className="inline-flex items-center rounded-full border border-cream/40 px-6 py-3 text-micro font-semibold tracking-normal text-cream/75 uppercase">
             Registrations open soon
@@ -27,7 +29,27 @@ export default function SessionsPage() {
       />
 
       <div className="mx-auto max-w-[80rem] px-6 py-20 lg:py-28">
-        {sessionSlots.map((group, slotIndex) => (
+        {/*
+          The nine cards are hidden until the programme is confirmed: every title in
+          data/sessions.ts is still a placeholder reading "session to be confirmed", and
+          publishing nine of those reads worse than saying plainly that it is in progress.
+          Restore the block below — and the three imports at the top — once topics land.
+
+          The pill deliberately does NOT reuse the header's classes: that one is
+          border-cream/40 text-cream/75 because PageHeader sits on a dark ground, and it
+          would be near-invisible here on the light body background.
+        */}
+        <div className="flex flex-col items-center gap-5 border-t border-rule py-20 text-center">
+          <span className="inline-flex items-center rounded-full border border-rule px-6 py-3 text-micro font-semibold tracking-normal text-muted uppercase">
+            Work in progress
+          </span>
+          <p className="max-w-[46ch] text-body text-muted">
+            The breakout programme is being finalised. Session titles, speakers and rooms
+            will be published here as soon as they are confirmed.
+          </p>
+        </div>
+
+        {/* {sessionSlots.map((group, slotIndex) => (
           <section key={group.slot} className={slotIndex > 0 ? "mt-16 lg:mt-20" : ""}>
             <div className="flex items-center gap-3 border-t border-rule pt-12">
               <span className="text-teal-mid">
@@ -38,13 +60,13 @@ export default function SessionsPage() {
 
             <ul className="mt-8 grid gap-6 md:grid-cols-3">
               {group.sessions.map((session, index) => (
-                /* Index restarts each slot on purpose: the stagger should read left to
-                   right across a row, not accumulate half a second by the last card. */
+                // Index restarts each slot on purpose: the stagger should read left to
+                // right across a row, not accumulate half a second by the last card.
                 <SessionCard key={session.room} session={session} index={index} />
               ))}
             </ul>
           </section>
-        ))}
+        ))} */}
       </div>
     </>
   );

@@ -13,9 +13,10 @@ export default function AgendaTeaser() {
           The first names are in.
         </h3>
         <p className="fade-in visible mt-5 text-body text-muted">
-          Founders, operators and partners who have built the thing they&rsquo;re talking about.
-          The sessions around them are still being finalised, and invited guests hear about each
-          one as it&rsquo;s confirmed.
+          Founders, partners, and industry experts with real, hands-on experience in the field
+          &mdash; our first group of confirmed guests is ready to explore below. As for our
+          breakout sessions, we are putting the final touches on the lineup and will notify
+          invited guests as new topics are added.
         </p>
         <div className="fade-in visible mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
           <Button href="/speakers" className="rounded-full">

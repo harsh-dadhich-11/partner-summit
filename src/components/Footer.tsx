@@ -4,8 +4,8 @@ import { SUMMIT_EMAIL } from "@/data/site";
 const footerLinks = [
   { label: "Sessions", href: "/sessions" },
   { label: "Itinerary", href: "/itinerary" },
-  { label: "Participants", href: "/speakers" },
-  { label: "Relive’25", href: "/relive" },
+  { label: "Guests and Speakers", href: "/speakers" },
+  // { label: "Relive’25", href: "/relive" },
   { label: "Event experience", href: "/#experience" },
 ];
 

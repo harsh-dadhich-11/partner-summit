@@ -8,7 +8,7 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "Sessions", href: "/sessions" },
   { label: "Itinerary", href: "/itinerary" },
-  { label: "Participants", href: "/speakers" },
+  { label: "Guests and Speakers", href: "/speakers" },
   // { label: "Relive’25", href: "/relive" },
   { label: "FAQ", href: "/faq" },
 ];
