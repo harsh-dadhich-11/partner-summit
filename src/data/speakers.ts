@@ -44,11 +44,11 @@ export const speakers: Speaker[] = [
     linkedin: "https://www.linkedin.com/in/loriwilliams4/",
   },
   {
-    name: "Brandy Bass",
-    role: "Managing Partner & COO",
-    company: "Stridepath Consulting",
-    photo: "/assets/guests/brandy-bass.jpeg",
-    linkedin: "https://www.linkedin.com/in/brandynbass/",
+    name: "William Sun",
+    role: "Co-Founder & CEO",
+    company: "Auctor",
+    photo: "/assets/guests/willson.png",
+    linkedin: "https://www.linkedin.com/in/weihongsun/",
   },
   {
     name: "Michelle Swan",

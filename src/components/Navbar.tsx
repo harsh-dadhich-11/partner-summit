@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Sessions", href: "/sessions" },
   { label: "Itinerary", href: "/itinerary" },
   { label: "Participants", href: "/speakers" },
-  { label: "Relive’25", href: "/relive" },
+  // { label: "Relive’25", href: "/relive" },
   { label: "FAQ", href: "/faq" },
 ];
 
@@ -73,15 +73,14 @@ export default function Navbar() {
                     link.href === "/"
                       ? "hero"
                       : link.href.startsWith("/#")
-                      ? link.href.slice(2)
-                      : undefined
+                        ? link.href.slice(2)
+                        : undefined
                   }
                   aria-current={active ? "page" : undefined}
-                  className={`nav-link text-small font-medium transition-colors duration-300 ${
-                    active
+                  className={`nav-link text-small font-medium transition-colors duration-300 ${active
                       ? "is-current text-cyan-bright"
                       : "text-cream/85 hover:text-cyan-bright"
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -129,11 +128,10 @@ export default function Navbar() {
                     href={link.href}
                     onClick={closeMobileMenu}
                     aria-current={active ? "page" : undefined}
-                    className={`px-5 py-3 text-small transition-colors ${
-                      active
+                    className={`px-5 py-3 text-small transition-colors ${active
                         ? "bg-cream/15 text-cyan-bright font-semibold border-l-2 border-cyan-bright"
                         : "font-medium text-cream hover:bg-cream/10 hover:text-cyan-bright"
-                    }`}
+                      }`}
                   >
                     {link.label}
                   </Link>
