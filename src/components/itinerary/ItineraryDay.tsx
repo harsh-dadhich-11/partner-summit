@@ -52,7 +52,6 @@ export default function ItineraryDay({ day, entries }: Props) {
                     <Icon name="pin" size={12} />
                     {entry.location}
                   </p>
-                  <p className="mt-2 text-small text-muted">{entry.description}</p>
                   <p className="mt-3">
                     <span className="inline-block rounded-full bg-accent/10 px-2.5 py-1 text-micro font-semibold tracking-normal text-orange-deep">
                       {ITINERARY_AUDIENCES[entry.audience]}

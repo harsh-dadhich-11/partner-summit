@@ -86,8 +86,6 @@ export type ItineraryEntry = {
   time: string;
   label: string;
   category: ItineraryCategory;
-  /** One line on what actually happens. */
-  description: string;
   audience: ItineraryAudience;
   /** Where at Ananta to actually walk to — Sakura's theatres, a lawn, the restaurant. */
   location: string;

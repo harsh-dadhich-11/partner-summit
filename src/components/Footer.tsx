@@ -9,66 +9,84 @@ const footerLinks = [
   { label: "Event experience", href: "/#experience" },
 ];
 
-const linkStyles =
-  "block py-1.5 text-small text-muted transition-colors duration-300 hover:text-accent break-all";
-
 export default function Footer() {
   return (
-    <footer className="mx-auto max-w-[80rem] px-6 pt-20 pb-10">
-      <div className="grid gap-12 border-t border-rule pt-12 md:grid-cols-[1.5fr_1fr_1fr]">
-        <div>
-          <div className="mb-5 flex items-center gap-3.5">
-            <a
-              href="https://www.botconsulting.io/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-opacity hover:opacity-80"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/bot-logo.svg" alt="BOT Consulting" className="h-7 w-auto" />
-            </a>
-            <span className="h-5 w-px bg-rule" aria-hidden="true" />
-            <span className="font-display text-lg text-ink">
-              Odyssey <span className="text-orange-deep italic">2026</span>
-            </span>
+    <footer className="w-full border-t border-rule-light bg-teal-dark text-cream mt-24">
+      <div className="mx-auto max-w-[80rem] px-6 pt-16 pb-10">
+        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
+          <div>
+            <div className="mb-5 flex items-center gap-3.5">
+              <a
+                href="https://www.botconsulting.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-opacity hover:opacity-80"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/bot-logo-light.svg"
+                  alt="BOT Consulting"
+                  className="h-8 w-auto"
+                />
+              </a>
+              <span className="h-5 w-px bg-white/20" aria-hidden="true" />
+              <span className="font-display text-lg text-cream">
+                Odyssey <span className="text-orange-soft italic">2026</span>
+              </span>
+            </div>
+            <p className="max-w-[34ch] text-small text-cream/70">
+              Building world-class Global Capability Centers.
+            </p>
           </div>
-          <p className="max-w-[34ch] text-small text-muted">
-            Building world-class Global Capability Centers.
-          </p>
+
+          <div>
+            <h2 className="mb-4 text-micro font-semibold uppercase tracking-wider text-cyan-bright">
+              Odyssey 2026
+            </h2>
+            <div className="flex flex-col space-y-2">
+              {footerLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-small text-cream/75 transition-colors duration-300 hover:text-cyan-bright"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Every "Contact" control on the site scrolls here; scroll-mt clears the fixed navbar. */}
+          <div id="contact" className="scroll-mt-24">
+            <h2 className="mb-4 text-micro font-semibold uppercase tracking-wider text-cyan-bright">
+              Support
+            </h2>
+            <div className="flex flex-col space-y-2">
+              <a
+                href={`mailto:${SUMMIT_EMAIL}`}
+                className="text-small text-cream/75 transition-colors duration-300 hover:text-cyan-bright break-all"
+              >
+                {SUMMIT_EMAIL}
+              </a>
+              <p className="text-small text-cream/75 tabular-nums">
+                +91 92567 68903 | +91 85519 60354
+              </p>
+              <a
+                href="https://www.botconsulting.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-small text-cream/75 transition-colors duration-300 hover:text-cyan-bright"
+              >
+                botconsulting.io
+              </a>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <h2 className="mb-4 text-micro font-semibold uppercase text-ink">Odyssey 2026</h2>
-          {footerLinks.map((link) => (
-            <Link key={link.href} href={link.href} className={linkStyles}>
-              {link.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Every "Contact" control on the site scrolls here; scroll-mt clears the fixed navbar. */}
-        <div id="contact" className="scroll-mt-24">
-          <h2 className="mb-4 text-micro font-semibold uppercase text-ink">Support</h2>
-          <a href={`mailto:${SUMMIT_EMAIL}`} className={linkStyles}>
-            {SUMMIT_EMAIL}
-          </a>
-          <p className="py-1.5 text-small text-muted tabular-nums">
-            +91 92567 68903 | +91 85519 60354
-          </p>
-          <a
-            href="https://www.botconsulting.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={linkStyles}
-          >
-            botconsulting.io
-          </a>
-        </div>
+        <p className="mt-14 border-t border-white/10 pt-6 text-micro tracking-normal text-cream/50">
+          © 2026 BOT Consulting · Ananta Spa &amp; Resort, Jaipur, India · All rights reserved.
+        </p>
       </div>
-
-      <p className="mt-14 border-t border-rule pt-6 text-micro tracking-normal text-muted">
-        © 2026 BOT Consulting · Ananta Spa &amp; Resort, Jaipur, India · All rights reserved.
-      </p>
     </footer>
   );
 }

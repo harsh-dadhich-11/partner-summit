@@ -54,8 +54,8 @@ export const pillars: Pillar[] = [
  * show of the place. `dancers` sits next to Evenings in Jaipur on purpose.
  */
 export const pillarFillers = [
-  "arrival",
+  "exp2",
   "ananta",
-  "wellness",
-  "dancers",
+  "exp6",
+  "exp8",
 ] satisfies (keyof typeof gallery)[];

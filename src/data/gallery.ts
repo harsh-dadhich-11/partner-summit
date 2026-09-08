@@ -44,6 +44,10 @@ export const gallery = {
   dancers: resolve("dancers.jpg", "Rajasthani folk dancers at the Odyssey 2025 cultural night"),
   /** Landscape. */
   ceremony: resolve("ceremony.jpg", "The opening lamp-lighting ceremony at Odyssey 2025"),
+  /** Event Experience mosaic tiles (Keypad positions 2, 6, 8) */
+  exp2: resolve(["2.jpg", "arrival.jpg"], "Moments from Odyssey 2025"),
+  exp6: resolve(["6.jpg", "wellness.jpg"], "Moments from Odyssey 2025"),
+  exp8: resolve(["8.jpg", "dancers.jpg"], "Moments from Odyssey 2025"),
   /* ---- Specified Relive'25 photos. The fold shows five or six of these at once, where
           the slideshow it replaced showed one, so these are the 2400px downscales rather
           than the camera originals — 96MB of source became 8MB. Each `resolve` still lists

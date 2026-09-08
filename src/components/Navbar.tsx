@@ -24,7 +24,7 @@ const Wordmark = () => (
     <img
       src="/assets/bot-logo-light.svg"
       alt="BOT Consulting"
-      className="h-7 w-auto transition-opacity hover:opacity-90"
+      className="h-9 md:h-10 w-auto transition-opacity hover:opacity-90"
     />
   </a>
 );
