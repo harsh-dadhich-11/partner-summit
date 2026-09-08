@@ -22,7 +22,7 @@ export const gallery = {
   /** Landscape. */
   sessions: resolve("sessions.jpg", "Customers and partners in conversation at Odyssey 2025"),
   /** Landscape. */
-  sri: resolve("sri.jpg", "The Śrī giving-back initiative at Odyssey 2025"),
+  sri: resolve("sri1.jpg", "The Śrī giving-back initiative at Odyssey 2025"),
   /** Landscape. */
   evening: resolve("evening.jpg", "Cultural night at Odyssey 2025"),
   /** Landscape. */
