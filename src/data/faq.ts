@@ -65,12 +65,12 @@ export const faqCategories: FaqCategory[] = [
           },
           {
             label: "Recommended Arrival",
-            text: "Partners & international guests: arrive 22 October, one day before the Summit, to recover from travel and settle in comfortably.",
+            text: "Partners & international guests: arrive October 22, one day before the Summit, to recover from travel and settle in comfortably.",
           },
           {
-            text: "BOT employees: arrive 23 October, either driving directly to Ananta Spa & Resort or joining the BOT carpool from the office (details shared separately).",
+            text: "BOT employees: arrive October 23, either driving directly to Ananta Spa & Resort or joining the BOT carpool from the office (details shared separately).",
           },
-          { label: "Return Flights", text: "Book flights after the afternoon of 25 October." },
+          { label: "Return Flights", text: "Book flights after the afternoon of October 25." },
           {
             label: "Airport Transfers",
             text: "BOT will arrange transfers between Jaipur Airport and the resort for registered attendees.",
