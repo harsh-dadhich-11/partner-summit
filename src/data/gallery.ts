@@ -12,7 +12,7 @@ const resolve = (files: string | string[], alt: string): Shot => {
 
 export const gallery = {
   heroStill: resolve(
-    ["hero-poster.jpg", "hero-still.jpg", "highlights-thumb.jpg"],
+    "hero-poster.jpg",
     "Odyssey 2025 at Ananta Spa & Resort, Jaipur"
   ),
   /** Landscape. The sticky image in EventExperience. */
@@ -30,8 +30,7 @@ export const gallery = {
   /** Landscape. */
   awards: resolve("awards.jpg", "Awards & recognition at Odyssey 2025"),
 
-  /* ---- The rest of the grid. Downscaled to 2400px out of images-retreat/, where the
-          camera originals still live at 10-30MB each if a bigger crop is ever needed. ---- */
+  /* ---- The rest of the grid ---- */
   /** Landscape. */
   groupPhoto: resolve("group-photo.jpg", "The Odyssey 2025 delegation outside Ananta Spa & Resort"),
   /** Landscape. */
@@ -45,31 +44,22 @@ export const gallery = {
   /** Landscape. */
   ceremony: resolve("ceremony.jpg", "The opening lamp-lighting ceremony at Odyssey 2025"),
   /** Event Experience mosaic tiles (Keypad positions 2, 6, 8) */
-  exp2: resolve(["2.jpg", "arrival.jpg"], "Moments from Odyssey 2025"),
-  exp6: resolve(["6.jpg", "wellness.jpg"], "Moments from Odyssey 2025"),
-  exp8: resolve(["8.jpg", "dancers.jpg"], "Moments from Odyssey 2025"),
-  /* ---- Specified Relive'25 photos. The fold shows five or six of these at once, where
-          the slideshow it replaced showed one, so these are the 2400px downscales rather
-          than the camera originals — 96MB of source became 8MB. Each `resolve` still lists
-          its original second, so deleting a downscale falls back rather than breaking. ---- */
-  /* The one Relive tile that was not a 2400px downscale. It pointed at the highlights
-     video's thumbnail — 1280x720, and 16:9 rather than 1.6:1, so object-cover threw away
-     part of even that. It survived at the old tile size and would not at the new one, and
-     being index 0 it is the `priority` tile, the first thing the fold paints. ceremony.jpg
-     is the same event's opening, already downscaled to 2400px, and the `ceremony` key
-     below has no consumer. Drop a bespoke relive-1.jpg in front of it to override. */
+  exp2: resolve("2.jpg", "Moments from Odyssey 2025"),
+  exp6: resolve("6.jpg", "Moments from Odyssey 2025"),
+  exp8: resolve("8.jpg", "Moments from Odyssey 2025"),
+  /* ---- Relive'25 photos ---- */
   relive1: resolve(
-    ["relive-1.jpg", "ceremony.jpg", "highlights-thumb.jpg"],
+    "ceremony.jpg",
     "The opening lamp-lighting ceremony at Odyssey 2025"
   ),
-  relive2: resolve(["relive-2.jpg", "I91A2023.jpg"], "Moments from Odyssey 2025"),
+  relive2: resolve("relive-2.jpg", "Moments from Odyssey 2025"),
   relive3: resolve(
-    ["relive-3.jpg", "I91A2496.jpg"],
+    "relive-3.jpg",
     "Networking and conversations at Odyssey 2025"
   ),
-  relive4: resolve(["relive-4.jpg", "I91A4531.JPG"], "Keynote session at Odyssey 2025"),
-  relive5: resolve(["relive-5.jpg", "I91A4709.JPG"], "Evening celebration at Odyssey 2025"),
-  relive6: resolve(["relive-6.jpg", "I91A4814 (1).JPG"], "Cultural evening at Odyssey 2025"),
-  relive7: resolve(["relive-7.jpg", "I91A9938 (1).jpg"], "Delegates at Odyssey 2025"),
-  relive8: resolve(["relive-8.jpg", "Copy of I91A2764.jpg"], "Group highlights at Odyssey 2025"),
+  relive4: resolve("relive-4.jpg", "Keynote session at Odyssey 2025"),
+  relive5: resolve("relive-5.jpg", "Evening celebration at Odyssey 2025"),
+  relive6: resolve("relive-6.jpg", "Cultural night at Odyssey 2025"),
+  relive7: resolve("relive-7.jpg", "Delegates at Odyssey 2025"),
+  relive8: resolve("relive-8.jpg", "Group highlights at Odyssey 2025"),
 } satisfies Record<string, Shot>;
