@@ -7,7 +7,7 @@ const PHONE = "+91 92567 68903 | +91 85519 60354";
 
 export default function Travel() {
   return (
-    <section id="travel" className="mx-auto max-w-[80rem] px-6 py-24 lg:py-32">
+    <section id="contact" className="mx-auto max-w-[80rem] px-6 py-24 lg:py-32 scroll-mt-16 md:scroll-mt-20">
       <SectionHeading
         kicker="Travel & Visa Assistance"
         title="Your journey begins before you arrive."

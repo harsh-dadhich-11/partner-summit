@@ -56,8 +56,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Every "Contact" control on the site scrolls here; scroll-mt clears the fixed navbar. */}
-          <div id="contact" className="scroll-mt-24">
+          <div>
             <h2 className="mb-4 text-micro font-semibold uppercase tracking-wider text-cyan-bright">
               Support
             </h2>

@@ -78,8 +78,8 @@ export default function Navbar() {
                   }
                   aria-current={active ? "page" : undefined}
                   className={`nav-link text-small font-medium transition-colors duration-300 ${active
-                      ? "is-current text-cyan-bright"
-                      : "text-cream/85 hover:text-cyan-bright"
+                    ? "is-current text-cyan-bright"
+                    : "text-cream/85 hover:text-cyan-bright"
                     }`}
                 >
                   {link.label}
@@ -93,7 +93,7 @@ export default function Navbar() {
             href="/#contact"
             className="rounded-full bg-accent px-5 py-2.5 text-micro font-semibold tracking-normal whitespace-nowrap text-white uppercase transition-colors duration-300 hover:bg-orange-deep"
           >
-            Contact
+            Contact Us
           </Link>
 
           {/*
@@ -129,8 +129,8 @@ export default function Navbar() {
                     onClick={closeMobileMenu}
                     aria-current={active ? "page" : undefined}
                     className={`px-5 py-3 text-small transition-colors ${active
-                        ? "bg-cream/15 text-cyan-bright font-semibold border-l-2 border-cyan-bright"
-                        : "font-medium text-cream hover:bg-cream/10 hover:text-cyan-bright"
+                      ? "bg-cream/15 text-cyan-bright font-semibold border-l-2 border-cyan-bright"
+                      : "font-medium text-cream hover:bg-cream/10 hover:text-cyan-bright"
                       }`}
                   >
                     {link.label}

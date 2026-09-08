@@ -3,8 +3,8 @@ import { Plus_Jakarta_Sans, Poppins } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageScripts from "@/components/PageScripts";
+import { SITE_DESCRIPTION } from "@/data/site";
 import "@/app/globals.css";
-
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -20,19 +20,20 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-const description =
-  "Odyssey 2026: BOT Consulting's Annual Partner Summit. October 23–25, 2026 at Ananta Resort & Spa, Jaipur, India. A private gathering by invitation.";
-
 export const metadata: Metadata = {
   title: "Odyssey 2026 | BOT Consulting's Annual Partner Summit — Jaipur",
-  description,
+  description: SITE_DESCRIPTION,
   openGraph: {
     title: "Odyssey 2026 — BOT Consulting's Annual Partner Summit",
-    description,
+    description: SITE_DESCRIPTION,
     type: "website",
     locale: "en_US",
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: "Odyssey 2026 — BOT Consulting's Annual Partner Summit",
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,3 +1,6 @@
+export const SITE_DESCRIPTION =
+  "Odyssey 2026: BOT Consulting’s Annual Partner Summit. This is where our community comes together in Jaipur: customers, partners and leaders sharing stories, celebrating what we’ve built and having a lot of fun along the way.";
+
 export const SUMMIT_EMAIL = "partnersummit@botconsulting.io";
 
 const compose = (subject: string, body = "") =>
