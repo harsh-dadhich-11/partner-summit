@@ -83,7 +83,16 @@ export default function Footer() {
         </div>
 
         <p className="mt-14 border-t border-white/10 pt-6 text-micro tracking-normal text-cream/50">
-          © 2026 BOT Consulting · Ananta Spa &amp; Resort, Jaipur, India · All rights reserved.
+          © 2026 BOT Consulting ·{" "}
+          <a
+            href="https://www.blackrockhotels.com/ananta-spa-resort-jaipur/location"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 transition-colors hover:text-cyan-bright"
+          >
+            Ananta Spa &amp; Resort, Jaipur
+          </a>
+          , India · All rights reserved.
         </p>
       </div>
     </footer>

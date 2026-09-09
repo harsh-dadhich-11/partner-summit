@@ -30,11 +30,11 @@ export const speakers: Speaker[] = [
     linkedin: "https://www.linkedin.com/in/joanne-pallas/",
   },
   {
-    name: "Ronit Rubin",
-    role: "President, EMEA",
-    company: "AllCloud",
-    photo: "/assets/guests/ronit-rubin.png",
-    linkedin: "https://www.linkedin.com/in/ronitrubin/",
+    name: "Lisa Burton",
+    role: "Partner & COO",
+    company: "Tercera",
+    photo: "/assets/guests/Lisa-Burton.png",
+    linkedin: "https://www.linkedin.com/in/lisaaburton/",
   },
   {
     name: "Lori Williams",
@@ -44,13 +44,6 @@ export const speakers: Speaker[] = [
     linkedin: "https://www.linkedin.com/in/loriwilliams4/",
   },
   {
-    name: "William Sun",
-    role: "Co-Founder & CEO",
-    company: "Auctor",
-    photo: "/assets/guests/willson.png",
-    linkedin: "https://www.linkedin.com/in/weihongsun/",
-  },
-  {
     name: "Michelle Swan",
     role: "Partner",
     company: "Tercera",
@@ -58,10 +51,24 @@ export const speakers: Speaker[] = [
     linkedin: "https://www.linkedin.com/in/michelleswan/",
   },
   {
+    name: "Ronit Rubin",
+    role: "President, EMEA",
+    company: "AllCloud",
+    photo: "/assets/guests/ronit-rubin.png",
+    linkedin: "https://www.linkedin.com/in/ronitrubin/",
+  },
+  {
     name: "Sanjay Gidwani",
     role: "Founder & CEO",
     company: "KOSMOS",
     photo: "/assets/guests/sanjay-gidwani.png",
     linkedin: "https://www.linkedin.com/in/sgidwani/",
+  },
+  {
+    name: "William Sun",
+    role: "Co-Founder & CEO",
+    company: "Auctor",
+    photo: "/assets/guests/willson.png",
+    linkedin: "https://www.linkedin.com/in/weihongsun/",
   },
 ];
