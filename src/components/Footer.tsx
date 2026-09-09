@@ -37,6 +37,16 @@ export default function Footer() {
             <p className="max-w-[34ch] text-small text-cream/70">
               Building world-class Global Capability Centers.
             </p>
+            <p className="mt-2 text-small">
+              <a
+                href="https://www.blackrockhotels.com/ananta-spa-resort-jaipur/location"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cream/75 transition-colors duration-300 hover:text-cyan-bright"
+              >
+                Ananta Spa &amp; Resort, Jaipur
+              </a>
+            </p>
           </div>
 
           <div>
