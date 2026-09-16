@@ -28,7 +28,7 @@ export const gallery = {
   /** Landscape. */
   families: resolve("families.jpg", "Families at Odyssey 2025"),
   /** Landscape. */
-  awards: resolve("awards.jpg", "Awards & recognition at Odyssey 2025"),
+  awards: resolve("akshay.jpg", "Awards & recognition at Odyssey 2025"),
 
   /* ---- The rest of the grid ---- */
   /** Landscape. */
