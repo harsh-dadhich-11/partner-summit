@@ -1,72 +1,65 @@
 import type { Metadata } from "next";
-// Commented out with the session list below, not deleted — all three come straight back
-// when the programme is confirmed.
-// import SessionCard from "@/components/sessions/SessionCard";
-// import { Icon } from "@/components/ui/Icon";
 import PageHeader from "@/components/ui/PageHeader";
-// import { sessionSlots } from "@/data/sessions";
+import SessionsClient from "@/components/sessions/SessionsClient";
+import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
+import { computeSessionAvailability, groupSessionsBySlot, DEFAULT_BREAKOUT_SESSIONS } from "@/lib/supabase/helpers";
+import type { DbSession, GroupedSessionSlot } from "@/types/database";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Sessions | Odyssey 2026",
+  title: "Breakout Sessions | Odyssey 2026",
   description:
-    "The Odyssey 2026 breakout programme — nine sessions across three parallel tracks on Day 1, running in Sakura Theatres 1 to 3.",
+    "The Odyssey 2026 breakout programme — nine sessions across three parallel tracks on Day 1, running in Sakura Theatres 1 to 3. Register your session preferences.",
 };
 
-export default function SessionsPage() {
+async function getInitialSessions(): Promise<GroupedSessionSlot[]> {
+  try {
+    if (!isSupabaseConfigured()) {
+      const computed = DEFAULT_BREAKOUT_SESSIONS.map(computeSessionAvailability);
+      return groupSessionsBySlot(computed);
+    }
+
+    const { data: rawSessions, error } = await supabaseAdmin
+      .from("sessions")
+      .select("*")
+      .eq("is_active", true)
+      .order("slot_id", { ascending: true })
+      .order("theatre_id", { ascending: true });
+
+    if (error || !rawSessions || rawSessions.length === 0) {
+      const computed = DEFAULT_BREAKOUT_SESSIONS.map(computeSessionAvailability);
+      return groupSessionsBySlot(computed);
+    }
+
+    const sessions = (rawSessions as DbSession[]).map(computeSessionAvailability);
+    return groupSessionsBySlot(sessions);
+  } catch (err) {
+    console.error("Error loading breakout sessions:", err);
+    const computed = DEFAULT_BREAKOUT_SESSIONS.map(computeSessionAvailability);
+    return groupSessionsBySlot(computed);
+  }
+}
+
+export default async function SessionsPage() {
+  const initialSlots = await getInitialSessions();
+
   return (
     <>
-      {/* The header's action is a static pill, not a Button: registration has no destination
-          yet, so this states the status rather than offering a control that goes nowhere. */}
       <PageHeader
-        kicker="Breakout Sessions"
+        kicker="Day 1 Breakouts"
         title="Tech, AI & Industry Sessions"
-        description="Day 1 breaks out into nine immersive sessions across technology, AI, product innovation, industries and ecosystems. Get closer to what teams are building, what’s actually working, and the ideas worth borrowing — with real examples, open conversations and plenty of room for questions."
+        description="Day 1 breaks out into nine immersive sessions across technology, AI, product innovation, industries and ecosystems. Seating is strictly limited per theatre and allocated first-come, first-served."
         action={
-          <span className="inline-flex items-center rounded-full border border-cream/40 px-6 py-3 text-micro font-semibold tracking-normal text-cream/75 uppercase">
-            Registrations open soon
+          <span className="inline-flex items-center gap-2 rounded-full border border-cyan-bright/40 bg-cyan-bright/10 px-5 py-2.5 text-micro font-semibold tracking-normal text-cyan-bright uppercase">
+            <span className="h-2 w-2 rounded-full bg-cyan-bright animate-pulse" />
+            Registration Open
           </span>
         }
       />
 
-      <div className="mx-auto max-w-[80rem] px-6 py-20 lg:py-28">
-        {/*
-          The nine cards are hidden until the programme is confirmed: every title in
-          data/sessions.ts is still a placeholder reading "session to be confirmed", and
-          publishing nine of those reads worse than saying plainly that it is in progress.
-          Restore the block below — and the three imports at the top — once topics land.
-
-          The pill deliberately does NOT reuse the header's classes: that one is
-          border-cream/40 text-cream/75 because PageHeader sits on a dark ground, and it
-          would be near-invisible here on the light body background.
-        */}
-        <div className="flex flex-col items-center gap-5 border-t border-rule py-20 text-center">
-          <span className="inline-flex items-center rounded-full border border-rule px-6 py-3 text-micro font-semibold tracking-normal text-muted uppercase">
-            Work in progress
-          </span>
-          <p className="max-w-[46ch] text-body text-muted">
-            The breakout programme is being finalised. Session titles, speakers and rooms
-            will be published here as soon as they are confirmed.
-          </p>
-        </div>
-
-        {/* {sessionSlots.map((group, slotIndex) => (
-          <section key={group.slot} className={slotIndex > 0 ? "mt-16 lg:mt-20" : ""}>
-            <div className="flex items-center gap-3 border-t border-rule pt-12">
-              <span className="text-teal-mid">
-                <Icon name="clock" size={18} />
-              </span>
-              <h2 className="font-display text-h3 text-ink tabular-nums">{group.slot}</h2>
-            </div>
-
-            <ul className="mt-8 grid gap-6 md:grid-cols-3">
-              {group.sessions.map((session, index) => (
-                // Index restarts each slot on purpose: the stagger should read left to
-                // right across a row, not accumulate half a second by the last card.
-                <SessionCard key={session.room} session={session} index={index} />
-              ))}
-            </ul>
-          </section>
-        ))} */}
+      <div className="mx-auto max-w-[80rem] px-6 py-12 lg:py-20">
+        <SessionsClient initialSlots={initialSlots} />
       </div>
     </>
   );
