@@ -57,6 +57,36 @@ export async function sendPassEmail({
     const slot3Theatre = selections.slot3?.theatreName || "Sakura · Theatre 3";
     const slot3Title = selections.slot3?.title || "Breakout Session 3";
 
+    // 1. Generate RFC 5545 .ics Calendar Invite
+    const nowIso = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    const icsContent = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//BOT Consulting//Odyssey 2026 Summit//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:REQUEST",
+      "BEGIN:VEVENT",
+      `UID:odyssey-pass-${registrationId}@botconsulting.io`,
+      `DTSTAMP:${nowIso}`,
+      `DTSTART:20261023T093000Z`, // 15:00 IST = 09:30 UTC
+      `DTEND:20261023T113000Z`,   // 17:00 IST = 11:30 UTC
+      `SUMMARY:Odyssey 2026 Breakout Pass [${registrationId}]`,
+      `DESCRIPTION:Odyssey 2026 Partner Summit — Day 1 Breakouts\\nRegistration ID: ${registrationId}\\nAttendee: ${attendeeName} (${attendeeEmail})\\n\\nYour Schedule:\\n• 15:00–15:40: ${slot1Theatre} — ${slot1Title}\\n• 15:40–16:20: ${slot2Theatre} — ${slot2Title}\\n• 16:20–17:00: ${slot3Theatre} — ${slot3Title}\\n\\nVenue: Ananta Spa & Resort, Jaipur`,
+      "LOCATION:Ananta Spa & Resort\\, Jaipur\\, Rajasthan\\, India",
+      "STATUS:CONFIRMED",
+      `ORGANIZER;CN="BOT Consulting Partner Summit":mailto:partnersummit@botconsulting.io`,
+      `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=${attendeeName}:mailto:${attendeeEmail}`,
+      "BEGIN:VALARM",
+      "TRIGGER:-PT30M",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:Reminder: Odyssey 2026 Breakout Sessions start in 30 minutes",
+      "END:VALARM",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\r\n");
+
+    const icsBuffer = Buffer.from(icsContent, "utf-8");
+
     const emailHtml = `
 <!DOCTYPE html>
 <html>
@@ -90,7 +120,7 @@ export async function sendPassEmail({
                 Hello <strong>${attendeeName}</strong>,
               </p>
               <p style="font-size:15px;line-height:1.6;color:#5c6b70;margin:0 0 24px 0;">
-                Your breakout session registration for Day 1 of the Partner Summit is confirmed. Please keep this pass and QR code accessible on your phone when arriving at each theatre.
+                Your breakout session registration for Day 1 of the Partner Summit is confirmed. Please keep this pass and QR code accessible on your phone when arriving at each theatre. A calendar invite is also attached to this email.
               </p>
 
               <!-- Pass Badge Card -->
@@ -124,7 +154,7 @@ export async function sendPassEmail({
                 <tr>
                   <td style="padding:20px;">
                     <p style="margin:0 0 12px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#183944;">
-                      Your Day 1 Schedule
+                      Your Day 1 Schedule &bull; Oct 23, 2026
                     </p>
 
                     <!-- Slot 1 -->
@@ -202,6 +232,11 @@ export async function sendPassEmail({
           content: qrBuffer,
           contentType: "image/png",
           contentId: "summit_pass_qr",
+        },
+        {
+          filename: "odyssey-2026-breakout-pass.ics",
+          content: icsBuffer,
+          contentType: "text/calendar; charset=utf-8; method=REQUEST",
         },
       ],
     };

@@ -73,9 +73,11 @@ export default function VolunteerClient() {
 
   const currentSessionId = `${selectedSlot.replace("-", "")}-${selectedTheatre.replace("-", "")}`;
 
-  const fetchSheet = useCallback(async () => {
+  const fetchSheet = useCallback(async (isBackground = false) => {
     if (!volunteerSession) return;
-    setIsLoading(true);
+    if (!isBackground) {
+      setIsLoading(true);
+    }
     try {
       const res = await fetch(`/api/volunteer/sessions/${currentSessionId}/sheet`);
       const json = await res.json();
@@ -86,22 +88,24 @@ export default function VolunteerClient() {
     } catch (err) {
       console.error("Error fetching sheet:", err);
     } finally {
-      setIsLoading(false);
+      if (!isBackground) {
+        setIsLoading(false);
+      }
     }
   }, [currentSessionId, volunteerSession]);
 
   useEffect(() => {
     if (volunteerSession) {
-      fetchSheet();
+      fetchSheet(false);
     }
   }, [fetchSheet, volunteerSession]);
 
-  // Auto-refresh attendance roster via server API (zero client credentials exposed)
+  // Silent auto-refresh for live multi-volunteer synchronization
   useEffect(() => {
     if (!volunteerSession) return;
 
-    const interval = setInterval(fetchSheet, 6000);
-    const onFocus = () => fetchSheet();
+    const interval = setInterval(() => fetchSheet(true), 6000);
+    const onFocus = () => fetchSheet(true);
     window.addEventListener("focus", onFocus);
 
     return () => {
@@ -135,11 +139,11 @@ export default function VolunteerClient() {
       const json = await res.json();
       if (!res.ok || !json.success) {
         // Rollback
-        fetchSheet();
+        fetchSheet(true);
       }
     } catch (err) {
       console.error("Failed to update check-in:", err);
-      fetchSheet();
+      fetchSheet(true);
     } finally {
       setIsUpdating(null);
     }
@@ -170,7 +174,7 @@ export default function VolunteerClient() {
         setIsWalkInOpen(false);
         setWalkInName("");
         setWalkInEmail("");
-        fetchSheet();
+        fetchSheet(true);
       }
     } catch (err) {
       console.error("Failed to add walk-in:", err);
@@ -505,7 +509,7 @@ export default function VolunteerClient() {
           onClose={() => setIsScannerOpen(false)}
           currentSessionId={currentSessionId}
           onScanSuccess={() => {
-            fetchSheet();
+            fetchSheet(true);
           }}
         />
       </div>
