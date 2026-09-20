@@ -46,6 +46,9 @@ export default function QrScannerModal({
       const data = await res.json();
 
       if (data.status === "CHECKED_IN") {
+        if (typeof navigator !== "undefined" && navigator.vibrate) {
+          navigator.vibrate([40, 30, 40]);
+        }
         setFeedback({
           type: "success",
           title: "Checked In Successfully!",
@@ -56,6 +59,9 @@ export default function QrScannerModal({
           onScanSuccess();
         }
       } else if (data.status === "WRONG_THEATRE") {
+        if (typeof navigator !== "undefined" && navigator.vibrate) {
+          navigator.vibrate([150, 100, 150]);
+        }
         setFeedback({
           type: "wrong_theatre",
           title: "Wrong Theatre!",
@@ -63,6 +69,9 @@ export default function QrScannerModal({
           attendeeName: data.attendeeName,
         });
       } else {
+        if (typeof navigator !== "undefined" && navigator.vibrate) {
+          navigator.vibrate([200]);
+        }
         setFeedback({
           type: "error",
           title: "Scan Unsuccessful",
@@ -70,6 +79,9 @@ export default function QrScannerModal({
         });
       }
     } catch (err: unknown) {
+      if (typeof navigator !== "undefined" && navigator.vibrate) {
+        navigator.vibrate([200]);
+      }
       const msg = err instanceof Error ? err.message : "Error verifying QR code";
       setFeedback({
         type: "error",
@@ -99,8 +111,8 @@ export default function QrScannerModal({
         await html5QrCode.start(
           { facingMode: "environment" },
           {
-            fps: 10,
-            qrbox: { width: 250, height: 250 },
+            fps: 15,
+            qrbox: { width: 260, height: 260 },
             aspectRatio: 1.0,
           },
           async (decodedText) => {
@@ -135,8 +147,8 @@ export default function QrScannerModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-150 flex items-center justify-center p-4 bg-teal-dark/80 backdrop-blur-md">
-      <div className="relative w-full max-w-md border border-rule-light bg-cream shadow-2xl overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-150 flex items-center justify-center p-2 sm:p-4 bg-teal-dark/85 backdrop-blur-md">
+      <div className="relative w-full max-w-md border border-rule-light bg-cream shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-rule bg-teal-dark px-6 py-4 text-cream">
           <div>
