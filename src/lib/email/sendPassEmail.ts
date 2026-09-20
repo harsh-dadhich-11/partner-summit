@@ -57,31 +57,73 @@ export async function sendPassEmail({
     const slot3Theatre = selections.slot3?.theatreName || "Sakura · Theatre 3";
     const slot3Title = selections.slot3?.title || "Breakout Session 3";
 
-    // 1. Generate RFC 5545 .ics Calendar Invite
+    // 1. Generate RFC 5545 .ics Calendar Invite with 3 distinct session slot events
     const nowIso = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    
     const icsContent = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
       "PRODID:-//BOT Consulting//Odyssey 2026 Summit//EN",
       "CALSCALE:GREGORIAN",
       "METHOD:REQUEST",
+
+      // Slot 1: 15:00 – 15:40 IST (09:30 – 10:10 UTC)
       "BEGIN:VEVENT",
-      `UID:odyssey-pass-${registrationId}@botconsulting.io`,
+      `UID:odyssey-slot1-${registrationId}@botconsulting.io`,
       `DTSTAMP:${nowIso}`,
-      `DTSTART:20261023T093000Z`, // 15:00 IST = 09:30 UTC
-      `DTEND:20261023T113000Z`,   // 17:00 IST = 11:30 UTC
-      `SUMMARY:Odyssey 2026 Breakout Pass [${registrationId}]`,
-      `DESCRIPTION:Odyssey 2026 Partner Summit — Day 1 Breakouts\\nRegistration ID: ${registrationId}\\nAttendee: ${attendeeName} (${attendeeEmail})\\n\\nYour Schedule:\\n• 15:00–15:40: ${slot1Theatre} — ${slot1Title}\\n• 15:40–16:20: ${slot2Theatre} — ${slot2Title}\\n• 16:20–17:00: ${slot3Theatre} — ${slot3Title}\\n\\nVenue: Ananta Spa & Resort, Jaipur`,
-      "LOCATION:Ananta Spa & Resort\\, Jaipur\\, Rajasthan\\, India",
+      `DTSTART:20261023T093000Z`,
+      `DTEND:20261023T101000Z`,
+      `SUMMARY:Slot 1: ${slot1Title} (${slot1Theatre})`,
+      `DESCRIPTION:Odyssey 2026 Partner Summit — Breakout Slot 1\\nSession: ${slot1Title}\\nVenue / Room: ${slot1Theatre}\\nRegistration ID: ${registrationId}\\nAttendee: ${attendeeName} (${attendeeEmail})\\n\\nPlease arrive 5 minutes early with your QR pass.`,
+      `LOCATION:${slot1Theatre}\\, Ananta Spa & Resort\\, Jaipur\\, Rajasthan\\, India`,
       "STATUS:CONFIRMED",
       `ORGANIZER;CN="BOT Consulting Partner Summit":mailto:partnersummit@botconsulting.io`,
       `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=${attendeeName}:mailto:${attendeeEmail}`,
       "BEGIN:VALARM",
-      "TRIGGER:-PT30M",
+      "TRIGGER:-PT10M",
       "ACTION:DISPLAY",
-      "DESCRIPTION:Reminder: Odyssey 2026 Breakout Sessions start in 30 minutes",
+      `DESCRIPTION:Reminder: Slot 1 starts in 10 minutes at ${slot1Theatre}`,
       "END:VALARM",
       "END:VEVENT",
+
+      // Slot 2: 15:40 – 16:20 IST (10:10 – 10:50 UTC)
+      "BEGIN:VEVENT",
+      `UID:odyssey-slot2-${registrationId}@botconsulting.io`,
+      `DTSTAMP:${nowIso}`,
+      `DTSTART:20261023T101000Z`,
+      `DTEND:20261023T105000Z`,
+      `SUMMARY:Slot 2: ${slot2Title} (${slot2Theatre})`,
+      `DESCRIPTION:Odyssey 2026 Partner Summit — Breakout Slot 2\\nSession: ${slot2Title}\\nVenue / Room: ${slot2Theatre}\\nRegistration ID: ${registrationId}\\nAttendee: ${attendeeName} (${attendeeEmail})\\n\\nPlease arrive 5 minutes early with your QR pass.`,
+      `LOCATION:${slot2Theatre}\\, Ananta Spa & Resort\\, Jaipur\\, Rajasthan\\, India`,
+      "STATUS:CONFIRMED",
+      `ORGANIZER;CN="BOT Consulting Partner Summit":mailto:partnersummit@botconsulting.io`,
+      `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=${attendeeName}:mailto:${attendeeEmail}`,
+      "BEGIN:VALARM",
+      "TRIGGER:-PT10M",
+      "ACTION:DISPLAY",
+      `DESCRIPTION:Reminder: Slot 2 starts in 10 minutes at ${slot2Theatre}`,
+      "END:VALARM",
+      "END:VEVENT",
+
+      // Slot 3: 16:20 – 17:00 IST (10:50 – 11:30 UTC)
+      "BEGIN:VEVENT",
+      `UID:odyssey-slot3-${registrationId}@botconsulting.io`,
+      `DTSTAMP:${nowIso}`,
+      `DTSTART:20261023T105000Z`,
+      `DTEND:20261023T113000Z`,
+      `SUMMARY:Slot 3: ${slot3Title} (${slot3Theatre})`,
+      `DESCRIPTION:Odyssey 2026 Partner Summit — Breakout Slot 3\\nSession: ${slot3Title}\\nVenue / Room: ${slot3Theatre}\\nRegistration ID: ${registrationId}\\nAttendee: ${attendeeName} (${attendeeEmail})\\n\\nPlease arrive 5 minutes early with your QR pass.`,
+      `LOCATION:${slot3Theatre}\\, Ananta Spa & Resort\\, Jaipur\\, Rajasthan\\, India`,
+      "STATUS:CONFIRMED",
+      `ORGANIZER;CN="BOT Consulting Partner Summit":mailto:partnersummit@botconsulting.io`,
+      `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=${attendeeName}:mailto:${attendeeEmail}`,
+      "BEGIN:VALARM",
+      "TRIGGER:-PT10M",
+      "ACTION:DISPLAY",
+      `DESCRIPTION:Reminder: Slot 3 starts in 10 minutes at ${slot3Theatre}`,
+      "END:VALARM",
+      "END:VEVENT",
+
       "END:VCALENDAR",
     ].join("\r\n");
 
