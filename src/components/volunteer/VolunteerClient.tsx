@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { Icon } from "@/components/ui/Icon";
 import QrScannerModal from "@/components/volunteer/QrScannerModal";
 import VolunteerLogin, { VolunteerSession } from "@/components/volunteer/VolunteerLogin";
-import { supabase } from "@/lib/supabase/client";
 import type { DbSession, DbSessionAttendance } from "@/types/database";
 
 const THEATRES = [
@@ -97,30 +96,19 @@ export default function VolunteerClient() {
     }
   }, [fetchSheet, volunteerSession]);
 
-  // Realtime attendance updates
+  // Auto-refresh attendance roster via server API (zero client credentials exposed)
   useEffect(() => {
     if (!volunteerSession) return;
 
-    const channel = supabase
-      .channel(`attendance:${currentSessionId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "session_attendance",
-          filter: `session_id=eq.${currentSessionId}`,
-        },
-        () => {
-          fetchSheet();
-        }
-      )
-      .subscribe();
+    const interval = setInterval(fetchSheet, 6000);
+    const onFocus = () => fetchSheet();
+    window.addEventListener("focus", onFocus);
 
     return () => {
-      supabase.removeChannel(channel);
+      clearInterval(interval);
+      window.removeEventListener("focus", onFocus);
     };
-  }, [currentSessionId, fetchSheet, volunteerSession]);
+  }, [fetchSheet, volunteerSession]);
 
   const handleToggleAttendance = async (item: DbSessionAttendance) => {
     const newStatus = !item.is_present;

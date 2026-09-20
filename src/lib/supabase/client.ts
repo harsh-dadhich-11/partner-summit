@@ -1,13 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder-project.supabase.co";
-// Supports both new naming (PUBLISHABLE_KEY) and legacy (ANON_KEY)
-const supabasePublishableKey =
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  "placeholder-publishable-key";
-
 /**
- * Public client for client-side queries or Supabase Realtime subscriptions.
+ * Note: Direct browser-side Supabase client is disabled to keep all database credentials
+ * strictly on the server side. All database transactions, capacity checks, and roster queries
+ * run through Next.js App Router server endpoints (/api/...).
  */
-export const supabase = createClient(supabaseUrl, supabasePublishableKey);
+export const isClientDirectAccessDisabled = true;

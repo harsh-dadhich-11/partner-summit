@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
         {
           success: false,
           error:
-            "Supabase database is not configured. Please add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to your environment.",
+            "Supabase database is not configured. Please add SUPABASE_URL and SUPABASE_SECRET_KEY to your environment.",
         },
         { status: 503 }
       );

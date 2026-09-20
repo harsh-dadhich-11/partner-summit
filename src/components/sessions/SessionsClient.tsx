@@ -5,7 +5,6 @@ import { Icon } from "@/components/ui/Icon";
 import SessionCard from "@/components/sessions/SessionCard";
 import RegistrationModal from "@/components/sessions/RegistrationModal";
 import MyPassModal from "@/components/sessions/MyPassModal";
-import { supabase } from "@/lib/supabase/client";
 import type { GroupedSessionSlot } from "@/types/database";
 
 interface Props {
@@ -29,22 +28,15 @@ export default function SessionsClient({ initialSlots }: Props) {
     }
   }, []);
 
-  // Subscribe to Supabase Realtime updates on sessions table
+  // Periodic and on-focus refresh via server API (zero client keys exposed)
   useEffect(() => {
-    const channel = supabase
-      .channel("public:sessions-realtime")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "sessions" },
-        () => {
-          // Re-fetch sessions on any update/insert/delete
-          fetchSessions();
-        }
-      )
-      .subscribe();
+    const interval = setInterval(fetchSessions, 15000);
+    const onFocus = () => fetchSessions();
+    window.addEventListener("focus", onFocus);
 
     return () => {
-      supabase.removeChannel(channel);
+      clearInterval(interval);
+      window.removeEventListener("focus", onFocus);
     };
   }, [fetchSessions]);
 
