@@ -33,7 +33,7 @@ export async function sendPassEmail({
     const fromAddress =
       process.env.RESEND_FROM_EMAIL || "Odyssey 2026 Summit <onboarding@resend.dev>";
 
-    // Generate QR Code data URL (PNG)
+    // Generate QR Code Buffer (PNG) for inline CID attachment
     const qrPayload = JSON.stringify({
       type: "ODYSSEY_PASS",
       regId: registrationId,
@@ -41,7 +41,7 @@ export async function sendPassEmail({
       email: attendeeEmail,
     });
 
-    const qrDataUrl = await QRCode.toDataURL(qrPayload, {
+    const qrBuffer = await QRCode.toBuffer(qrPayload, {
       width: 240,
       margin: 2,
       color: {
@@ -159,7 +159,7 @@ export async function sendPassEmail({
                     <p style="margin:0 0 12px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#5c6b70;">
                       Volunteer Check-In QR Pass
                     </p>
-                    <img src="${qrDataUrl}" width="180" height="180" alt="Summit Pass QR Code" style="display:block;border:1px solid rgba(24,57,68,0.14);" />
+                    <img src="cid:summit_pass_qr" width="180" height="180" alt="Summit Pass QR Code" style="display:block;border:1px solid rgba(24,57,68,0.14);" />
                     <p style="margin:12px 0 0 0;font-size:12px;color:#5c6b70;max-width:320px;line-height:1.4;">
                       Show this QR code at the door of each theatre for instant one-tap check-in.
                     </p>
@@ -191,21 +191,29 @@ export async function sendPassEmail({
 </html>
     `;
 
-    let sendResult = await resend.emails.send({
+    const emailPayload = {
       from: fromAddress,
       to: [attendeeEmail],
       subject: `Your Breakout Pass [${registrationId}] — Odyssey 2026 Summit`,
       html: emailHtml,
-    });
+      attachments: [
+        {
+          filename: "summit-pass-qr.png",
+          content: qrBuffer,
+          contentType: "image/png",
+          contentId: "summit_pass_qr",
+        },
+      ],
+    };
+
+    let sendResult = await resend.emails.send(emailPayload);
 
     // If custom domain is not yet verified on Resend, fallback to onboarding@resend.dev for testing
     if (sendResult.error && sendResult.error.message?.includes("not verified")) {
       console.warn("Domain not verified on Resend. Retrying with onboarding@resend.dev for development.");
       sendResult = await resend.emails.send({
+        ...emailPayload,
         from: "Odyssey 2026 Summit <onboarding@resend.dev>",
-        to: [attendeeEmail],
-        subject: `Your Breakout Pass [${registrationId}] — Odyssey 2026 Summit`,
-        html: emailHtml,
       });
     }
 
