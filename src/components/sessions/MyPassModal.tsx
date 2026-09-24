@@ -110,9 +110,15 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                 <button
                   type="submit"
                   disabled={isLoading || !query.trim()}
-                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-colors disabled:opacity-50"
+                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-colors disabled:opacity-50 flex items-center gap-2"
                 >
-                  {isLoading ? "Searching..." : "Find My Pass &rarr;"}
+                  <span>{isLoading ? "Searching..." : "Find My Pass"}</span>
+                  {!isLoading && (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  )}
                 </button>
               </div>
             </form>
@@ -185,9 +191,13 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                     setRegistration(null);
                     setQuery("");
                   }}
-                  className="text-small font-medium text-muted hover:text-ink"
+                  className="flex items-center gap-1.5 text-small font-medium text-muted hover:text-ink transition-colors"
                 >
-                  &larr; Search Another
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                  </svg>
+                  <span>Search Another</span>
                 </button>
                 <button
                   onClick={onClose}

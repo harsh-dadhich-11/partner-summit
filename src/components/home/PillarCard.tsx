@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Photo, { type Shot } from "@/components/ui/Photo";
+import { getRandomAwardsImage } from "@/data/awards";
 import type { Pillar } from "@/types";
 
 /** A pillar with its image already resolved — gallery.ts is server-only. */
@@ -19,6 +23,17 @@ const panelTint = {
 };
 
 export default function PillarCard({ pillar }: { pillar: PillarTile }) {
+  const [shot, setShot] = useState<Shot>(pillar.shot);
+
+  useEffect(() => {
+    if (pillar.image === "awards") {
+      setShot({
+        src: getRandomAwardsImage(),
+        alt: pillar.shot.alt,
+      });
+    }
+  }, [pillar.image, pillar.shot.alt]);
+
   return (
     <article
       className={`card-xl flex h-full flex-col overflow-hidden p-4 md:p-5 ${
@@ -36,7 +51,7 @@ export default function PillarCard({ pillar }: { pillar: PillarTile }) {
       <div className="img-in visible">
         <div className="card relative aspect-[4/3] w-full overflow-hidden [clip-path:url(#pillar-dip)]">
           <Photo
-            shot={pillar.shot}
+            shot={shot}
             sizes="(max-width: 768px) 92vw, (max-width: 1280px) 33vw, 26rem"
           />
         </div>

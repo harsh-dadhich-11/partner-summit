@@ -493,9 +493,12 @@ export default function VolunteerClient() {
                   </button>
                   <button
                     type="submit"
-                    className="rounded-full bg-accent px-6 py-2 text-small font-semibold text-white hover:bg-orange-deep"
+                    className="rounded-full bg-accent px-6 py-2 text-small font-semibold text-white hover:bg-orange-deep flex items-center gap-1.5"
                   >
-                    Mark Present &rarr;
+                    <span>Mark Present</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
                   </button>
                 </div>
               </form>

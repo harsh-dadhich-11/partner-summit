@@ -25,6 +25,14 @@ interface Props {
   onRegistrationSuccess?: () => void;
 }
 
+const STEP_LABELS = [
+  { step: 1, title: "Attendee Info" },
+  { step: 2, title: "Slot 1 (15:00)" },
+  { step: 3, title: "Slot 2 (15:40)" },
+  { step: 4, title: "Slot 3 (16:20)" },
+  { step: 5, title: "Confirm" },
+];
+
 export default function RegistrationModal({
   isOpen,
   onClose,
@@ -49,7 +57,7 @@ export default function RegistrationModal({
   const validateEmail = (val: string) => {
     const trimmed = val.trim();
     if (!trimmed) {
-      setEmailError("Email is required");
+      setEmailError("Work email is required");
       return false;
     }
     const isBot = /^[a-zA-Z0-9._%+-]+@botconsulting\.io$/i.test(trimmed);
@@ -113,64 +121,108 @@ export default function RegistrationModal({
   const slot3 = slots.find((s) => s.slotId === "slot-3")?.sessions || [];
 
   return (
-    <div className="fixed inset-0 z-150 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-teal-dark/80 backdrop-blur-md">
-      <div className="relative w-full max-w-4xl border border-rule-light bg-cream shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-150 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-teal-dark/85 backdrop-blur-md">
+      <div className="relative w-full max-w-4xl border border-rule-light bg-cream shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-rule bg-teal-dark px-6 py-5 text-cream">
+        <div className="flex items-center justify-between border-b border-rule bg-teal-dark px-6 py-5 sm:px-8 text-cream">
           <div>
-            <p className="text-micro font-semibold uppercase tracking-wider text-cyan-bright">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-cyan-bright/15 px-3 py-0.5 text-micro font-bold uppercase tracking-wider text-cyan-bright">
               Odyssey 2026 Summit
-            </p>
-            <h2 className="font-display text-h3 text-white">
+            </span>
+            <h2 className="mt-1 font-display text-h2 text-white">
               Breakout Session Registration
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="rounded-full p-2 text-cream/70 hover:bg-cream/10 hover:text-white transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-cream/70 hover:bg-cream/15 hover:text-white transition-colors"
             aria-label="Close"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
         </div>
 
-        {/* Progress Bar (if not confirmed) */}
+        {/* Progress Stepper Bar */}
         {!confirmedData && (
-          <div className="border-b border-rule bg-surface-sunk px-6 py-3">
-            <div className="flex items-center justify-between text-micro font-medium text-muted">
-              <span className={step === 1 ? "font-bold text-accent" : step > 1 ? "text-teal-base font-bold" : ""}>
-                1. Attendee Info
-              </span>
-              <span>&rarr;</span>
-              <span className={step === 2 ? "font-bold text-accent" : step > 2 ? "text-teal-base font-bold" : ""}>
-                2. Slot 1 (15:00)
-              </span>
-              <span>&rarr;</span>
-              <span className={step === 3 ? "font-bold text-accent" : step > 3 ? "text-teal-base font-bold" : ""}>
-                3. Slot 2 (15:40)
-              </span>
-              <span>&rarr;</span>
-              <span className={step === 4 ? "font-bold text-accent" : step > 4 ? "text-teal-base font-bold" : ""}>
-                4. Slot 3 (16:20)
-              </span>
-              <span>&rarr;</span>
-              <span className={step === 5 ? "font-bold text-accent" : ""}>
-                5. Confirm
-              </span>
+          <div className="border-b border-rule bg-surface-sunk px-4 py-3 sm:px-8">
+            {/* Desktop Stepper */}
+            <div className="hidden sm:flex items-center justify-between">
+              {STEP_LABELS.map((item, idx) => {
+                const isPassed = step > item.step;
+                const isCurrent = step === item.step;
+                return (
+                  <div key={item.step} className="flex items-center flex-1 last:flex-initial">
+                    <div className="flex items-center gap-2.5">
+                      <div
+                        className={`flex h-7 w-7 items-center justify-center rounded-full text-micro font-bold transition-all duration-300 ${
+                          isPassed
+                            ? "bg-teal-mid text-white shadow-sm"
+                            : isCurrent
+                            ? "bg-accent text-white shadow-md ring-4 ring-accent/20"
+                            : "border border-rule bg-white text-muted"
+                        }`}
+                      >
+                        {isPassed ? (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        ) : (
+                          item.step
+                        )}
+                      </div>
+                      <span
+                        className={`text-small transition-colors ${
+                          isCurrent
+                            ? "font-bold text-ink"
+                            : isPassed
+                            ? "font-semibold text-teal-base"
+                            : "font-normal text-muted"
+                        }`}
+                      >
+                        {item.title}
+                      </span>
+                    </div>
+
+                    {idx < STEP_LABELS.length - 1 && (
+                      <div
+                        className={`mx-3 h-[2px] flex-1 transition-colors duration-300 ${
+                          step > idx + 1 ? "bg-teal-mid" : "bg-rule/40"
+                        }`}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Mobile Compact Stepper */}
+            <div className="sm:hidden">
+              <div className="flex items-center justify-between text-micro font-medium text-muted mb-2">
+                <span className="font-bold text-ink">
+                  Step {step} of 5: <span className="text-accent">{STEP_LABELS[step - 1]?.title}</span>
+                </span>
+                <span className="text-muted">{Math.round((step / 5) * 100)}% Complete</span>
+              </div>
+              <div className="h-1.5 w-full bg-rule/30 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-accent transition-all duration-300 rounded-full"
+                  style={{ width: `${(step / 5) * 100}%` }}
+                />
+              </div>
             </div>
           </div>
         )}
 
         {/* Body content */}
-        <div className="overflow-y-auto p-6 flex-1">
+        <div className="overflow-y-auto p-5 sm:p-8 flex-1">
           {/* Confirmed State */}
           {confirmedData ? (
-            <div className="text-center py-6">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-teal-mid/15 text-teal-base">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <div className="text-center py-4 sm:py-6">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-teal-mid/15 text-teal-base ring-8 ring-teal-mid/10">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
@@ -182,7 +234,7 @@ export default function RegistrationModal({
               <h3 className="mt-2 font-display text-h2 text-ink">
                 You’re All Set, {confirmedData.attendeeName}!
               </h3>
-              <p className="mt-2 text-small text-muted">
+              <p className="mt-2 text-small text-muted max-w-lg mx-auto">
                 Your breakout session registration has been reserved. Keep your Registration ID handy for on-site theatre entry.
               </p>
 
@@ -190,13 +242,13 @@ export default function RegistrationModal({
               <div className="mt-6 mx-auto max-w-md border-2 border-teal-mid/30 bg-white p-6 shadow-md text-left">
                 <div className="flex justify-between items-start border-b border-rule/30 pb-4">
                   <div>
-                    <p className="text-micro uppercase text-muted">Registration ID</p>
+                    <p className="text-micro uppercase text-muted font-bold">Registration ID</p>
                     <p className="font-mono text-lead font-bold text-accent">
                       {confirmedData.registrationId}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-micro uppercase text-muted">Attendee Email</p>
+                    <p className="text-micro uppercase text-muted font-bold">Attendee Email</p>
                     <p className="text-small font-medium text-ink">{confirmedData.attendeeEmail}</p>
                   </div>
                 </div>
@@ -207,28 +259,34 @@ export default function RegistrationModal({
                   </p>
 
                   {/* Slot 1 */}
-                  <div className="border border-rule/30 bg-surface-sunk p-3 text-small">
+                  <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
                       <span>15:00 – 15:40</span>
-                      <span className="text-teal-base">{confirmedData.selections?.slot1?.theatreName}</span>
+                      <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
+                        {confirmedData.selections?.slot1?.theatreName}
+                      </span>
                     </div>
                     <p className="mt-1 text-micro text-muted">{confirmedData.selections?.slot1?.title}</p>
                   </div>
 
                   {/* Slot 2 */}
-                  <div className="border border-rule/30 bg-surface-sunk p-3 text-small">
+                  <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
                       <span>15:40 – 16:20</span>
-                      <span className="text-teal-base">{confirmedData.selections?.slot2?.theatreName}</span>
+                      <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
+                        {confirmedData.selections?.slot2?.theatreName}
+                      </span>
                     </div>
                     <p className="mt-1 text-micro text-muted">{confirmedData.selections?.slot2?.title}</p>
                   </div>
 
                   {/* Slot 3 */}
-                  <div className="border border-rule/30 bg-surface-sunk p-3 text-small">
+                  <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
                       <span>16:20 – 17:00</span>
-                      <span className="text-teal-base">{confirmedData.selections?.slot3?.theatreName}</span>
+                      <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
+                        {confirmedData.selections?.slot3?.theatreName}
+                      </span>
                     </div>
                     <p className="mt-1 text-micro text-muted">{confirmedData.selections?.slot3?.title}</p>
                   </div>
@@ -257,13 +315,13 @@ export default function RegistrationModal({
               <div className="mt-8 flex justify-center gap-4">
                 <button
                   onClick={() => window.print()}
-                  className="rounded-full border border-rule bg-white px-6 py-3 text-small font-semibold text-ink hover:bg-surface-sunk transition-colors"
+                  className="rounded-full border border-rule bg-white px-6 py-3 text-small font-semibold text-ink hover:bg-surface-sunk transition-colors shadow-sm"
                 >
                   Print / Save Pass
                 </button>
                 <button
                   onClick={onClose}
-                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-colors"
+                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-colors shadow-md hover:shadow-lg"
                 >
                   Done
                 </button>
@@ -271,9 +329,9 @@ export default function RegistrationModal({
             </div>
           ) : step === 1 ? (
             /* Step 1: Attendee Info */
-            <form onSubmit={handleStep1Submit} className="max-w-xl mx-auto py-4">
+            <form onSubmit={handleStep1Submit} className="max-w-xl mx-auto py-2 sm:py-4">
               <div className="text-center mb-6">
-                <h3 className="font-display text-h3 text-ink">Enter Attendee Details</h3>
+                <h3 className="font-display text-h3 text-ink">Attendee Details</h3>
                 <p className="mt-1 text-small text-muted">
                   Breakout registration is reserved exclusively for BOT Consulting team members and partners.
                 </p>
@@ -281,8 +339,8 @@ export default function RegistrationModal({
 
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-small font-medium text-ink">
-                    Full Name *
+                  <label htmlFor="name" className="block text-small font-semibold text-ink">
+                    Full Name <span className="text-accent">*</span>
                   </label>
                   <input
                     id="name"
@@ -290,14 +348,14 @@ export default function RegistrationModal({
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Jane Doe"
-                    className="mt-1.5 w-full border border-rule bg-white px-4 py-3 text-body text-ink placeholder:text-muted/60 focus:border-accent focus:outline-none"
+                    placeholder="e.g. Harsh Dadhich"
+                    className="mt-1.5 w-full border border-rule bg-white px-4 py-3 text-body text-ink placeholder:text-muted/60 focus:border-accent focus:outline-none transition-colors shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-small font-medium text-ink">
-                    Work Email (@botconsulting.io) *
+                  <label htmlFor="email" className="block text-small font-semibold text-ink">
+                    Work Email (@botconsulting.io) <span className="text-accent">*</span>
                   </label>
                   <input
                     id="email"
@@ -311,15 +369,15 @@ export default function RegistrationModal({
                     placeholder="name@botconsulting.io"
                     className={`mt-1.5 w-full border ${
                       emailError ? "border-orange-deep bg-panel-orange" : "border-rule bg-white"
-                    } px-4 py-3 text-body text-ink placeholder:text-muted/60 focus:border-accent focus:outline-none`}
+                    } px-4 py-3 text-body text-ink placeholder:text-muted/60 focus:border-accent focus:outline-none transition-colors shadow-sm`}
                   />
                   {emailError && (
-                    <p className="mt-1.5 text-micro font-medium text-orange-deep flex items-center gap-1">
+                    <p className="mt-2 text-micro font-medium text-orange-deep flex items-center gap-1.5 bg-panel-orange border border-orange-deep/30 p-2">
                       <span>⚠️</span> {emailError}
                     </p>
                   )}
-                  <p className="mt-1 text-micro text-muted">
-                    Only emails ending with <strong>@botconsulting.io</strong> are permitted.
+                  <p className="mt-1.5 text-micro text-muted">
+                    Only verified emails ending with <strong>@botconsulting.io</strong> are permitted.
                   </p>
                 </div>
               </div>
@@ -328,22 +386,28 @@ export default function RegistrationModal({
                 <button
                   type="submit"
                   disabled={!name.trim() || !email.trim()}
-                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-full bg-accent px-8 py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  Continue to Slot 1 &rarr;
+                  <span>Continue to Slot 1</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
                 </button>
               </div>
             </form>
           ) : step === 2 ? (
             /* Step 2: Slot 1 Selection */
             <div>
-              <div className="mb-4">
-                <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase">
-                  Time Slot 1 · 15:00 – 15:40
-                </span>
-                <h3 className="mt-2 font-display text-h3 text-ink">Select One Session for Slot 1</h3>
-                <p className="text-small text-muted">
-                  Choose which theatre breakout you would like to attend from 15:00 to 15:40.
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-rule/40 pb-3">
+                <div>
+                  <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase tracking-wider">
+                    Time Slot 1 · 15:00 – 15:40
+                  </span>
+                  <h3 className="mt-1.5 font-display text-h3 text-ink">Select One Session for Slot 1</h3>
+                </div>
+                <p className="text-micro text-muted">
+                  Choose 1 of 3 parallel theatre breakouts
                 </p>
               </div>
 
@@ -360,34 +424,44 @@ export default function RegistrationModal({
                 ))}
               </ul>
 
-              <div className="mt-8 flex justify-between items-center border-t border-rule pt-4">
+              <div className="mt-8 flex justify-between items-center border-t border-rule/50 pt-4">
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="text-small font-medium text-muted hover:text-ink"
+                  className="flex items-center gap-1.5 text-small font-medium text-muted hover:text-ink transition-colors"
                 >
-                  &larr; Back to Details
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                  </svg>
+                  <span>Back to Details</span>
                 </button>
                 <button
                   type="button"
                   disabled={!selectedSlot1}
                   onClick={() => setStep(3)}
-                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  Continue to Slot 2 &rarr;
+                  <span>Continue to Slot 2</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
                 </button>
               </div>
             </div>
           ) : step === 3 ? (
             /* Step 3: Slot 2 Selection */
             <div>
-              <div className="mb-4">
-                <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase">
-                  Time Slot 2 · 15:40 – 16:20
-                </span>
-                <h3 className="mt-2 font-display text-h3 text-ink">Select One Session for Slot 2</h3>
-                <p className="text-small text-muted">
-                  Choose which theatre breakout you would like to attend from 15:40 to 16:20.
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-rule/40 pb-3">
+                <div>
+                  <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase tracking-wider">
+                    Time Slot 2 · 15:40 – 16:20
+                  </span>
+                  <h3 className="mt-1.5 font-display text-h3 text-ink">Select One Session for Slot 2</h3>
+                </div>
+                <p className="text-micro text-muted">
+                  Choose 1 of 3 parallel theatre breakouts
                 </p>
               </div>
 
@@ -404,34 +478,44 @@ export default function RegistrationModal({
                 ))}
               </ul>
 
-              <div className="mt-8 flex justify-between items-center border-t border-rule pt-4">
+              <div className="mt-8 flex justify-between items-center border-t border-rule/50 pt-4">
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="text-small font-medium text-muted hover:text-ink"
+                  className="flex items-center gap-1.5 text-small font-medium text-muted hover:text-ink transition-colors"
                 >
-                  &larr; Back to Slot 1
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                  </svg>
+                  <span>Back to Slot 1</span>
                 </button>
                 <button
                   type="button"
                   disabled={!selectedSlot2}
                   onClick={() => setStep(4)}
-                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  Continue to Slot 3 &rarr;
+                  <span>Continue to Slot 3</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
                 </button>
               </div>
             </div>
           ) : step === 4 ? (
             /* Step 4: Slot 3 Selection */
             <div>
-              <div className="mb-4">
-                <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase">
-                  Time Slot 3 · 16:20 – 17:00
-                </span>
-                <h3 className="mt-2 font-display text-h3 text-ink">Select One Session for Slot 3</h3>
-                <p className="text-small text-muted">
-                  Choose which closing breakout you would like to attend from 16:20 to 17:00.
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-rule/40 pb-3">
+                <div>
+                  <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase tracking-wider">
+                    Time Slot 3 · 16:20 – 17:00
+                  </span>
+                  <h3 className="mt-1.5 font-display text-h3 text-ink">Select One Session for Slot 3</h3>
+                </div>
+                <p className="text-micro text-muted">
+                  Choose 1 of 3 parallel theatre breakouts
                 </p>
               </div>
 
@@ -448,21 +532,29 @@ export default function RegistrationModal({
                 ))}
               </ul>
 
-              <div className="mt-8 flex justify-between items-center border-t border-rule pt-4">
+              <div className="mt-8 flex justify-between items-center border-t border-rule/50 pt-4">
                 <button
                   type="button"
                   onClick={() => setStep(3)}
-                  className="text-small font-medium text-muted hover:text-ink"
+                  className="flex items-center gap-1.5 text-small font-medium text-muted hover:text-ink transition-colors"
                 >
-                  &larr; Back to Slot 2
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                  </svg>
+                  <span>Back to Slot 2</span>
                 </button>
                 <button
                   type="button"
                   disabled={!selectedSlot3}
                   onClick={() => setStep(5)}
-                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  Review & Confirm &rarr;
+                  <span>Review & Confirm</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
                 </button>
               </div>
             </div>
@@ -477,7 +569,7 @@ export default function RegistrationModal({
               </div>
 
               {submitError && (
-                <div className="mb-6 border border-orange-deep bg-panel-orange p-4 text-small text-orange-deep">
+                <div className="mb-6 border border-orange-deep bg-panel-orange p-4 text-small text-orange-deep shadow-sm">
                   <p className="font-bold flex items-center gap-1.5">
                     <span>⚠️</span> Registration Issue
                   </p>
@@ -485,79 +577,125 @@ export default function RegistrationModal({
                 </div>
               )}
 
-              <div className="border border-rule bg-white p-6 shadow-sm space-y-4">
-                <div className="border-b border-rule/30 pb-3 flex justify-between items-center">
-                  <div>
-                    <p className="text-micro uppercase text-muted">Attendee</p>
-                    <p className="text-body font-semibold text-ink">{name}</p>
-                    <p className="text-small text-muted">{email}</p>
+              <div className="border border-rule bg-white p-6 shadow-sm space-y-5">
+                {/* Attendee Info Card */}
+                <div className="border-b border-rule/40 pb-4 flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-base/10 text-teal-base font-bold text-small">
+                      {name.charAt(0).toUpperCase() || "A"}
+                    </div>
+                    <div>
+                      <p className="text-micro uppercase font-bold text-muted">Attendee</p>
+                      <p className="text-body font-bold text-ink">{name}</p>
+                      <p className="text-small text-muted">{email}</p>
+                    </div>
                   </div>
                   <button
                     onClick={() => setStep(1)}
-                    className="text-micro font-semibold text-teal-base hover:underline"
+                    className="rounded-full border border-rule px-3 py-1 text-micro font-semibold text-teal-base hover:bg-surface-sunk transition-colors"
                   >
                     Edit
                   </button>
                 </div>
 
                 {/* Selected Sessions list */}
-                <div className="space-y-3 pt-2">
-                  <div className="flex justify-between items-start border border-rule/30 bg-surface-sunk p-3">
-                    <div>
-                      <p className="text-micro font-bold text-teal-mid uppercase">Slot 1 · 15:00–15:40</p>
+                <div className="space-y-3">
+                  {/* Slot 1 */}
+                  <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
+                    <div className="space-y-1">
+                      <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
+                        Slot 1 · 15:00–15:40
+                      </span>
                       <p className="font-semibold text-ink">{selectedSlot1?.title}</p>
-                      <p className="text-micro text-muted flex items-center gap-1 mt-0.5">
-                        <Icon name="pin" size={12} /> {selectedSlot1?.theatre_name}
+                      <p className="text-micro text-muted flex items-center gap-1">
+                        <Icon name="pin" size={12} />
+                        <span>{selectedSlot1?.theatre_name}</span>
                       </p>
                     </div>
-                    <button onClick={() => setStep(2)} className="text-micro text-teal-base hover:underline">
+                    <button
+                      onClick={() => setStep(2)}
+                      className="text-micro font-semibold text-teal-base hover:text-accent transition-colors"
+                    >
                       Change
                     </button>
                   </div>
 
-                  <div className="flex justify-between items-start border border-rule/30 bg-surface-sunk p-3">
-                    <div>
-                      <p className="text-micro font-bold text-teal-mid uppercase">Slot 2 · 15:40–16:20</p>
+                  {/* Slot 2 */}
+                  <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
+                    <div className="space-y-1">
+                      <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
+                        Slot 2 · 15:40–16:20
+                      </span>
                       <p className="font-semibold text-ink">{selectedSlot2?.title}</p>
-                      <p className="text-micro text-muted flex items-center gap-1 mt-0.5">
-                        <Icon name="pin" size={12} /> {selectedSlot2?.theatre_name}
+                      <p className="text-micro text-muted flex items-center gap-1">
+                        <Icon name="pin" size={12} />
+                        <span>{selectedSlot2?.theatre_name}</span>
                       </p>
                     </div>
-                    <button onClick={() => setStep(3)} className="text-micro text-teal-base hover:underline">
+                    <button
+                      onClick={() => setStep(3)}
+                      className="text-micro font-semibold text-teal-base hover:text-accent transition-colors"
+                    >
                       Change
                     </button>
                   </div>
 
-                  <div className="flex justify-between items-start border border-rule/30 bg-surface-sunk p-3">
-                    <div>
-                      <p className="text-micro font-bold text-teal-mid uppercase">Slot 3 · 16:20–17:00</p>
+                  {/* Slot 3 */}
+                  <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
+                    <div className="space-y-1">
+                      <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
+                        Slot 3 · 16:20–17:00
+                      </span>
                       <p className="font-semibold text-ink">{selectedSlot3?.title}</p>
-                      <p className="text-micro text-muted flex items-center gap-1 mt-0.5">
-                        <Icon name="pin" size={12} /> {selectedSlot3?.theatre_name}
+                      <p className="text-micro text-muted flex items-center gap-1">
+                        <Icon name="pin" size={12} />
+                        <span>{selectedSlot3?.theatre_name}</span>
                       </p>
                     </div>
-                    <button onClick={() => setStep(4)} className="text-micro text-teal-base hover:underline">
+                    <button
+                      onClick={() => setStep(4)}
+                      className="text-micro font-semibold text-teal-base hover:text-accent transition-colors"
+                    >
                       Change
                     </button>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 flex justify-between items-center border-t border-rule pt-4">
+              <div className="mt-8 flex justify-between items-center border-t border-rule/50 pt-4">
                 <button
                   type="button"
                   onClick={() => setStep(4)}
-                  className="text-small font-medium text-muted hover:text-ink"
+                  className="flex items-center gap-1.5 text-small font-medium text-muted hover:text-ink transition-colors"
                 >
-                  &larr; Back to Slot 3
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                  </svg>
+                  <span>Back to Slot 3</span>
                 </button>
                 <button
                   type="button"
                   disabled={isSubmitting}
                   onClick={handleSubmitRegistration}
-                  className="rounded-full bg-accent px-8 py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50"
+                  className="rounded-full bg-accent px-8 py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 flex items-center gap-2"
                 >
-                  {isSubmitting ? "Reserving Seats..." : "Confirm My Registration &rarr;"}
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span>Reserving Seats...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Confirm My Registration</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </>
+                  )}
                 </button>
               </div>
             </div>

@@ -108,9 +108,15 @@ export default function VolunteerLogin({ onLoginSuccess }: Props) {
             <button
               type="submit"
               disabled={isLoading || !email.trim() || !pin.trim()}
-              className="w-full rounded-full bg-accent py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md disabled:opacity-50"
+              className="w-full rounded-full bg-accent py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              {isLoading ? "Verifying..." : "Access Theatre Roster &rarr;"}
+              <span>{isLoading ? "Verifying..." : "Access Theatre Roster"}</span>
+              {!isLoading && (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              )}
             </button>
           </div>
         </form>

@@ -44,24 +44,26 @@ export default function SessionCard({
       }`}
       style={{ "--i": index } as React.CSSProperties}
     >
-      <div className="flex items-center justify-between gap-3">
-        <p className={`self-start rounded-full px-3 py-1 text-micro font-semibold uppercase ${track.tile}`}>
-          {track.label}
-        </p>
+      <div className={`flex items-center ${selectable ? "justify-start" : "justify-between"} gap-3`}>
+        {!selectable && (
+          <p className={`self-start rounded-full px-3 py-1 text-micro font-semibold uppercase ${track.tile}`}>
+            {track.label}
+          </p>
+        )}
 
         {/* Live Availability Badges */}
         {isFull ? (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-2.5 py-0.5 text-micro font-bold text-red-700 uppercase">
-            <span className="h-1.5 w-1.5 rounded-full bg-red-600" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-panel-orange px-2.5 py-0.5 text-micro font-bold text-orange-deep uppercase">
+            <span className="h-1.5 w-1.5 rounded-full bg-orange-deep" />
             Session Full
           </span>
         ) : isLowSeats ? (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-2.5 py-0.5 text-micro font-bold text-orange-deep uppercase animate-pulse">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-panel-orange px-2.5 py-0.5 text-micro font-bold text-orange-deep uppercase animate-pulse">
             <span className="h-1.5 w-1.5 rounded-full bg-orange-bright" />
             {session.seats_left_badge || `${session.remaining_seats} seats left`}
           </span>
         ) : (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 px-2.5 py-0.5 text-micro font-medium text-teal-base">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-medium text-teal-base">
             <span className="h-1.5 w-1.5 rounded-full bg-teal-mid" />
             {session.remaining_seats} seats available
           </span>
@@ -89,19 +91,9 @@ export default function SessionCard({
           {session.theatre_name}
         </p>
 
-        {selectable && (
+        {selectable && isFull && (
           <div>
-            {isFull ? (
-              <span className="text-muted font-medium">Unavailable</span>
-            ) : isSelected ? (
-              <span className="flex items-center gap-1 font-bold text-accent">
-                ✓ Selected
-              </span>
-            ) : (
-              <span className="font-medium text-teal-mid hover:text-accent">
-                Select Session &rarr;
-              </span>
-            )}
+            <span className="text-muted font-medium">Unavailable</span>
           </div>
         )}
       </div>

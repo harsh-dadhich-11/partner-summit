@@ -23,7 +23,7 @@ export default function Button({ children, href, variant = "solid", className = 
     <>
       {children}
       <span className="cta-arrow" aria-hidden="true">
-        &rarr;
+        →
       </span>
     </>
   );

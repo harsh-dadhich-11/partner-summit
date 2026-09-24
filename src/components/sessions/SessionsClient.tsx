@@ -63,7 +63,10 @@ export default function SessionsClient({ initialSlots }: Props) {
             className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg flex items-center gap-2"
           >
             <span>Register for Breakouts</span>
-            <span>&rarr;</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
           </button>
         </div>
       </div>
@@ -117,9 +120,13 @@ export default function SessionsClient({ initialSlots }: Props) {
         <div className="mt-8 flex justify-center gap-4">
           <button
             onClick={() => setIsRegisterOpen(true)}
-            className="rounded-full bg-accent px-8 py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md"
+            className="rounded-full bg-accent px-8 py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg flex items-center gap-2"
           >
-            Start Registration &rarr;
+            <span>Start Registration</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
           </button>
         </div>
       </div>

@@ -12,7 +12,7 @@ export const UPDATES_HREF = compose("Odyssey 2026 — Send me updates");
 
 /** 2025 highlights reel. Thumbnail is the video's own poster frame, saved locally. */
 export const HIGHLIGHTS_HREF = "https://youtu.be/syTyRfLr084";
-export const HIGHLIGHTS_THUMB = "/assets/highlights-thumb.jpg";
+export const HIGHLIGHTS_THUMB = "/assets/highlights-thumb.webp";
 
 /**
  * The concrete facts, stated once. A page that never says anything specific reads as
