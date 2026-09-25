@@ -82,7 +82,7 @@ export const speakers: Speaker[] = [
     name: "William Fleder",
     role: "Partner",
     company: "Tailwind Capital",
-    photo: "/assets/guests/william-fleder.webp",
+    photo: "/assets/guests/fleder.webp",
     linkedin: "https://www.linkedin.com/in/william-fleder-6181346a/",
   },
   {
