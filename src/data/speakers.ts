@@ -24,8 +24,8 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Gurvendra Suri",
-    role: "Founder & CEO",
-    company: "The Suri Group",
+    role: "Tailwind Operating Executive",
+    company: "Tailwind Capital",
     photo: "/assets/guests/gurvendra-suri.webp",
     linkedin: "https://www.linkedin.com/in/gurvendra-suri-aa103b7/",
   },
@@ -77,6 +77,13 @@ export const speakers: Speaker[] = [
     company: "KOSMOS",
     photo: "/assets/guests/sanjay-gidwani.webp",
     linkedin: "https://www.linkedin.com/in/sgidwani/",
+  },
+  {
+    name: "William Fleder",
+    role: "Partner",
+    company: "Tailwind Capital",
+    photo: "/assets/guests/william-fleder.webp",
+    linkedin: "https://www.linkedin.com/in/william-fleder-6181346a/",
   },
   {
     name: "William Sun",
