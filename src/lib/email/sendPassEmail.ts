@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import QRCode from "qrcode";
+import { escapeHtml } from "@/lib/email/escapeHtml";
 
 interface SendPassEmailParams {
   attendeeName: string;
@@ -129,6 +130,9 @@ export async function sendPassEmail({
 
     const icsBuffer = Buffer.from(icsContent, "utf-8");
 
+    const safeName = escapeHtml(attendeeName);
+    const safeEmail = escapeHtml(attendeeEmail);
+
     const emailHtml = `
 <!DOCTYPE html>
 <html>
@@ -159,7 +163,7 @@ export async function sendPassEmail({
           <tr>
             <td style="padding:32px 30px;">
               <p style="font-size:16px;line-height:1.5;margin:0 0 16px 0;">
-                Hello <strong>${attendeeName}</strong>,
+                Hello <strong>${safeName}</strong>,
               </p>
               <p style="font-size:15px;line-height:1.6;color:#5c6b70;margin:0 0 24px 0;">
                 Your breakout session registration for Day 1 of the Partner Summit is confirmed. Please keep this pass and QR code accessible on your phone when arriving at each theatre. A calendar invite is also attached to this email.
@@ -184,7 +188,7 @@ export async function sendPassEmail({
                             Attendee
                           </p>
                           <p style="margin:4px 0 0 0;font-size:13px;font-weight:600;color:#101d22;">
-                            ${attendeeEmail}
+                            ${safeEmail}
                           </p>
                         </td>
                       </tr>

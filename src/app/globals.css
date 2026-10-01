@@ -316,3 +316,27 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ---- Print: only the portalled pass (#print-pass) is printed, on a single page.
+        display:none (not visibility:hidden) so the page and modal behind take no space. ---- */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+  body > *:not(#print-pass) {
+    display: none !important;
+  }
+  #print-pass {
+    display: block !important;
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  html,
+  body {
+    background: #ffffff !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+}

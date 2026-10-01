@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import PassQrCode from "@/components/ui/PassQrCode";
+import PrintablePass from "@/components/ui/PrintablePass";
 import type { DbSession } from "@/types/database";
 
 interface RegistrationPass {
@@ -27,6 +28,11 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
   const [error, setError] = useState("");
   const [registration, setRegistration] = useState<RegistrationPass | null>(null);
 
+  // Lost-ID recovery: re-send the pass to the registered inbox
+  const [isRecoveryMode, setIsRecoveryMode] = useState(false);
+  const [recoveryEmail, setRecoveryEmail] = useState("");
+  const [recoveryMessage, setRecoveryMessage] = useState("");
+
   if (!isOpen) return null;
 
   const handleLookup = async (e: React.FormEvent) => {
@@ -38,11 +44,11 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
     setRegistration(null);
 
     try {
-      const res = await fetch(`/api/registration/${encodeURIComponent(query.trim())}`);
+      const res = await fetch(`/api/registration/${encodeURIComponent(query.trim().toUpperCase())}`);
       const json = await res.json();
 
       if (!res.ok || !json.success) {
-        throw new Error(json.error || "No registration found with this email or ID.");
+        throw new Error(json.error || "No registration found with this Registration ID.");
       }
 
       setRegistration(json.registration);
@@ -52,6 +58,41 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleRecovery = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!recoveryEmail.trim()) return;
+
+    setIsLoading(true);
+    setError("");
+    setRecoveryMessage("");
+
+    try {
+      const res = await fetch("/api/registration/resend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: recoveryEmail.trim().toLowerCase() }),
+      });
+      const json = await res.json();
+
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || "Couldn't send your pass. Please try again.");
+      }
+
+      setRecoveryMessage(json.message);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Couldn't send your pass";
+      setError(msg);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const switchMode = (toRecovery: boolean) => {
+    setIsRecoveryMode(toRecovery);
+    setError("");
+    setRecoveryMessage("");
   };
 
   return (
@@ -79,23 +120,23 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
 
         {/* Modal Body */}
         <div className="p-6">
-          {!registration ? (
-            <form onSubmit={handleLookup}>
+          {!registration && isRecoveryMode ? (
+            <form onSubmit={handleRecovery}>
               <p className="text-small text-muted mb-4">
-                Enter your work email (<code>@botconsulting.io</code>) or your 6-digit Registration ID to retrieve your theatre assignments.
+                Enter the work email you registered with. If it&apos;s registered, we&apos;ll email your pass and Registration ID to that inbox.
               </p>
 
               <div>
-                <label htmlFor="query" className="block text-small font-medium text-ink">
-                  Work Email or Registration ID
+                <label htmlFor="recovery-email" className="block text-small font-medium text-ink">
+                  Work Email
                 </label>
                 <input
-                  id="query"
-                  type="text"
+                  id="recovery-email"
+                  type="email"
                   required
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="name@botconsulting.io or REG-123456"
+                  value={recoveryEmail}
+                  onChange={(e) => setRecoveryEmail(e.target.value)}
+                  placeholder="name@botconsulting.io"
                   className="mt-1.5 w-full border border-rule bg-white px-4 py-3 text-body text-ink placeholder:text-muted/60 focus:border-accent focus:outline-none"
                 />
               </div>
@@ -105,8 +146,65 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                   ⚠️ {error}
                 </div>
               )}
+              {recoveryMessage && (
+                <div className="mt-3 border border-teal-mid/40 bg-cyan-bright/10 p-3 text-micro font-medium text-teal-base">
+                  ✓ {recoveryMessage}
+                </div>
+              )}
 
-              <div className="mt-6 flex justify-end">
+              <div className="mt-6 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => switchMode(false)}
+                  className="text-small font-medium text-muted hover:text-ink transition-colors"
+                >
+                  Back to ID lookup
+                </button>
+                <button
+                  type="submit"
+                  disabled={isLoading || !recoveryEmail.trim()}
+                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-colors disabled:opacity-50"
+                >
+                  {isLoading ? "Sending..." : "Email My Pass"}
+                </button>
+              </div>
+            </form>
+          ) : !registration ? (
+            <form onSubmit={handleLookup}>
+              <p className="text-small text-muted mb-4">
+                Enter the Registration ID from your confirmation email to retrieve your theatre assignments.
+              </p>
+
+              <div>
+                <label htmlFor="query" className="block text-small font-medium text-ink">
+                  Registration ID
+                </label>
+                <input
+                  id="query"
+                  type="text"
+                  required
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value.toUpperCase())}
+                  placeholder="REG-123456"
+                  autoComplete="off"
+                  className="mt-1.5 w-full border border-rule bg-white px-4 py-3 font-mono text-body text-ink placeholder:text-muted/60 focus:border-accent focus:outline-none"
+                />
+              </div>
+
+              {error && (
+                <div className="mt-3 border border-orange-deep bg-panel-orange p-3 text-micro font-medium text-orange-deep">
+                  ⚠️ {error}
+                </div>
+              )}
+
+              <div className="mt-6 flex items-center justify-between gap-4">
+                <button
+                  type="button"
+                  onClick={() => switchMode(true)}
+                  className="text-left text-micro font-semibold text-teal-base hover:text-accent transition-colors"
+                >
+                  Lost your ID? Email my pass to me
+                </button>
                 <button
                   type="submit"
                   disabled={isLoading || !query.trim()}
@@ -145,7 +243,15 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                       <span>15:00 – 15:40 (Slot 1)</span>
                       <span className="text-teal-base">{registration.slot_1?.theatre_name || "Theatre 1"}</span>
                     </div>
-                    <p className="mt-0.5 text-micro text-muted">{registration.slot_1?.title || "Breakout Session"}</p>
+                    <p className="mt-0.5 text-micro font-medium text-ink">{registration.slot_1?.title || "Breakout Session"}</p>
+                    {registration.slot_1?.speaker_name && (
+                      <p className="mt-0.5 text-micro font-medium text-teal-base">
+                        {registration.slot_1.speaker_name}
+                        {(registration.slot_1.speaker_role || registration.slot_1.speaker_company) && (
+                          <span className="text-muted font-normal"> · {[registration.slot_1.speaker_role, registration.slot_1.speaker_company].filter(Boolean).join(" · ")}</span>
+                        )}
+                      </p>
+                    )}
                   </div>
 
                   <div className="border border-rule/30 bg-surface-sunk p-3 text-small">
@@ -153,7 +259,15 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                       <span>15:40 – 16:20 (Slot 2)</span>
                       <span className="text-teal-base">{registration.slot_2?.theatre_name || "Theatre 2"}</span>
                     </div>
-                    <p className="mt-0.5 text-micro text-muted">{registration.slot_2?.title || "Breakout Session"}</p>
+                    <p className="mt-0.5 text-micro font-medium text-ink">{registration.slot_2?.title || "Breakout Session"}</p>
+                    {registration.slot_2?.speaker_name && (
+                      <p className="mt-0.5 text-micro font-medium text-teal-base">
+                        {registration.slot_2.speaker_name}
+                        {(registration.slot_2.speaker_role || registration.slot_2.speaker_company) && (
+                          <span className="text-muted font-normal"> · {[registration.slot_2.speaker_role, registration.slot_2.speaker_company].filter(Boolean).join(" · ")}</span>
+                        )}
+                      </p>
+                    )}
                   </div>
 
                   <div className="border border-rule/30 bg-surface-sunk p-3 text-small">
@@ -161,7 +275,15 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                       <span>16:20 – 17:00 (Slot 3)</span>
                       <span className="text-teal-base">{registration.slot_3?.theatre_name || "Theatre 3"}</span>
                     </div>
-                    <p className="mt-0.5 text-micro text-muted">{registration.slot_3?.title || "Breakout Session"}</p>
+                    <p className="mt-0.5 text-micro font-medium text-ink">{registration.slot_3?.title || "Breakout Session"}</p>
+                    {registration.slot_3?.speaker_name && (
+                      <p className="mt-0.5 text-micro font-medium text-teal-base">
+                        {registration.slot_3.speaker_name}
+                        {(registration.slot_3.speaker_role || registration.slot_3.speaker_company) && (
+                          <span className="text-muted font-normal"> · {[registration.slot_3.speaker_role, registration.slot_3.speaker_company].filter(Boolean).join(" · ")}</span>
+                        )}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -185,6 +307,41 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                 </div>
               </div>
 
+              <PrintablePass
+                registrationId={registration.registration_id}
+                attendeeName={registration.attendee_name}
+                attendeeEmail={registration.attendee_email}
+                slots={[
+                  {
+                    label: "Slot 1 · 15:00 – 15:40",
+                    theatreName: registration.slot_1?.theatre_name,
+                    title: registration.slot_1?.title,
+                    sessionId: registration.slot_1?.id,
+                    speakerName: registration.slot_1?.speaker_name || undefined,
+                    speakerRole: registration.slot_1?.speaker_role || undefined,
+                    speakerCompany: registration.slot_1?.speaker_company || undefined,
+                  },
+                  {
+                    label: "Slot 2 · 15:40 – 16:20",
+                    theatreName: registration.slot_2?.theatre_name,
+                    title: registration.slot_2?.title,
+                    sessionId: registration.slot_2?.id,
+                    speakerName: registration.slot_2?.speaker_name || undefined,
+                    speakerRole: registration.slot_2?.speaker_role || undefined,
+                    speakerCompany: registration.slot_2?.speaker_company || undefined,
+                  },
+                  {
+                    label: "Slot 3 · 16:20 – 17:00",
+                    theatreName: registration.slot_3?.theatre_name,
+                    title: registration.slot_3?.title,
+                    sessionId: registration.slot_3?.id,
+                    speakerName: registration.slot_3?.speaker_name || undefined,
+                    speakerRole: registration.slot_3?.speaker_role || undefined,
+                    speakerCompany: registration.slot_3?.speaker_company || undefined,
+                  },
+                ]}
+              />
+
               <div className="mt-6 flex justify-between items-center">
                 <button
                   onClick={() => {
@@ -199,12 +356,20 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                   </svg>
                   <span>Search Another</span>
                 </button>
-                <button
-                  onClick={onClose}
-                  className="rounded-full bg-accent px-6 py-2.5 text-small font-semibold text-white hover:bg-orange-deep"
-                >
-                  Close
-                </button>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => window.print()}
+                    className="rounded-full border border-rule bg-white px-5 py-2.5 text-small font-semibold text-ink hover:bg-surface-sunk transition-colors"
+                  >
+                    Print / Save Pass
+                  </button>
+                  <button
+                    onClick={onClose}
+                    className="rounded-full bg-accent px-6 py-2.5 text-small font-semibold text-white hover:bg-orange-deep"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           )}

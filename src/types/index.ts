@@ -47,11 +47,13 @@ export type Session = {
   slot: string;
   track: SessionTrack;
   title: string;
-  description: string;
+  description?: string;
   /** Which theatre in Sakura to actually walk to. */
   room: string;
-  /** Omitted until a name is confirmed; the card drops the line rather than guessing. */
+  /** Speaker name */
   speaker?: string;
+  speakerRole?: string;
+  speakerCompany?: string;
 };
 
 export type Speaker = {

@@ -9,7 +9,7 @@ export interface DbSession {
   theatre_name: string; // "Sakura · Theatre 1"
   track: SessionTrackType;
   title: string;
-  description: string;
+  description?: string;
   speaker_name: string | null;
   speaker_role: string | null;
   speaker_company: string | null;
@@ -64,12 +64,12 @@ export interface DbSessionAttendance {
 }
 
 export interface RegisterBreakoutRequest {
-  registrationId?: string; // Optional: auto-generated if not provided
   attendeeName: string;
   attendeeEmail: string;
   slot1SessionId: string;
   slot2SessionId: string;
   slot3SessionId: string;
+  verificationToken: string; // From /api/register/otp/verify; registration ID is generated server-side
 }
 
 export interface UpdateCapacityRequest {

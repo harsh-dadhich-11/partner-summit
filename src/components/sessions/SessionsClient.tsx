@@ -131,20 +131,28 @@ export default function SessionsClient({ initialSlots }: Props) {
         </div>
       </div>
 
-      {/* Modals */}
-      <RegistrationModal
-        isOpen={isRegisterOpen}
-        onClose={() => setIsRegisterOpen(false)}
-        slots={slots}
-        onRegistrationSuccess={() => {
-          fetchSessions();
-        }}
-      />
+      {/* Modals — mounted only while open so each opening starts with fresh state */}
+      {isRegisterOpen && (
+        <RegistrationModal
+          isOpen={isRegisterOpen}
+          onClose={() => setIsRegisterOpen(false)}
+          slots={slots}
+          onRegistrationSuccess={() => {
+            fetchSessions();
+          }}
+          onOpenMyPass={() => {
+            setIsRegisterOpen(false);
+            setIsMyPassOpen(true);
+          }}
+        />
+      )}
 
-      <MyPassModal
-        isOpen={isMyPassOpen}
-        onClose={() => setIsMyPassOpen(false)}
-      />
+      {isMyPassOpen && (
+        <MyPassModal
+          isOpen={isMyPassOpen}
+          onClose={() => setIsMyPassOpen(false)}
+        />
+      )}
     </>
   );
 }

@@ -71,13 +71,16 @@ export default function SessionCard({
       </div>
 
       <h3 className="mt-4 font-display text-h3 text-ink">{session.title}</h3>
-      <p className="mt-2.5 text-small text-muted leading-relaxed">{session.description}</p>
 
       {session.speaker_name && (
-        <div className="mt-3 flex items-center gap-2 text-small font-semibold text-teal-base">
-          <span>{session.speaker_name}</span>
-          {session.speaker_company && (
-            <span className="text-micro font-normal text-muted">· {session.speaker_company}</span>
+        <div className="mt-3 flex flex-col gap-0.5">
+          <p className="text-small font-semibold text-teal-base">
+            {session.speaker_name}
+          </p>
+          {(session.speaker_role || session.speaker_company) && (
+            <p className="text-micro text-muted">
+              {[session.speaker_role, session.speaker_company].filter(Boolean).join(" · ")}
+            </p>
           )}
         </div>
       )}

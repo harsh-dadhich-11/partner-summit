@@ -1,11 +1,25 @@
 import type { DbSession, SessionWithAvailability, GroupedSessionSlot, SessionSlotType } from "@/types/database";
 
 /**
+ * Enriches a session with default speaker metadata if not present in the database.
+ */
+export function enrichSessionWithSpeaker(session: DbSession): DbSession {
+  const defaultSession = DEFAULT_BREAKOUT_SESSIONS.find((d) => d.id === session.id);
+  return {
+    ...session,
+    speaker_name: session.speaker_name || defaultSession?.speaker_name || null,
+    speaker_role: session.speaker_role || defaultSession?.speaker_role || null,
+    speaker_company: session.speaker_company || defaultSession?.speaker_company || null,
+  };
+}
+
+/**
  * Computes live dynamic availability, "15 seats left" badge, and urgency status for a session.
  */
 export function computeSessionAvailability(session: DbSession): SessionWithAvailability {
-  const remaining = Math.max(0, session.capacity - session.booked_seats);
-  const isFull = session.booked_seats >= session.capacity;
+  const enriched = enrichSessionWithSpeaker(session);
+  const remaining = Math.max(0, enriched.capacity - enriched.booked_seats);
+  const isFull = enriched.booked_seats >= enriched.capacity;
 
   let seatsLeftBadge: string | null = null;
   let urgencyStatus: SessionWithAvailability["urgency_status"] = "available";
@@ -18,7 +32,7 @@ export function computeSessionAvailability(session: DbSession): SessionWithAvail
   }
 
   return {
-    ...session,
+    ...enriched,
     remaining_seats: remaining,
     is_full: isFull,
     seats_left_badge: seatsLeftBadge,
@@ -66,11 +80,10 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     theatre_id: "theatre-1",
     theatre_name: "Sakura · Theatre 1",
     track: "ecosystems",
-    title: "Ecosystems track — session 1",
-    description: "The first of three ecosystem sessions. Deep dive into partner network architectures.",
-    speaker_name: null,
-    speaker_role: null,
-    speaker_company: null,
+    title: "Ecosystems Track",
+    speaker_name: "Chris Barbin",
+    speaker_role: "Founder & CEO",
+    speaker_company: "Tercera",
     capacity: 100,
     booked_seats: 0,
     is_active: true,
@@ -84,11 +97,10 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     theatre_id: "theatre-2",
     theatre_name: "Sakura · Theatre 2",
     track: "ai",
-    title: "AI track — session 1",
-    description: "The first of three AI sessions. Enterprise LLM deployment patterns and agents.",
-    speaker_name: null,
-    speaker_role: null,
-    speaker_company: null,
+    title: "AI Track",
+    speaker_name: "Glenn Weinstein",
+    speaker_role: "CEO",
+    speaker_company: "Cloudsmith",
     capacity: 150,
     booked_seats: 0,
     is_active: true,
@@ -102,11 +114,10 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     theatre_id: "theatre-3",
     theatre_name: "Sakura · Theatre 3",
     track: "industries",
-    title: "Industries track — session 1",
-    description: "The first of three industry sessions. Vertical SaaS and cloud transformation.",
-    speaker_name: null,
-    speaker_role: null,
-    speaker_company: null,
+    title: "Industries Track",
+    speaker_name: "Gurvendra Suri",
+    speaker_role: "Tailwind Operating Executive",
+    speaker_company: "Tailwind Capital",
     capacity: 120,
     booked_seats: 0,
     is_active: true,
@@ -122,11 +133,10 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     theatre_id: "theatre-1",
     theatre_name: "Sakura · Theatre 1",
     track: "ecosystems",
-    title: "Ecosystems track — session 2",
-    description: "The second ecosystem session of the afternoon. Co-selling and marketplace growth.",
-    speaker_name: null,
-    speaker_role: null,
-    speaker_company: null,
+    title: "Ecosystems Track",
+    speaker_name: "Eran Gil",
+    speaker_role: "CEO",
+    speaker_company: "AllCloud",
     capacity: 100,
     booked_seats: 0,
     is_active: true,
@@ -140,11 +150,10 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     theatre_id: "theatre-2",
     theatre_name: "Sakura · Theatre 2",
     track: "ai",
-    title: "AI track — session 2",
-    description: "The second AI session of the afternoon. Production AI benchmarks and governance.",
-    speaker_name: null,
-    speaker_role: null,
-    speaker_company: null,
+    title: "AI Track",
+    speaker_name: "Sanjay Gidwani",
+    speaker_role: "Founder & CEO",
+    speaker_company: "KOSMOS",
     capacity: 150,
     booked_seats: 0,
     is_active: true,
@@ -158,11 +167,10 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     theatre_id: "theatre-3",
     theatre_name: "Sakura · Theatre 3",
     track: "industries",
-    title: "Industries track — session 2",
-    description: "The second industry session of the afternoon. FinTech, Healthcare, and Logistics in focus.",
-    speaker_name: null,
-    speaker_role: null,
-    speaker_company: null,
+    title: "Industries Track",
+    speaker_name: "Justin Schneiderman",
+    speaker_role: "Vice President",
+    speaker_company: "Tailwind Capital",
     capacity: 120,
     booked_seats: 0,
     is_active: true,
@@ -178,11 +186,10 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     theatre_id: "theatre-1",
     theatre_name: "Sakura · Theatre 1",
     track: "ecosystems",
-    title: "Ecosystems track — session 3",
-    description: "The closing ecosystem session. 2026 roadmap and ecosystem council conclusions.",
-    speaker_name: null,
-    speaker_role: null,
-    speaker_company: null,
+    title: "Ecosystems Track",
+    speaker_name: "Lisa Burton",
+    speaker_role: "Partner & COO",
+    speaker_company: "Tercera",
     capacity: 100,
     booked_seats: 0,
     is_active: true,
@@ -196,11 +203,10 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     theatre_id: "theatre-2",
     theatre_name: "Sakura · Theatre 2",
     track: "ai",
-    title: "AI track — session 3",
-    description: "The closing AI session. Future of autonomous agents and multi-modal models.",
-    speaker_name: null,
-    speaker_role: null,
-    speaker_company: null,
+    title: "AI Track",
+    speaker_name: "William Sun",
+    speaker_role: "Co-Founder & CEO",
+    speaker_company: "Auctor",
     capacity: 150,
     booked_seats: 0,
     is_active: true,
@@ -214,11 +220,10 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     theatre_id: "theatre-3",
     theatre_name: "Sakura · Theatre 3",
     track: "industries",
-    title: "Industries track — session 3",
-    description: "The closing industry session. Cross-industry executive panel and Q&A.",
-    speaker_name: null,
-    speaker_role: null,
-    speaker_company: null,
+    title: "Industries Track",
+    speaker_name: "William Fleder",
+    speaker_role: "Partner",
+    speaker_company: "Tailwind Capital",
     capacity: 120,
     booked_seats: 0,
     is_active: true,

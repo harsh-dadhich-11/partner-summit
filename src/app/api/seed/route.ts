@@ -8,9 +8,19 @@ export const dynamic = "force-dynamic";
  * POST /api/seed
  * Seeds or resets the 9 breakout sessions in the Supabase database.
  * Optional reset query parameter: ?reset=true
+ * Requires the x-admin-key header to match ADMIN_API_KEY.
  */
 export async function POST(req: NextRequest) {
   try {
+    // Admin-only: ?reset=true wipes every registration, so the key is mandatory here
+    const configuredKey = process.env.ADMIN_API_KEY;
+    if (!configuredKey || req.headers.get("x-admin-key") !== configuredKey) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized. Invalid admin API key." },
+        { status: 401 }
+      );
+    }
+
     if (!isSupabaseConfigured()) {
       return NextResponse.json(
         { success: false, error: "Database not configured in environment variables." },

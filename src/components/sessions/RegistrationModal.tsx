@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import PassQrCode from "@/components/ui/PassQrCode";
+import PrintablePass from "@/components/ui/PrintablePass";
 import SessionCard from "@/components/sessions/SessionCard";
 import type { GroupedSessionSlot, SessionWithAvailability } from "@/types/database";
 
@@ -23,7 +24,10 @@ interface Props {
   onClose: () => void;
   slots: GroupedSessionSlot[];
   onRegistrationSuccess?: () => void;
+  onOpenMyPass?: () => void;
 }
+
+const RESEND_COOLDOWN_SECONDS = 60;
 
 const STEP_LABELS = [
   { step: 1, title: "Attendee Info" },
@@ -38,11 +42,24 @@ export default function RegistrationModal({
   onClose,
   slots,
   onRegistrationSuccess,
+  onOpenMyPass,
 }: Props) {
   const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+
+  // Email OTP verification (step 1 has two stages: details -> code)
+  const [otpStage, setOtpStage] = useState<"details" | "code">("details");
+  const [otpCode, setOtpCode] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [otpNotice, setOtpNotice] = useState("");
+  const [isSendingCode, setIsSendingCode] = useState(false);
+  const [isVerifyingCode, setIsVerifyingCode] = useState(false);
+  const [resendCountdown, setResendCountdown] = useState(0);
+  const [isAlreadyRegistered, setIsAlreadyRegistered] = useState(false);
+  const [verificationToken, setVerificationToken] = useState("");
+  const [verifiedEmail, setVerifiedEmail] = useState("");
 
   const [selectedSlot1, setSelectedSlot1] = useState<SessionWithAvailability | null>(null);
   const [selectedSlot2, setSelectedSlot2] = useState<SessionWithAvailability | null>(null);
@@ -52,7 +69,16 @@ export default function RegistrationModal({
   const [submitError, setSubmitError] = useState("");
   const [confirmedData, setConfirmedData] = useState<ConfirmedBreakoutData | null>(null);
 
+  useEffect(() => {
+    if (resendCountdown <= 0) return;
+    const timer = setTimeout(() => setResendCountdown((secs) => secs - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [resendCountdown]);
+
   if (!isOpen) return null;
+
+  const normalizedEmail = email.trim().toLowerCase();
+  const isEmailVerified = !!verificationToken && verifiedEmail === normalizedEmail;
 
   const validateEmail = (val: string) => {
     const trimmed = val.trim();
@@ -69,11 +95,103 @@ export default function RegistrationModal({
     return true;
   };
 
-  const handleStep1Submit = (e: React.FormEvent) => {
+  const sendVerificationCode = async (): Promise<boolean> => {
+    setIsSendingCode(true);
+    setOtpError("");
+    setOtpNotice("");
+    setIsAlreadyRegistered(false);
+
+    try {
+      const res = await fetch("/api/register/otp/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: normalizedEmail }),
+      });
+      const json = await res.json();
+
+      if (!res.ok || !json.success) {
+        if (json.code === "ALREADY_REGISTERED") {
+          setIsAlreadyRegistered(true);
+          setOtpStage("details");
+        }
+        if (typeof json.retryAfter === "number") {
+          setResendCountdown(json.retryAfter);
+        }
+        setOtpError(json.error || "Couldn't send the verification code. Please try again.");
+        return false;
+      }
+
+      setOtpStage("code");
+      setOtpCode("");
+      setOtpNotice(`We sent a 6-digit code to ${normalizedEmail}.`);
+      setResendCountdown(RESEND_COOLDOWN_SECONDS);
+      return true;
+    } catch {
+      setOtpError("Couldn't send the verification code. Check your connection and try again.");
+      return false;
+    } finally {
+      setIsSendingCode(false);
+    }
+  };
+
+  const handleStep1Submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return;
     if (!validateEmail(email)) return;
-    setStep(2);
+    // Came back via "Edit" without changing the email: no need to verify again
+    if (isEmailVerified) {
+      setStep(2);
+      return;
+    }
+    await sendVerificationCode();
+  };
+
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!/^\d{6}$/.test(otpCode)) {
+      setOtpError("Enter the 6-digit code from your email.");
+      return;
+    }
+
+    setIsVerifyingCode(true);
+    setOtpError("");
+
+    try {
+      const res = await fetch("/api/register/otp/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: normalizedEmail, code: otpCode }),
+      });
+      const json = await res.json();
+
+      if (!res.ok || !json.success) {
+        setOtpError(json.error || "Verification failed. Please try again.");
+        return;
+      }
+
+      setVerificationToken(json.verificationToken);
+      setVerifiedEmail(normalizedEmail);
+      setOtpStage("details");
+      setOtpNotice("");
+      setSubmitError("");
+      // Returning after an expired verification: selections are kept, go straight to review
+      setStep(selectedSlot1 && selectedSlot2 && selectedSlot3 ? 5 : 2);
+    } catch {
+      setOtpError("Verification failed. Check your connection and try again.");
+    } finally {
+      setIsVerifyingCode(false);
+    }
+  };
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    if (emailError) validateEmail(value);
+    // Any edit to the email invalidates a pending code / previous verification
+    setOtpStage("details");
+    setOtpCode("");
+    setOtpError("");
+    setOtpNotice("");
+    setIsAlreadyRegistered(false);
   };
 
   const handleSubmitRegistration = async () => {
@@ -91,16 +209,32 @@ export default function RegistrationModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           attendeeName: name.trim(),
-          attendeeEmail: email.trim().toLowerCase(),
+          attendeeEmail: normalizedEmail,
           slot1SessionId: selectedSlot1.id,
           slot2SessionId: selectedSlot2.id,
           slot3SessionId: selectedSlot3.id,
+          verificationToken,
         }),
       });
 
       const json = await res.json();
 
+      if (res.status === 401 && json.code === "VERIFICATION_REQUIRED") {
+        // Verification expired while choosing sessions: re-verify, keeping selections
+        setVerificationToken("");
+        setVerifiedEmail("");
+        setStep(1);
+        const isSent = await sendVerificationCode();
+        if (isSent) {
+          setOtpNotice(`Your verification expired. We sent a new code to ${normalizedEmail}.`);
+        }
+        return;
+      }
+
       if (!res.ok || !json.success) {
+        if (json.code === "ALREADY_REGISTERED") {
+          setIsAlreadyRegistered(true);
+        }
         throw new Error(json.error || "Registration failed. Please try again.");
       }
 
@@ -266,7 +400,15 @@ export default function RegistrationModal({
                         {confirmedData.selections?.slot1?.theatreName}
                       </span>
                     </div>
-                    <p className="mt-1 text-micro text-muted">{confirmedData.selections?.slot1?.title}</p>
+                    <p className="mt-1 text-micro text-ink font-medium">{confirmedData.selections?.slot1?.title}</p>
+                    {selectedSlot1?.speaker_name && (
+                      <p className="mt-0.5 text-micro font-medium text-teal-base">
+                        {selectedSlot1.speaker_name}
+                        {(selectedSlot1.speaker_role || selectedSlot1.speaker_company) && (
+                          <span className="text-muted font-normal"> · {[selectedSlot1.speaker_role, selectedSlot1.speaker_company].filter(Boolean).join(" · ")}</span>
+                        )}
+                      </p>
+                    )}
                   </div>
 
                   {/* Slot 2 */}
@@ -277,7 +419,15 @@ export default function RegistrationModal({
                         {confirmedData.selections?.slot2?.theatreName}
                       </span>
                     </div>
-                    <p className="mt-1 text-micro text-muted">{confirmedData.selections?.slot2?.title}</p>
+                    <p className="mt-1 text-micro text-ink font-medium">{confirmedData.selections?.slot2?.title}</p>
+                    {selectedSlot2?.speaker_name && (
+                      <p className="mt-0.5 text-micro font-medium text-teal-base">
+                        {selectedSlot2.speaker_name}
+                        {(selectedSlot2.speaker_role || selectedSlot2.speaker_company) && (
+                          <span className="text-muted font-normal"> · {[selectedSlot2.speaker_role, selectedSlot2.speaker_company].filter(Boolean).join(" · ")}</span>
+                        )}
+                      </p>
+                    )}
                   </div>
 
                   {/* Slot 3 */}
@@ -288,7 +438,15 @@ export default function RegistrationModal({
                         {confirmedData.selections?.slot3?.theatreName}
                       </span>
                     </div>
-                    <p className="mt-1 text-micro text-muted">{confirmedData.selections?.slot3?.title}</p>
+                    <p className="mt-1 text-micro text-ink font-medium">{confirmedData.selections?.slot3?.title}</p>
+                    {selectedSlot3?.speaker_name && (
+                      <p className="mt-0.5 text-micro font-medium text-teal-base">
+                        {selectedSlot3.speaker_name}
+                        {(selectedSlot3.speaker_role || selectedSlot3.speaker_company) && (
+                          <span className="text-muted font-normal"> · {[selectedSlot3.speaker_role, selectedSlot3.speaker_company].filter(Boolean).join(" · ")}</span>
+                        )}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -312,6 +470,38 @@ export default function RegistrationModal({
                 </div>
               </div>
 
+              <PrintablePass
+                registrationId={confirmedData.registrationId}
+                attendeeName={confirmedData.attendeeName}
+                attendeeEmail={confirmedData.attendeeEmail}
+                slots={[
+                  {
+                    label: "Slot 1 · 15:00 – 15:40",
+                    ...confirmedData.selections?.slot1,
+                    sessionId: selectedSlot1?.id,
+                    speakerName: selectedSlot1?.speaker_name || undefined,
+                    speakerRole: selectedSlot1?.speaker_role || undefined,
+                    speakerCompany: selectedSlot1?.speaker_company || undefined,
+                  },
+                  {
+                    label: "Slot 2 · 15:40 – 16:20",
+                    ...confirmedData.selections?.slot2,
+                    sessionId: selectedSlot2?.id,
+                    speakerName: selectedSlot2?.speaker_name || undefined,
+                    speakerRole: selectedSlot2?.speaker_role || undefined,
+                    speakerCompany: selectedSlot2?.speaker_company || undefined,
+                  },
+                  {
+                    label: "Slot 3 · 16:20 – 17:00",
+                    ...confirmedData.selections?.slot3,
+                    sessionId: selectedSlot3?.id,
+                    speakerName: selectedSlot3?.speaker_name || undefined,
+                    speakerRole: selectedSlot3?.speaker_role || undefined,
+                    speakerCompany: selectedSlot3?.speaker_company || undefined,
+                  },
+                ]}
+              />
+
               <div className="mt-8 flex justify-center gap-4">
                 <button
                   onClick={() => window.print()}
@@ -327,6 +517,78 @@ export default function RegistrationModal({
                 </button>
               </div>
             </div>
+          ) : step === 1 && otpStage === "code" ? (
+            /* Step 1b: Email verification code */
+            <form onSubmit={handleVerifyCode} className="max-w-xl mx-auto py-2 sm:py-4">
+              <div className="text-center mb-6">
+                <h3 className="font-display text-h3 text-ink">Verify Your Email</h3>
+                <p className="mt-1 text-small text-muted">
+                  {otpNotice || `We sent a 6-digit code to ${normalizedEmail}.`} It expires in 10 minutes.
+                </p>
+              </div>
+
+              <div>
+                <label htmlFor="otp-code" className="block text-small font-semibold text-ink">
+                  Verification Code <span className="text-accent">*</span>
+                </label>
+                <input
+                  id="otp-code"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  maxLength={6}
+                  autoFocus
+                  value={otpCode}
+                  onChange={(e) => {
+                    setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6));
+                    if (otpError) setOtpError("");
+                  }}
+                  placeholder="123456"
+                  className={`mt-1.5 w-full border ${
+                    otpError ? "border-orange-deep bg-panel-orange" : "border-rule bg-white"
+                  } px-4 py-3 text-center font-mono text-h3 tracking-[0.5em] text-ink placeholder:text-muted/40 focus:border-accent focus:outline-none transition-colors shadow-sm`}
+                />
+                {otpError && (
+                  <p className="mt-2 text-micro font-medium text-orange-deep flex items-center gap-1.5 bg-panel-orange border border-orange-deep/30 p-2">
+                    <span>⚠️</span> {otpError}
+                  </p>
+                )}
+                <div className="mt-3 flex items-center justify-between text-micro">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOtpStage("details");
+                      setOtpError("");
+                    }}
+                    className="font-semibold text-teal-base hover:text-accent transition-colors"
+                  >
+                    Change email
+                  </button>
+                  <button
+                    type="button"
+                    disabled={resendCountdown > 0 || isSendingCode}
+                    onClick={sendVerificationCode}
+                    className="font-semibold text-teal-base hover:text-accent transition-colors disabled:text-muted disabled:cursor-not-allowed"
+                  >
+                    {isSendingCode
+                      ? "Sending..."
+                      : resendCountdown > 0
+                      ? `Resend code in ${resendCountdown}s`
+                      : "Resend code"}
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-8 flex justify-end">
+                <button
+                  type="submit"
+                  disabled={otpCode.length !== 6 || isVerifyingCode}
+                  className="rounded-full bg-accent px-8 py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  <span>{isVerifyingCode ? "Verifying..." : "Verify & Continue"}</span>
+                </button>
+              </div>
+            </form>
           ) : step === 1 ? (
             /* Step 1: Attendee Info */
             <form onSubmit={handleStep1Submit} className="max-w-xl mx-auto py-2 sm:py-4">
@@ -362,10 +624,7 @@ export default function RegistrationModal({
                     type="email"
                     required
                     value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      if (emailError) validateEmail(e.target.value);
-                    }}
+                    onChange={(e) => handleEmailChange(e.target.value)}
                     placeholder="name@botconsulting.io"
                     className={`mt-1.5 w-full border ${
                       emailError ? "border-orange-deep bg-panel-orange" : "border-rule bg-white"
@@ -378,17 +637,40 @@ export default function RegistrationModal({
                   )}
                   <p className="mt-1.5 text-micro text-muted">
                     Only verified emails ending with <strong>@botconsulting.io</strong> are permitted.
+                    We&apos;ll email you a code to confirm it&apos;s you.
                   </p>
+                  {otpError && (
+                    <div className="mt-2 text-micro font-medium text-orange-deep bg-panel-orange border border-orange-deep/30 p-2">
+                      <p className="flex items-center gap-1.5">
+                        <span>⚠️</span> {otpError}
+                      </p>
+                      {isAlreadyRegistered && onOpenMyPass && (
+                        <button
+                          type="button"
+                          onClick={onOpenMyPass}
+                          className="mt-1.5 font-semibold text-teal-base underline hover:text-accent"
+                        >
+                          Open Find My Pass
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div className="mt-8 flex justify-end">
                 <button
                   type="submit"
-                  disabled={!name.trim() || !email.trim()}
+                  disabled={!name.trim() || !email.trim() || isSendingCode || isAlreadyRegistered}
                   className="rounded-full bg-accent px-8 py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  <span>Continue to Slot 1</span>
+                  <span>
+                    {isEmailVerified
+                      ? "Continue to Slot 1"
+                      : isSendingCode
+                      ? "Sending Code..."
+                      : "Send Verification Code"}
+                  </span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
@@ -574,6 +856,15 @@ export default function RegistrationModal({
                     <span>⚠️</span> Registration Issue
                   </p>
                   <p className="mt-1">{submitError}</p>
+                  {isAlreadyRegistered && onOpenMyPass && (
+                    <button
+                      type="button"
+                      onClick={onOpenMyPass}
+                      className="mt-2 font-semibold text-teal-base underline hover:text-accent"
+                    >
+                      Open Find My Pass
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -607,6 +898,14 @@ export default function RegistrationModal({
                         Slot 1 · 15:00–15:40
                       </span>
                       <p className="font-semibold text-ink">{selectedSlot1?.title}</p>
+                      {selectedSlot1?.speaker_name && (
+                        <p className="text-micro font-medium text-teal-base">
+                          {selectedSlot1.speaker_name}
+                          {(selectedSlot1.speaker_role || selectedSlot1.speaker_company) && (
+                            <span className="text-muted font-normal"> · {[selectedSlot1.speaker_role, selectedSlot1.speaker_company].filter(Boolean).join(" · ")}</span>
+                          )}
+                        </p>
+                      )}
                       <p className="text-micro text-muted flex items-center gap-1">
                         <Icon name="pin" size={12} />
                         <span>{selectedSlot1?.theatre_name}</span>
@@ -627,6 +926,14 @@ export default function RegistrationModal({
                         Slot 2 · 15:40–16:20
                       </span>
                       <p className="font-semibold text-ink">{selectedSlot2?.title}</p>
+                      {selectedSlot2?.speaker_name && (
+                        <p className="text-micro font-medium text-teal-base">
+                          {selectedSlot2.speaker_name}
+                          {(selectedSlot2.speaker_role || selectedSlot2.speaker_company) && (
+                            <span className="text-muted font-normal"> · {[selectedSlot2.speaker_role, selectedSlot2.speaker_company].filter(Boolean).join(" · ")}</span>
+                          )}
+                        </p>
+                      )}
                       <p className="text-micro text-muted flex items-center gap-1">
                         <Icon name="pin" size={12} />
                         <span>{selectedSlot2?.theatre_name}</span>
@@ -647,6 +954,14 @@ export default function RegistrationModal({
                         Slot 3 · 16:20–17:00
                       </span>
                       <p className="font-semibold text-ink">{selectedSlot3?.title}</p>
+                      {selectedSlot3?.speaker_name && (
+                        <p className="text-micro font-medium text-teal-base">
+                          {selectedSlot3.speaker_name}
+                          {(selectedSlot3.speaker_role || selectedSlot3.speaker_company) && (
+                            <span className="text-muted font-normal"> · {[selectedSlot3.speaker_role, selectedSlot3.speaker_company].filter(Boolean).join(" · ")}</span>
+                          )}
+                        </p>
+                      )}
                       <p className="text-micro text-muted flex items-center gap-1">
                         <Icon name="pin" size={12} />
                         <span>{selectedSlot3?.theatre_name}</span>
