@@ -18,15 +18,34 @@ export default function CompanySpeakerGroup({
       {/* Company Header with Logo only */}
       <div className="mb-8 flex items-center border-b border-rule pb-5">
         {group.logo ? (
-          <div className="card flex h-12 items-center bg-white/70 px-4 py-2 shadow-xs ring-1 ring-rule">
-            <Image
-              src={group.logo}
-              alt={`${group.company} logo`}
-              width={140}
-              height={40}
-              className="h-7 w-auto max-w-[140px] object-contain"
-            />
-          </div>
+          group.website ? (
+            <a
+              href={group.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`Visit ${group.company} website`}
+              aria-label={`Visit ${group.company} website (opens in a new tab)`}
+              className="card group flex h-12 items-center bg-white/70 px-4 py-2 shadow-xs ring-1 ring-rule transition-all duration-200 hover:bg-white hover:shadow-md hover:ring-accent/40 hover:-translate-y-0.5"
+            >
+              <Image
+                src={group.logo}
+                alt={`${group.company} logo`}
+                width={140}
+                height={40}
+                className="h-7 w-auto max-w-[140px] object-contain transition-opacity group-hover:opacity-90"
+              />
+            </a>
+          ) : (
+            <div className="card flex h-12 items-center bg-white/70 px-4 py-2 shadow-xs ring-1 ring-rule">
+              <Image
+                src={group.logo}
+                alt={`${group.company} logo`}
+                width={140}
+                height={40}
+                className="h-7 w-auto max-w-[140px] object-contain"
+              />
+            </div>
+          )
         ) : (
           <h3 className="font-display text-h3 text-ink">{group.company}</h3>
         )}

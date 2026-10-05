@@ -161,7 +161,7 @@ export const itineraryDays: ItineraryDay[] = [
       },
       {
         /* Runs the whole morning, alongside the sessions above. */
-        time: "10:00 – 12:30",
+        time: "11:00 – 15:00",
         label: "Kids Activity",
         category: "social",
         audience: "kids-families",

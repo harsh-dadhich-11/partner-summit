@@ -70,6 +70,7 @@ export type Speaker = {
 export type CompanySpeakerGroup = {
   company: string;
   logo?: string;
+  website?: string;
   speakers: Speaker[];
 };
 

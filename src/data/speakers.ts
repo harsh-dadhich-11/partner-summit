@@ -4,6 +4,7 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
   {
     company: "Tercera",
     logo: "/assets/logos/tercera.webp",
+    website: "https://tercera.io/",
     speakers: [
       {
         name: "Chris Barbin",
@@ -28,7 +29,7 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
       },
       {
         name: "Lori Williams",
-        role: "Board Advisor",
+        role: "Advisor",
         company: "Tercera",
         photo: "/assets/guests/lori-williams.webp",
         linkedin: "https://www.linkedin.com/in/loriwilliams4/",
@@ -38,6 +39,7 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
   {
     company: "Tailwind Capital",
     logo: "/assets/logos/tailwind.webp",
+    website: "https://www.tailwind.com/",
     speakers: [
       {
         name: "Gurvendra Suri",
@@ -47,24 +49,25 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
         linkedin: "https://www.linkedin.com/in/gurvendra-suri-aa103b7/",
       },
       {
-        name: "William Fleder",
-        role: "Partner",
-        company: "Tailwind Capital",
-        photo: "/assets/guests/fleder.webp",
-        linkedin: "https://www.linkedin.com/in/william-fleder-6181346a/",
-      },
-      {
         name: "Justin Schneiderman",
         role: "Vice President",
         company: "Tailwind Capital",
         photo: "/assets/guests/justin-schneiderman.webp",
         linkedin: "https://www.linkedin.com/in/justin-schneiderman-a69233178/",
       },
+      {
+        name: "William Fleder",
+        role: "Partner",
+        company: "Tailwind Capital",
+        photo: "/assets/guests/fleder.webp",
+        linkedin: "https://www.linkedin.com/in/william-fleder-6181346a/",
+      },
     ],
   },
   {
     company: "AllCloud",
     logo: "/assets/logos/allcloud.webp",
+    website: "https://allcloud.io/",
     speakers: [
       {
         name: "Eran Gil",
@@ -92,6 +95,7 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
   {
     company: "Cloudsmith",
     logo: "/assets/logos/cloudsmith.webp",
+    website: "https://cloudsmith.com/",
     speakers: [
       {
         name: "Glenn Weinstein",
@@ -126,6 +130,7 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
   {
     company: "KOSMOS",
     logo: "/assets/logos/kosmos.webp",
+    website: "https://kosmoslabs.ai/",
     speakers: [
       {
         name: "Sanjay Gidwani",
@@ -139,6 +144,7 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
   {
     company: "Auctor",
     logo: "/assets/logos/auctor.webp",
+    website: "https://www.getauctor.com/",
     speakers: [
       {
         name: "William Sun",
@@ -152,6 +158,7 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
   {
     company: "Eliza",
     logo: "/assets/logos/eliza.webp",
+    website: "https://eliza.com/",
     speakers: [
       {
         name: "Patrick Buell",
