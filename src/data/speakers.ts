@@ -30,13 +30,6 @@ export const speakers: Speaker[] = [
     linkedin: "https://www.linkedin.com/in/gurvendra-suri-aa103b7/",
   },
   {
-    name: "Joanne Pallas",
-    role: "President, Global Operations",
-    company: "AllCloud",
-    photo: "/assets/guests/joanne-pallas.webp",
-    linkedin: "https://www.linkedin.com/in/joanne-pallas/",
-  },
-  {
     name: "Justin Schneiderman",
     role: "Vice President",
     company: "Tailwind Capital",
@@ -63,6 +56,20 @@ export const speakers: Speaker[] = [
     company: "Tercera",
     photo: "/assets/guests/michelle-swan.webp",
     linkedin: "https://www.linkedin.com/in/michelleswan/",
+  },
+  {
+    name: "Mihai Paun",
+    role: "Engineering Manager",
+    company: "Cloudsmith",
+    photo: "/assets/guests/Mihai-Paun.webp",
+    linkedin: "https://www.linkedin.com/in/mihaipaun/",
+  },
+  {
+    name: "Nick Peacock",
+    role: "VP Customer Success",
+    company: "Cloudsmith",
+    photo: "/assets/guests/Nick-Peacock.webp",
+    linkedin: "https://www.linkedin.com/in/nickpeacock/",
   },
   {
     name: "Ronit Rubin",
