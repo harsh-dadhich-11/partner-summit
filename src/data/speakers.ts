@@ -29,7 +29,7 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
       {
         name: "Lori Williams",
         role: "Board Advisor",
-        company: "Caylent",
+        company: "Tercera",
         photo: "/assets/guests/lori-williams.webp",
         linkedin: "https://www.linkedin.com/in/loriwilliams4/",
       },
@@ -107,6 +107,20 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
         photo: "/assets/guests/nick-peacock.webp",
         linkedin: "https://www.linkedin.com/in/nickpeacock/",
       },
+      {
+        name: "Dara Hayes",
+        role: "Senior Software Engineer",
+        company: "Cloudsmith",
+        photo: "/assets/guests/dara-hayes.webp",
+        linkedin: "https://www.linkedin.com/in/dara-hayes-b264685a/",
+      },
+      {
+        name: "Mihai Paun",
+        role: "Engineering Manager",
+        company: "Cloudsmith",
+        photo: "/assets/guests/Mihai-Paun.webp",
+        linkedin: "https://www.linkedin.com/in/mihaipaun/",
+      },
     ],
   },
   {
@@ -150,28 +164,7 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
   },
 ];
 
-export const guestGroups: CompanySpeakerGroup[] = [
-  {
-    company: "Cloudsmith",
-    logo: "/assets/logos/cloudsmith.webp",
-    speakers: [
-      {
-        name: "Dara Hayes",
-        role: "Senior Software Engineer",
-        company: "Cloudsmith",
-        photo: "/assets/guests/dara-hayes.webp",
-        linkedin: "https://www.linkedin.com/in/dara-hayes-b264685a/",
-      },
-      {
-        name: "Mihai Paun",
-        role: "Engineering Manager",
-        company: "Cloudsmith",
-        photo: "/assets/guests/Mihai-Paun.webp",
-        linkedin: "https://www.linkedin.com/in/mihaipaun/",
-      },
-    ],
-  },
-];
+export const guestGroups: CompanySpeakerGroup[] = [];
 
 export const featuredSpeakers: Speaker[] = featuredSpeakerGroups.flatMap(
   (group) => group.speakers

@@ -11,20 +11,15 @@ export const metadata: Metadata = {
 
 export default function SpeakersPage() {
   const topGroups = featuredSpeakerGroups.filter((g) =>
-    ["tercera", "tailwind capital", "allcloud"].includes(g.company.toLowerCase())
+    ["tercera", "tailwind capital", "allcloud", "cloudsmith"].includes(g.company.toLowerCase())
   );
-  const cloudsmithGroup = featuredSpeakerGroups.find(
-    (g) => g.company.toLowerCase() === "cloudsmith"
-  );
-  const kosmosGroup = featuredSpeakerGroups.find(
-    (g) => g.company.toLowerCase() === "kosmos"
-  );
-  const auctorGroup = featuredSpeakerGroups.find(
-    (g) => g.company.toLowerCase() === "auctor"
-  );
-  const elizaGroup = featuredSpeakerGroups.find(
-    (g) => g.company.toLowerCase() === "eliza"
-  );
+  
+  // Single-speaker groups to be displayed together on the same line
+  const singleSpeakerGroups = [
+    featuredSpeakerGroups.find((g) => g.company.toLowerCase() === "auctor"),
+    featuredSpeakerGroups.find((g) => g.company.toLowerCase() === "kosmos"),
+    featuredSpeakerGroups.find((g) => g.company.toLowerCase() === "eliza"),
+  ].filter(Boolean) as typeof featuredSpeakerGroups;
 
   return (
     <>
@@ -53,7 +48,7 @@ export default function SpeakersPage() {
           </div>
 
           <div className="space-y-16">
-            {/* Top full-width groups: Tercera, Tailwind Capital, AllCloud */}
+            {/* Full-width groups: Tercera, Tailwind Capital, AllCloud, Cloudsmith */}
             {topGroups.map((group, idx) => (
               <CompanySpeakerGroup
                 key={group.company}
@@ -62,70 +57,55 @@ export default function SpeakersPage() {
               />
             ))}
 
-            {/* Row 1: Cloudsmith (left) and Kosmos (right) */}
-            {cloudsmithGroup && kosmosGroup ? (
-              <div className="grid gap-10 md:grid-cols-2 lg:gap-12">
-                <CompanySpeakerGroup
-                  group={cloudsmithGroup}
-                  groupIndex={3}
-                  gridClassName="grid gap-6 grid-cols-1 sm:grid-cols-2"
-                />
-                <CompanySpeakerGroup
-                  group={kosmosGroup}
-                  groupIndex={4}
-                  gridClassName="grid gap-6 grid-cols-1 sm:grid-cols-2"
-                />
+            {/* Auctor, Kosmos, Eliza on the same line */}
+            {singleSpeakerGroups.length > 0 && (
+              <div className="grid gap-10 md:grid-cols-3 lg:gap-12">
+                {singleSpeakerGroups.map((group, idx) => (
+                  <CompanySpeakerGroup
+                    key={group.company}
+                    group={group}
+                    groupIndex={topGroups.length + idx}
+                    gridClassName="grid gap-6 grid-cols-1"
+                  />
+                ))}
               </div>
-            ) : null}
-
-            {/* Row 2: Auctor and Eliza in the same line */}
-            {auctorGroup && elizaGroup ? (
-              <div className="grid gap-10 md:grid-cols-2 lg:gap-12">
-                <CompanySpeakerGroup
-                  group={auctorGroup}
-                  groupIndex={5}
-                  gridClassName="grid gap-6 grid-cols-1 sm:grid-cols-2"
-                />
-                <CompanySpeakerGroup
-                  group={elizaGroup}
-                  groupIndex={6}
-                  gridClassName="grid gap-6 grid-cols-1 sm:grid-cols-2"
-                />
-              </div>
-            ) : null}
+            )}
           </div>
         </section>
 
-        {/* Section Divider */}
-        <div className="my-20 border-t border-rule" />
+        {/* Guests Section (rendered only if guest groups exist) */}
+        {guestGroups.length > 0 && (
+          <>
+            <div className="my-20 border-t border-rule" />
 
-        {/* Guests Section */}
-        <section aria-labelledby="guests-heading">
-          <div className="mb-12">
-            <p className="text-micro font-semibold uppercase tracking-wider text-teal-mid">
-              Participants
-            </p>
-            <h2
-              id="guests-heading"
-              className="mt-2 font-display text-h2 text-ink"
-            >
-              Guests
-            </h2>
-            <p className="mt-2 text-body text-muted">
-              Distinguished engineers and technical leaders joining the summit sessions and discussions.
-            </p>
-          </div>
+            <section aria-labelledby="guests-heading">
+              <div className="mb-12">
+                <p className="text-micro font-semibold uppercase tracking-wider text-teal-mid">
+                  Participants
+                </p>
+                <h2
+                  id="guests-heading"
+                  className="mt-2 font-display text-h2 text-ink"
+                >
+                  Guests
+                </h2>
+                <p className="mt-2 text-body text-muted">
+                  Distinguished engineers and technical leaders joining the summit sessions and discussions.
+                </p>
+              </div>
 
-          <div className="space-y-16">
-            {guestGroups.map((group, idx) => (
-              <CompanySpeakerGroup
-                key={group.company}
-                group={group}
-                groupIndex={featuredSpeakerGroups.length + idx}
-              />
-            ))}
-          </div>
-        </section>
+              <div className="space-y-16">
+                {guestGroups.map((group, idx) => (
+                  <CompanySpeakerGroup
+                    key={group.company}
+                    group={group}
+                    groupIndex={featuredSpeakerGroups.length + idx}
+                  />
+                ))}
+              </div>
+            </section>
+          </>
+        )}
       </div>
     </>
   );
