@@ -9,6 +9,13 @@ export const speakers: Speaker[] = [
     linkedin: "https://www.linkedin.com/in/chrisbarbin/",
   },
   {
+    name: "Dara Hayes",
+    role: "Senior Software Engineer",
+    company: "Cloudsmith",
+    photo: "/assets/guests/dara-hayes.webp",
+    linkedin: "https://www.linkedin.com/in/dara-hayes-b264685a/",
+  },
+  {
     name: "Eran Gil",
     role: "CEO",
     company: "AllCloud",
@@ -68,7 +75,7 @@ export const speakers: Speaker[] = [
     name: "Nick Peacock",
     role: "VP Customer Success",
     company: "Cloudsmith",
-    photo: "/assets/guests/Nick-Peacock.webp",
+    photo: "/assets/guests/nick-peacock.webp",
     linkedin: "https://www.linkedin.com/in/nickpeacock/",
   },
   {
