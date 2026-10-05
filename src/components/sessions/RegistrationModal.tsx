@@ -31,9 +31,9 @@ const RESEND_COOLDOWN_SECONDS = 60;
 
 const STEP_LABELS = [
   { step: 1, title: "Attendee Info" },
-  { step: 2, title: "Slot 1 (15:00)" },
-  { step: 3, title: "Slot 2 (15:40)" },
-  { step: 4, title: "Slot 3 (16:20)" },
+  { step: 2, title: "Slot 1 (15:10)" },
+  { step: 3, title: "Slot 2 (15:55)" },
+  { step: 4, title: "Slot 3 (16:40)" },
   { step: 5, title: "Confirm" },
 ];
 
@@ -395,7 +395,7 @@ export default function RegistrationModal({
                   {/* Slot 1 */}
                   <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
-                      <span>15:00 – 15:40</span>
+                      <span>15:10 – 15:45</span>
                       <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
                         {confirmedData.selections?.slot1?.theatreName}
                       </span>
@@ -414,7 +414,7 @@ export default function RegistrationModal({
                   {/* Slot 2 */}
                   <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
-                      <span>15:40 – 16:20</span>
+                      <span>15:55 – 16:30</span>
                       <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
                         {confirmedData.selections?.slot2?.theatreName}
                       </span>
@@ -433,7 +433,7 @@ export default function RegistrationModal({
                   {/* Slot 3 */}
                   <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
-                      <span>16:20 – 17:00</span>
+                      <span>16:40 – 17:15</span>
                       <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
                         {confirmedData.selections?.slot3?.theatreName}
                       </span>
@@ -476,7 +476,7 @@ export default function RegistrationModal({
                 attendeeEmail={confirmedData.attendeeEmail}
                 slots={[
                   {
-                    label: "Slot 1 · 15:00 – 15:40",
+                    label: "Slot 1 · 15:10 – 15:45",
                     ...confirmedData.selections?.slot1,
                     sessionId: selectedSlot1?.id,
                     speakerName: selectedSlot1?.speaker_name || undefined,
@@ -484,7 +484,7 @@ export default function RegistrationModal({
                     speakerCompany: selectedSlot1?.speaker_company || undefined,
                   },
                   {
-                    label: "Slot 2 · 15:40 – 16:20",
+                    label: "Slot 2 · 15:55 – 16:30",
                     ...confirmedData.selections?.slot2,
                     sessionId: selectedSlot2?.id,
                     speakerName: selectedSlot2?.speaker_name || undefined,
@@ -492,7 +492,7 @@ export default function RegistrationModal({
                     speakerCompany: selectedSlot2?.speaker_company || undefined,
                   },
                   {
-                    label: "Slot 3 · 16:20 – 17:00",
+                    label: "Slot 3 · 16:40 – 17:15",
                     ...confirmedData.selections?.slot3,
                     sessionId: selectedSlot3?.id,
                     speakerName: selectedSlot3?.speaker_name || undefined,
@@ -684,7 +684,7 @@ export default function RegistrationModal({
               <div className="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-rule/40 pb-3">
                 <div>
                   <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase tracking-wider">
-                    Time Slot 1 · 15:00 – 15:40
+                    Time Slot 1 · 15:10 – 15:45
                   </span>
                   <h3 className="mt-1.5 font-display text-h3 text-ink">Select One Session for Slot 1</h3>
                 </div>
@@ -738,7 +738,7 @@ export default function RegistrationModal({
               <div className="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-rule/40 pb-3">
                 <div>
                   <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase tracking-wider">
-                    Time Slot 2 · 15:40 – 16:20
+                    Time Slot 2 · 15:55 – 16:30
                   </span>
                   <h3 className="mt-1.5 font-display text-h3 text-ink">Select One Session for Slot 2</h3>
                 </div>
@@ -792,7 +792,7 @@ export default function RegistrationModal({
               <div className="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-rule/40 pb-3">
                 <div>
                   <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase tracking-wider">
-                    Time Slot 3 · 16:20 – 17:00
+                    Time Slot 3 · 16:40 – 17:15
                   </span>
                   <h3 className="mt-1.5 font-display text-h3 text-ink">Select One Session for Slot 3</h3>
                 </div>
@@ -895,7 +895,7 @@ export default function RegistrationModal({
                   <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
                     <div className="space-y-1">
                       <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
-                        Slot 1 · 15:00–15:40
+                        Slot 1 · 15:10–15:45
                       </span>
                       <p className="font-semibold text-ink">{selectedSlot1?.title}</p>
                       {selectedSlot1?.speaker_name && (
@@ -923,7 +923,7 @@ export default function RegistrationModal({
                   <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
                     <div className="space-y-1">
                       <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
-                        Slot 2 · 15:40–16:20
+                        Slot 2 · 15:55–16:30
                       </span>
                       <p className="font-semibold text-ink">{selectedSlot2?.title}</p>
                       {selectedSlot2?.speaker_name && (
@@ -951,7 +951,7 @@ export default function RegistrationModal({
                   <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
                     <div className="space-y-1">
                       <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
-                        Slot 3 · 16:20–17:00
+                        Slot 3 · 16:40–17:15
                       </span>
                       <p className="font-semibold text-ink">{selectedSlot3?.title}</p>
                       {selectedSlot3?.speaker_name && (

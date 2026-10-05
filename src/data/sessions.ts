@@ -23,9 +23,9 @@ export const SESSION_TRACKS: Record<SessionTrack, { label: string; tile: string 
  * groups and renders off this array.
  */
 export const sessions: Session[] = [
-  /* ---- 15:00 – 15:40 ---- */
+  /* ---- 15:10 – 15:45 ---- */
   {
-    slot: "15:00 – 15:40",
+    slot: "15:10 – 15:45",
     track: "ecosystems",
     title: "Ecosystems Track",
     room: "Sakura · Theatre 1",
@@ -34,7 +34,7 @@ export const sessions: Session[] = [
     speakerCompany: "Tercera",
   },
   {
-    slot: "15:00 – 15:40",
+    slot: "15:10 – 15:45",
     track: "ai",
     title: "AI Track",
     room: "Sakura · Theatre 2",
@@ -43,7 +43,7 @@ export const sessions: Session[] = [
     speakerCompany: "Cloudsmith",
   },
   {
-    slot: "15:00 – 15:40",
+    slot: "15:10 – 15:45",
     track: "industries",
     title: "Industries Track",
     room: "Sakura · Theatre 3",
@@ -52,9 +52,9 @@ export const sessions: Session[] = [
     speakerCompany: "Tailwind Capital",
   },
 
-  /* ---- 15:40 – 16:20 ---- */
+  /* ---- 15:55 – 16:30 ---- */
   {
-    slot: "15:40 – 16:20",
+    slot: "15:55 – 16:30",
     track: "ecosystems",
     title: "Ecosystems Track",
     room: "Sakura · Theatre 1",
@@ -63,7 +63,7 @@ export const sessions: Session[] = [
     speakerCompany: "AllCloud",
   },
   {
-    slot: "15:40 – 16:20",
+    slot: "15:55 – 16:30",
     track: "ai",
     title: "AI Track",
     room: "Sakura · Theatre 2",
@@ -72,7 +72,7 @@ export const sessions: Session[] = [
     speakerCompany: "KOSMOS",
   },
   {
-    slot: "15:40 – 16:20",
+    slot: "15:55 – 16:30",
     track: "industries",
     title: "Industries Track",
     room: "Sakura · Theatre 3",
@@ -81,9 +81,9 @@ export const sessions: Session[] = [
     speakerCompany: "Tailwind Capital",
   },
 
-  /* ---- 16:20 – 17:00 ---- */
+  /* ---- 16:40 – 17:15 ---- */
   {
-    slot: "16:20 – 17:00",
+    slot: "16:40 – 17:15",
     track: "ecosystems",
     title: "Ecosystems Track",
     room: "Sakura · Theatre 1",
@@ -92,7 +92,7 @@ export const sessions: Session[] = [
     speakerCompany: "Tercera",
   },
   {
-    slot: "16:20 – 17:00",
+    slot: "16:40 – 17:15",
     track: "ai",
     title: "AI Track",
     room: "Sakura · Theatre 2",
@@ -101,7 +101,7 @@ export const sessions: Session[] = [
     speakerCompany: "Auctor",
   },
   {
-    slot: "16:20 – 17:00",
+    slot: "16:40 – 17:15",
     track: "industries",
     title: "Industries Track",
     room: "Sakura · Theatre 3",

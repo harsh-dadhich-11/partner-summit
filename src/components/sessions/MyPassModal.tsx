@@ -240,7 +240,7 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
 
                   <div className="border border-rule/30 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
-                      <span>15:00 – 15:40 (Slot 1)</span>
+                      <span>15:10 – 15:45 (Slot 1)</span>
                       <span className="text-teal-base">{registration.slot_1?.theatre_name || "Theatre 1"}</span>
                     </div>
                     <p className="mt-0.5 text-micro font-medium text-ink">{registration.slot_1?.title || "Breakout Session"}</p>
@@ -256,7 +256,7 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
 
                   <div className="border border-rule/30 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
-                      <span>15:40 – 16:20 (Slot 2)</span>
+                      <span>15:55 – 16:30 (Slot 2)</span>
                       <span className="text-teal-base">{registration.slot_2?.theatre_name || "Theatre 2"}</span>
                     </div>
                     <p className="mt-0.5 text-micro font-medium text-ink">{registration.slot_2?.title || "Breakout Session"}</p>
@@ -272,7 +272,7 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
 
                   <div className="border border-rule/30 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
-                      <span>16:20 – 17:00 (Slot 3)</span>
+                      <span>16:40 – 17:15 (Slot 3)</span>
                       <span className="text-teal-base">{registration.slot_3?.theatre_name || "Theatre 3"}</span>
                     </div>
                     <p className="mt-0.5 text-micro font-medium text-ink">{registration.slot_3?.title || "Breakout Session"}</p>
@@ -313,7 +313,7 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                 attendeeEmail={registration.attendee_email}
                 slots={[
                   {
-                    label: "Slot 1 · 15:00 – 15:40",
+                    label: "Slot 1 · 15:10 – 15:45",
                     theatreName: registration.slot_1?.theatre_name,
                     title: registration.slot_1?.title,
                     sessionId: registration.slot_1?.id,
@@ -322,7 +322,7 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                     speakerCompany: registration.slot_1?.speaker_company || undefined,
                   },
                   {
-                    label: "Slot 2 · 15:40 – 16:20",
+                    label: "Slot 2 · 15:55 – 16:30",
                     theatreName: registration.slot_2?.theatre_name,
                     title: registration.slot_2?.title,
                     sessionId: registration.slot_2?.id,
@@ -331,7 +331,7 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                     speakerCompany: registration.slot_2?.speaker_company || undefined,
                   },
                   {
-                    label: "Slot 3 · 16:20 – 17:00",
+                    label: "Slot 3 · 16:40 – 17:15",
                     theatreName: registration.slot_3?.theatre_name,
                     title: registration.slot_3?.title,
                     sessionId: registration.slot_3?.id,

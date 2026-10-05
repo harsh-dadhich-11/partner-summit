@@ -67,6 +67,12 @@ export type Speaker = {
   linkedin: string;
 };
 
+export type CompanySpeakerGroup = {
+  company: string;
+  logo?: string;
+  speakers: Speaker[];
+};
+
 /**
  * What kind of thing an entry is, rather than when it happens. The three days are
  * differentiated by column; this is the second axis, carried by colour.

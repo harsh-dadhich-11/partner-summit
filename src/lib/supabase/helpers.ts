@@ -72,11 +72,11 @@ export function groupSessionsBySlot(sessions: SessionWithAvailability[]): Groupe
  * Default fallback 9 breakout sessions dataset matching the summit schedule.
  */
 export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
-  // Slot 1: 15:00–15:40
+  // Slot 1: 15:10–15:45
   {
     id: "slot1-theatre1",
     slot_id: "slot-1",
-    slot_time: "15:00–15:40",
+    slot_time: "15:10–15:45",
     theatre_id: "theatre-1",
     theatre_name: "Sakura · Theatre 1",
     track: "ecosystems",
@@ -93,7 +93,7 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
   {
     id: "slot1-theatre2",
     slot_id: "slot-1",
-    slot_time: "15:00–15:40",
+    slot_time: "15:10–15:45",
     theatre_id: "theatre-2",
     theatre_name: "Sakura · Theatre 2",
     track: "ai",
@@ -110,7 +110,7 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
   {
     id: "slot1-theatre3",
     slot_id: "slot-1",
-    slot_time: "15:00–15:40",
+    slot_time: "15:10–15:45",
     theatre_id: "theatre-3",
     theatre_name: "Sakura · Theatre 3",
     track: "industries",
@@ -125,11 +125,11 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     updated_at: new Date().toISOString(),
   },
 
-  // Slot 2: 15:40–16:20
+  // Slot 2: 15:55–16:30
   {
     id: "slot2-theatre1",
     slot_id: "slot-2",
-    slot_time: "15:40–16:20",
+    slot_time: "15:55–16:30",
     theatre_id: "theatre-1",
     theatre_name: "Sakura · Theatre 1",
     track: "ecosystems",
@@ -146,7 +146,7 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
   {
     id: "slot2-theatre2",
     slot_id: "slot-2",
-    slot_time: "15:40–16:20",
+    slot_time: "15:55–16:30",
     theatre_id: "theatre-2",
     theatre_name: "Sakura · Theatre 2",
     track: "ai",
@@ -163,7 +163,7 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
   {
     id: "slot2-theatre3",
     slot_id: "slot-2",
-    slot_time: "15:40–16:20",
+    slot_time: "15:55–16:30",
     theatre_id: "theatre-3",
     theatre_name: "Sakura · Theatre 3",
     track: "industries",
@@ -178,11 +178,11 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
     updated_at: new Date().toISOString(),
   },
 
-  // Slot 3: 16:20–17:00
+  // Slot 3: 16:40–17:15
   {
     id: "slot3-theatre1",
     slot_id: "slot-3",
-    slot_time: "16:20–17:00",
+    slot_time: "16:40–17:15",
     theatre_id: "theatre-1",
     theatre_name: "Sakura · Theatre 1",
     track: "ecosystems",
@@ -199,7 +199,7 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
   {
     id: "slot3-theatre2",
     slot_id: "slot-3",
-    slot_time: "16:20–17:00",
+    slot_time: "16:40–17:15",
     theatre_id: "theatre-2",
     theatre_name: "Sakura · Theatre 2",
     track: "ai",
@@ -216,7 +216,7 @@ export const DEFAULT_BREAKOUT_SESSIONS: DbSession[] = [
   {
     id: "slot3-theatre3",
     slot_id: "slot-3",
-    slot_time: "16:20–17:00",
+    slot_time: "16:40–17:15",
     theatre_id: "theatre-3",
     theatre_name: "Sakura · Theatre 3",
     track: "industries",

@@ -13,9 +13,9 @@ const THEATRES = [
 ];
 
 const SLOTS = [
-  { id: "slot-1", time: "15:00–15:40", label: "Slot 1" },
-  { id: "slot-2", time: "15:40–16:20", label: "Slot 2" },
-  { id: "slot-3", time: "16:20–17:00", label: "Slot 3" },
+  { id: "slot-1", time: "15:10–15:45", label: "Slot 1" },
+  { id: "slot-2", time: "15:55–16:30", label: "Slot 2" },
+  { id: "slot-3", time: "16:40–17:15", label: "Slot 3" },
 ];
 
 const STORAGE_KEY = "partner_summit_volunteer_session";
