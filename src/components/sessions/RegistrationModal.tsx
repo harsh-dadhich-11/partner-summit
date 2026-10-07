@@ -608,9 +608,10 @@ export default function RegistrationModal({
                     id="name"
                     type="text"
                     required
+                    autoComplete="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Harsh Dadhich"
+                    placeholder="Enter your full name"
                     className="mt-1.5 w-full border border-rule bg-white px-4 py-3 text-body text-ink placeholder:text-muted/60 focus:border-accent focus:outline-none transition-colors shadow-sm"
                   />
                 </div>
@@ -623,6 +624,7 @@ export default function RegistrationModal({
                     id="email"
                     type="email"
                     required
+                    autoComplete="email"
                     value={email}
                     onChange={(e) => handleEmailChange(e.target.value)}
                     placeholder="name@botconsulting.io"
