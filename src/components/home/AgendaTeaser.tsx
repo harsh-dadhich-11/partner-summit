@@ -24,13 +24,13 @@ export default function AgendaTeaser() {
             <Button href="/speakers" className="rounded-full">
               Meet the participants
             </Button>
-            <Button
+            {/* <Button
               href="/sessions"
               variant="quiet"
               className="rounded-full text-ink border-ink/30 hover:border-ink hover:bg-ink/5"
             >
               See the breakout sessions
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>
