@@ -9,19 +9,38 @@ export default function PageScripts() {
 
   useEffect(() => {
     const video = document.getElementById("hero-video") as HTMLVideoElement | null;
-    const stillness = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let stillness: MediaQueryList | null = null;
+    try {
+      stillness = window.matchMedia("(prefers-reduced-motion: reduce)");
+    } catch {
+      // Graceful fallback for older engines
+    }
+
+    const isReducedMotion = () => stillness?.matches ?? false;
+
     const syncVideo = () => {
       if (!video) return;
-      if (stillness.matches) video.pause();
-      else video.play().catch(() => { });
+      if (isReducedMotion()) video.pause();
+      else video.play().catch(() => {});
     };
+
     const handleMobilePlay = () => {
-      if (video && video.paused && !stillness.matches) {
-        video.play().catch(() => { });
+      if (video && video.paused && !isReducedMotion()) {
+        video.play().catch(() => {});
       }
     };
+
     syncVideo();
-    stillness.addEventListener("change", syncVideo);
+
+    // Cross-browser matchMedia listener support (addEventListener vs legacy addListener)
+    if (stillness) {
+      if (typeof stillness.addEventListener === "function") {
+        stillness.addEventListener("change", syncVideo);
+      } else if (typeof (stillness as unknown as { addListener: (cb: () => void) => void }).addListener === "function") {
+        (stillness as unknown as { addListener: (cb: () => void) => void }).addListener(syncVideo);
+      }
+    }
+
     window.addEventListener("touchstart", handleMobilePlay, { passive: true, once: true });
     window.addEventListener("scroll", handleMobilePlay, { passive: true, once: true });
 
@@ -85,7 +104,7 @@ export default function PageScripts() {
         }),
       { threshold: 0, rootMargin: "0px 0px -10% 0px" }
     );
-    if (!stillness.matches) {
+    if (stillness && !stillness.matches) {
       document.querySelectorAll("[data-count]").forEach((figure) => countIo.observe(figure));
     }
 
@@ -94,7 +113,13 @@ export default function PageScripts() {
       spy.disconnect();
       countIo.disconnect();
       cancels.forEach((cancel) => cancel());
-      stillness.removeEventListener("change", syncVideo);
+      if (stillness) {
+        if (typeof stillness.removeEventListener === "function") {
+          stillness.removeEventListener("change", syncVideo);
+        } else if (typeof (stillness as unknown as { removeListener: (cb: () => void) => void }).removeListener === "function") {
+          (stillness as unknown as { removeListener: (cb: () => void) => void }).removeListener(syncVideo);
+        }
+      }
       window.removeEventListener("touchstart", handleMobilePlay);
       window.removeEventListener("scroll", handleMobilePlay);
     };

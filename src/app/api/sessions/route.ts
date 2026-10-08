@@ -41,12 +41,19 @@ export async function GET() {
     const sessions = (rawSessions as DbSession[]).map(computeSessionAvailability);
     const grouped = groupSessionsBySlot(sessions);
 
-    return NextResponse.json({
-      success: true,
-      source: "database",
-      slots: grouped,
-      allSessions: sessions,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        source: "database",
+        slots: grouped,
+        allSessions: sessions,
+      },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=2, stale-while-revalidate=5",
+        },
+      }
+    );
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Internal server error";
     console.error("Unhandled error in /api/sessions:", err);

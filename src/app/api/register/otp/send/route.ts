@@ -69,15 +69,21 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 3. Hourly limits (per email and per IP)
+    // 3. Hourly limits (per email strict 5/hr, shared office IP high threshold 600/hr)
     const ip = getClientIp(req);
     const [emailAllowed, ipAllowed] = await Promise.all([
       checkRateLimit(`otp-send:email:${email}`, 5, 3600),
-      checkRateLimit(`otp-send:ip:${ip}`, 20, 3600),
+      checkRateLimit(`otp-send:ip:${ip}`, 600, 3600),
     ]);
-    if (!emailAllowed || !ipAllowed) {
+    if (!emailAllowed) {
       return NextResponse.json(
-        { success: false, error: "Too many code requests. Please try again later." },
+        { success: false, error: "Too many code requests for this email. Please try again in an hour." },
+        { status: 429 }
+      );
+    }
+    if (!ipAllowed) {
+      return NextResponse.json(
+        { success: false, error: "Network limit reached. Please try again shortly." },
         { status: 429 }
       );
     }

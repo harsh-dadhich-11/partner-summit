@@ -155,20 +155,20 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
       },
     ],
   },
-  {
-    company: "Eliza",
-    logo: "/assets/logos/eliza.webp",
-    website: "https://eliza.com/",
-    speakers: [
-      {
-        name: "Patrick Buell",
-        role: "Chief Deployment Officer",
-        company: "Eliza",
-        photo: "/assets/guests/patrick.webp",
-        linkedin: "https://www.linkedin.com/in/patrick-buell-81756a8/",
-      },
-    ],
-  },
+  // {
+  //   company: "Eliza",
+  //   logo: "/assets/logos/eliza.webp",
+  //   website: "https://eliza.com/",
+  //   speakers: [
+  //     {
+  //       name: "Patrick Buell",
+  //       role: "Chief Deployment Officer",
+  //       company: "Eliza",
+  //       photo: "/assets/guests/patrick.webp",
+  //       linkedin: "https://www.linkedin.com/in/patrick-buell-81756a8/",
+  //     },
+  //   ],
+  // },
 ];
 
 export const guestGroups: CompanySpeakerGroup[] = [];

@@ -45,14 +45,26 @@ export default function VolunteerClient() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        const parsed: VolunteerSession = JSON.parse(saved);
-        setVolunteerSession(parsed);
-        if (parsed.assignedTheatreId && parsed.assignedTheatreId !== "all") {
-          setSelectedTheatre(parsed.assignedTheatreId);
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === "object" && parsed.id && parsed.email) {
+          const validatedSession: VolunteerSession = {
+            id: String(parsed.id),
+            name: String(parsed.name || "Volunteer"),
+            email: String(parsed.email),
+            assignedTheatreId: String(parsed.assignedTheatreId || "all"),
+          };
+          setVolunteerSession(validatedSession);
+          if (validatedSession.assignedTheatreId && validatedSession.assignedTheatreId !== "all") {
+            setSelectedTheatre(validatedSession.assignedTheatreId);
+          }
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
         }
       }
     } catch {
-      localStorage.removeItem(STORAGE_KEY);
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch {}
     } finally {
       setIsAuthChecking(false);
     }
@@ -511,7 +523,18 @@ export default function VolunteerClient() {
           isOpen={isScannerOpen}
           onClose={() => setIsScannerOpen(false)}
           currentSessionId={currentSessionId}
-          onScanSuccess={() => {
+          theatreName={THEATRES.find((t) => t.id === selectedTheatre)?.name || "Assigned Theatre"}
+          roster={attendees}
+          onScanSuccess={(scannedRegId) => {
+            if (scannedRegId) {
+              setAttendees((prev) =>
+                prev.map((a) =>
+                  a.registration_id.toLowerCase() === scannedRegId.toLowerCase()
+                    ? { ...a, is_present: true }
+                    : a
+                )
+              );
+            }
             fetchSheet(true);
           }}
         />
