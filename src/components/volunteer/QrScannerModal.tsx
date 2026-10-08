@@ -35,6 +35,28 @@ export default function QrScannerModal({
   const [sessionScanCount, setSessionScanCount] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
 
+  // Keep references to latest props so callback never causes camera restarts
+  const rosterRef = useRef<DbSessionAttendance[]>(roster);
+  const onScanSuccessRef = useRef(onScanSuccess);
+  const currentSessionIdRef = useRef(currentSessionId);
+  const theatreNameRef = useRef(theatreName);
+
+  useEffect(() => {
+    rosterRef.current = roster;
+  }, [roster]);
+
+  useEffect(() => {
+    onScanSuccessRef.current = onScanSuccess;
+  }, [onScanSuccess]);
+
+  useEffect(() => {
+    currentSessionIdRef.current = currentSessionId;
+  }, [currentSessionId]);
+
+  useEffect(() => {
+    theatreNameRef.current = theatreName;
+  }, [theatreName]);
+
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const isScanningRef = useRef(false);
   const recentlyScannedRef = useRef<Map<string, number>>(new Map());
@@ -62,144 +84,145 @@ export default function QrScannerModal({
     return { regId: regId.trim(), email: email.trim() };
   };
 
-  const handleQrCodeScanned = useCallback(
-    async (qrText: string) => {
-      const now = Date.now();
-      const { regId, email } = parseQrPayload(qrText);
-      const cacheKey = regId || email || qrText;
+  const handleQrCodeScanned = useCallback(async (qrText: string) => {
+    const now = Date.now();
+    const { regId, email } = parseQrPayload(qrText);
+    const cacheKey = regId || email || qrText;
 
-      // Prevent duplicate scan of the SAME badge within 2.5 seconds
-      const lastScanned = recentlyScannedRef.current.get(cacheKey);
-      if (lastScanned && now - lastScanned < 2500) {
-        return;
+    // Prevent duplicate scan of the SAME badge within 2.5 seconds
+    const lastScanned = recentlyScannedRef.current.get(cacheKey);
+    if (lastScanned && now - lastScanned < 2500) {
+      return;
+    }
+    recentlyScannedRef.current.set(cacheKey, now);
+
+    const currentRoster = rosterRef.current;
+    const activeSessionId = currentSessionIdRef.current;
+    const notifySuccess = onScanSuccessRef.current;
+
+    // 1. Instant Local Roster Check (0ms latency)
+    const localMatch = currentRoster.find((a) => {
+      if (regId && a.registration_id.toLowerCase() === regId.toLowerCase()) return true;
+      if (email && a.attendee_email.toLowerCase() === email.toLowerCase()) return true;
+      if (regId && a.attendee_email.toLowerCase() === regId.toLowerCase()) return true;
+      return false;
+    });
+
+    if (localMatch) {
+      // Instant Haptic + Audio cue
+      if (typeof navigator !== "undefined" && navigator.vibrate) {
+        navigator.vibrate([40, 30, 40]);
       }
-      recentlyScannedRef.current.set(cacheKey, now);
+      playSuccessTone();
 
-      // 1. Instant Local Roster Check (0ms latency)
-      const localMatch = roster.find((a) => {
-        if (regId && a.registration_id.toLowerCase() === regId.toLowerCase()) return true;
-        if (email && a.attendee_email.toLowerCase() === email.toLowerCase()) return true;
-        if (regId && a.attendee_email.toLowerCase() === regId.toLowerCase()) return true;
-        return false;
+      const wasAlreadyPresent = localMatch.is_present;
+      setFeedback({
+        type: wasAlreadyPresent ? "already_checked_in" : "success",
+        title: wasAlreadyPresent ? "Already Checked In" : "Checked In!",
+        message: `${localMatch.attendee_name} (${localMatch.registration_id})`,
+        attendeeName: localMatch.attendee_name,
+        timestamp: now,
       });
 
-      if (localMatch) {
-        // Instant Haptic + Audio cue
+      if (!wasAlreadyPresent) {
+        setSessionScanCount((prev) => prev + 1);
+      }
+
+      if (notifySuccess) {
+        notifySuccess(localMatch.registration_id);
+      }
+
+      // Fire background async API sync (non-blocking)
+      setIsSyncing(true);
+      fetch("/api/volunteer/scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          qrData: qrText,
+          currentSessionId: activeSessionId,
+          volunteerId: "speed-scanner",
+        }),
+      })
+        .catch((err) => console.warn("Background sync warning:", err))
+        .finally(() => setIsSyncing(false));
+
+      return;
+    }
+
+    // 2. Attendee not in local roster -> query API for cross-theatre verification or walk-in
+    setIsSyncing(true);
+    try {
+      const res = await fetch("/api/volunteer/scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          qrData: qrText,
+          currentSessionId: activeSessionId,
+          volunteerId: "camera-scanner",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.status === "CHECKED_IN") {
         if (typeof navigator !== "undefined" && navigator.vibrate) {
           navigator.vibrate([40, 30, 40]);
         }
         playSuccessTone();
 
-        const wasAlreadyPresent = localMatch.is_present;
         setFeedback({
-          type: wasAlreadyPresent ? "already_checked_in" : "success",
-          title: wasAlreadyPresent ? "Already Checked In" : "Checked In!",
-          message: `${localMatch.attendee_name} (${localMatch.registration_id})`,
-          attendeeName: localMatch.attendee_name,
-          timestamp: now,
+          type: "success",
+          title: "Checked In!",
+          message: `${data.attendeeName} (${data.registrationId})`,
+          attendeeName: data.attendeeName,
+          timestamp: Date.now(),
         });
-
-        if (!wasAlreadyPresent) {
-          setSessionScanCount((prev) => prev + 1);
+        setSessionScanCount((prev) => prev + 1);
+        if (notifySuccess) {
+          notifySuccess(data.registrationId);
         }
-
-        if (onScanSuccess) {
-          onScanSuccess(localMatch.registration_id);
+      } else if (data.status === "WRONG_THEATRE") {
+        if (typeof navigator !== "undefined" && navigator.vibrate) {
+          navigator.vibrate([150, 80, 150]);
         }
+        playWarningTone();
 
-        // Fire background async API sync (non-blocking)
-        setIsSyncing(true);
-        fetch("/api/volunteer/scan", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            qrData: qrText,
-            currentSessionId,
-            volunteerId: "speed-scanner",
-          }),
-        })
-          .catch((err) => console.warn("Background sync warning:", err))
-          .finally(() => setIsSyncing(false));
-
-        return;
-      }
-
-      // 2. Attendee not in local roster -> query API for cross-theatre verification or walk-in
-      setIsSyncing(true);
-      try {
-        const res = await fetch("/api/volunteer/scan", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            qrData: qrText,
-            currentSessionId,
-            volunteerId: "camera-scanner",
-          }),
+        setFeedback({
+          type: "wrong_theatre",
+          title: `Wrong Theatre! Send to: ${data.correctTheatreName}`,
+          message: `${data.attendeeName} is registered for ${data.correctTheatreName} (${data.correctSessionTitle}).`,
+          attendeeName: data.attendeeName,
+          timestamp: Date.now(),
         });
-
-        const data = await res.json();
-
-        if (data.status === "CHECKED_IN") {
-          if (typeof navigator !== "undefined" && navigator.vibrate) {
-            navigator.vibrate([40, 30, 40]);
-          }
-          playSuccessTone();
-
-          setFeedback({
-            type: "success",
-            title: "Checked In!",
-            message: `${data.attendeeName} (${data.registrationId})`,
-            attendeeName: data.attendeeName,
-            timestamp: Date.now(),
-          });
-          setSessionScanCount((prev) => prev + 1);
-          if (onScanSuccess) {
-            onScanSuccess(data.registrationId);
-          }
-        } else if (data.status === "WRONG_THEATRE") {
-          if (typeof navigator !== "undefined" && navigator.vibrate) {
-            navigator.vibrate([150, 80, 150]);
-          }
-          playWarningTone();
-
-          setFeedback({
-            type: "wrong_theatre",
-            title: `Wrong Theatre! Send to: ${data.correctTheatreName}`,
-            message: `${data.attendeeName} is registered for ${data.correctTheatreName} (${data.correctSessionTitle}).`,
-            attendeeName: data.attendeeName,
-            timestamp: Date.now(),
-          });
-        } else {
-          if (typeof navigator !== "undefined" && navigator.vibrate) {
-            navigator.vibrate([250]);
-          }
-          playErrorTone();
-
-          setFeedback({
-            type: "error",
-            title: "Pass Not Found",
-            message: data.error || data.message || "Attendee not found on registration list.",
-            timestamp: Date.now(),
-          });
-        }
-      } catch (err: unknown) {
+      } else {
         if (typeof navigator !== "undefined" && navigator.vibrate) {
           navigator.vibrate([250]);
         }
         playErrorTone();
-        const msg = err instanceof Error ? err.message : "Error verifying pass";
+
         setFeedback({
           type: "error",
-          title: "Network Error",
-          message: msg,
+          title: "Pass Not Found",
+          message: data.error || data.message || "Attendee not found on registration list.",
           timestamp: Date.now(),
         });
-      } finally {
-        setIsSyncing(false);
       }
-    },
-    [currentSessionId, roster, onScanSuccess]
-  );
+    } catch (err: unknown) {
+      if (typeof navigator !== "undefined" && navigator.vibrate) {
+        navigator.vibrate([250]);
+      }
+      playErrorTone();
+      const msg = err instanceof Error ? err.message : "Error verifying pass";
+      setFeedback({
+        type: "error",
+        title: "Network Error",
+        message: msg,
+        timestamp: Date.now(),
+      });
+    } finally {
+      setIsSyncing(false);
+    }
+  }, []);
 
   // Auto-clear feedback banner after 3 seconds without blocking camera
   useEffect(() => {
@@ -213,32 +236,46 @@ export default function QrScannerModal({
   // Mount scanner ONCE when modal opens; unmount ONLY when modal closes
   useEffect(() => {
     if (!isOpen) {
-      if (scannerRef.current && isScanningRef.current) {
-        scannerRef.current
-          .stop()
-          .then(() => scannerRef.current?.clear())
-          .catch((e) => console.warn("Failed to stop scanner:", e))
-          .finally(() => {
-            isScanningRef.current = false;
-          });
+      if (scannerRef.current) {
+        const scanner = scannerRef.current;
+        if (isScanningRef.current) {
+          isScanningRef.current = false;
+          scanner
+            .stop()
+            .then(() => scanner.clear())
+            .catch(() => {});
+        }
+        scannerRef.current = null;
       }
       return;
     }
 
     let isMounted = true;
+
     const startScanner = async () => {
       try {
         setCameraError("");
+        const element = document.getElementById(regionId);
+        if (!element) {
+          // If element not rendered yet, retry in 50ms
+          if (isMounted) setTimeout(startScanner, 50);
+          return;
+        }
+
         if (!scannerRef.current) {
           scannerRef.current = new Html5Qrcode(regionId);
         }
 
-        if (!isScanningRef.current) {
+        if (!isScanningRef.current && scannerRef.current) {
           await scannerRef.current.start(
             { facingMode: "environment" },
             {
-              fps: 20, // 20 FPS for high-speed capture
-              qrbox: { width: 260, height: 260 },
+              fps: 15,
+              qrbox: (viewfinderWidth, viewfinderHeight) => {
+                const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+                const edgeSize = Math.max(Math.floor(minEdge * 0.75), 200);
+                return { width: edgeSize, height: edgeSize };
+              },
               aspectRatio: 1.0,
             },
             (decodedText) => {
@@ -246,28 +283,39 @@ export default function QrScannerModal({
             },
             () => {}
           );
-          isScanningRef.current = true;
+          if (isMounted) {
+            isScanningRef.current = true;
+          }
         }
       } catch (err: unknown) {
         if (!isMounted) return;
         const msg = err instanceof Error ? err.message : "Unable to access camera.";
-        setCameraError(msg);
+        const isPermError =
+          msg.toLowerCase().includes("permission") ||
+          msg.toLowerCase().includes("notallowed") ||
+          msg.toLowerCase().includes("denied");
+
+        setCameraError(
+          isPermError
+            ? "Camera permission denied. Please enable camera access in browser settings."
+            : `Camera initialization error: ${msg}`
+        );
       }
     };
 
-    const timer = setTimeout(startScanner, 150);
+    const timer = setTimeout(startScanner, 200);
 
     return () => {
       isMounted = false;
       clearTimeout(timer);
       if (scannerRef.current && isScanningRef.current) {
-        scannerRef.current
+        const scanner = scannerRef.current;
+        isScanningRef.current = false;
+        scanner
           .stop()
-          .then(() => scannerRef.current?.clear())
-          .catch((e) => console.warn("Failed to stop scanner on cleanup:", e))
-          .finally(() => {
-            isScanningRef.current = false;
-          });
+          .then(() => scanner.clear())
+          .catch(() => {});
+        scannerRef.current = null;
       }
     };
   }, [isOpen, handleQrCodeScanned]);
@@ -311,11 +359,17 @@ export default function QrScannerModal({
         <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
           {cameraError ? (
             <div className="border border-orange-deep bg-panel-orange p-4 text-small text-orange-deep">
-              <p className="font-bold">Camera Permission Needed</p>
+              <p className="font-bold">Camera Issue</p>
               <p className="mt-1">{cameraError}</p>
-              <p className="mt-2 text-micro text-muted">
-                Please grant camera permissions in your browser settings to scan attendee QR codes.
-              </p>
+              <button
+                onClick={() => {
+                  setCameraError("");
+                  window.location.reload();
+                }}
+                className="mt-3 inline-block rounded-full bg-orange-deep text-white px-4 py-1.5 text-micro font-bold"
+              >
+                Reload Page
+              </button>
             </div>
           ) : (
             <div className="relative overflow-hidden bg-ink border border-rule/50 shadow-inner">
