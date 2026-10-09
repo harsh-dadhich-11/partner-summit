@@ -43,19 +43,19 @@ export default function SessionCard({
       }`}
       style={{ "--i": index } as React.CSSProperties}
     >
-      <div className="flex items-center justify-between gap-3">
-        <p className={`self-start rounded-full px-3 py-1 text-micro font-semibold uppercase ${track.tile}`}>
+      <div className="flex items-center justify-between gap-2 min-w-0">
+        <p className={`shrink-0 rounded-full px-2.5 py-1 text-micro font-semibold uppercase tracking-wider whitespace-nowrap ${track.tile}`}>
           {track.label}
         </p>
 
         {/* Live Availability Badges: Strictly 'Sold Out' or 'Filling Fast' */}
         {isFull ? (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-panel-orange px-2.5 py-0.5 text-micro font-bold text-orange-deep uppercase tracking-wider">
+          <span className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 rounded-full bg-panel-orange px-2.5 py-0.5 text-micro font-bold text-orange-deep uppercase tracking-wider">
             <span className="h-1.5 w-1.5 rounded-full bg-orange-deep" />
             Sold Out
           </span>
         ) : (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-bright/12 px-2.5 py-0.5 text-micro font-bold text-orange-deep uppercase tracking-wider">
+          <span className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 rounded-full bg-orange-bright/12 px-2.5 py-0.5 text-micro font-bold text-orange-deep uppercase tracking-wider">
             <span className="h-1.5 w-1.5 rounded-full bg-orange-bright animate-pulse" />
             Filling Fast
           </span>
@@ -70,33 +70,39 @@ export default function SessionCard({
         </p>
       )}
 
-      {session.speaker_name && (
-        <div className="mt-3 flex flex-col gap-0.5">
-          <p className="text-small font-semibold text-teal-base">
-            {session.speaker_name}
-          </p>
-          {session.speaker_company && (
-            <p className="text-micro text-muted">
-              {session.speaker_company}
+      {/* Speaker Section: Anchored with mt-auto so all cards across parallel boxes align horizontally at the exact same height */}
+      <div className="mt-auto pt-4">
+        {session.speaker_name && (
+          <div className="flex flex-col gap-0.5">
+            <p
+              className="text-[12.5px] sm:text-[13px] font-semibold text-teal-base leading-snug tracking-tight whitespace-nowrap overflow-hidden text-ellipsis"
+              title={session.speaker_name}
+            >
+              {session.speaker_name}
             </p>
-          )}
-        </div>
-      )}
-
-      {/* Footer line with Room & Selection state */}
-      <div className="mt-auto flex items-center justify-between gap-2 pt-6 border-t border-rule/30 text-micro tracking-normal text-muted">
-        <p className="flex items-center gap-2">
-          <span className="text-teal-mid">
-            <Icon name="pin" size={14} />
-          </span>
-          {session.theatre_name}
-        </p>
-
-        {selectable && isFull && (
-          <div>
-            <span className="text-orange-deep text-micro font-bold uppercase tracking-wider">Sold Out</span>
+            {session.speaker_company && (
+              <p className="text-micro text-muted whitespace-nowrap overflow-hidden text-ellipsis">
+                {session.speaker_company}
+              </p>
+            )}
           </div>
         )}
+
+        {/* Footer line with Room & Selection state */}
+        <div className="mt-4 flex items-center justify-between gap-2 pt-4 border-t border-rule/30 text-micro tracking-normal text-muted">
+          <p className="flex items-center gap-2 truncate">
+            <span className="text-teal-mid shrink-0">
+              <Icon name="pin" size={14} />
+            </span>
+            <span className="truncate">{session.theatre_name}</span>
+          </p>
+
+          {selectable && isFull && (
+            <div className="shrink-0">
+              <span className="text-orange-deep text-micro font-bold uppercase tracking-wider">Sold Out</span>
+            </div>
+          )}
+        </div>
       </div>
     </li>
   );

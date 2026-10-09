@@ -60,7 +60,7 @@ export async function sendPassEmail({
 
     // 1. Generate RFC 5545 .ics Calendar Invite with 3 distinct session slot events
     const nowIso = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
-    
+
     const icsContent = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
@@ -169,6 +169,15 @@ export async function sendPassEmail({
                 Your breakout session registration for Day 1 of the Partner Summit is confirmed. Please keep this pass and QR code accessible on your phone when arriving at each theatre. A calendar invite is also attached to this email.
               </p>
 
+              <!-- Finality Notice Box -->
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom:20px;border:1px solid rgba(241,101,34,0.3);background-color:#fff8f3;border-radius:4px;">
+                <tr>
+                  <td style="padding:10px 14px;font-size:12px;color:#c04d13;line-height:1.4;font-weight:600;">
+                    &#9888;&#65039; <strong>Please note:</strong> Registrations are final and cannot be cancelled or changed.
+                  </td>
+                </tr>
+              </table>
+
               <!-- Pass Badge Card -->
               <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#faf5ee;border:2px solid #2a8a8a;margin-bottom:28px;">
                 <tr>
@@ -244,8 +253,11 @@ export async function sendPassEmail({
               </table>
 
               <!-- Footer note -->
+              <p style="font-size:12px;color:#5c6b70;line-height:1.5;margin:0 0 10px 0;">
+                <strong>Please note:</strong> Registrations are final and cannot be cancelled or changed.
+              </p>
               <p style="font-size:12px;color:#5c6b70;line-height:1.5;margin:0;">
-                Need to view your pass later? You can look it up at any time by visiting the <a href="https://summit.botconsulting.io/sessions" style="color:#2a8a8a;text-decoration:none;font-weight:600;">Summit Sessions Page</a> and clicking <strong>Find My Pass</strong>.
+                Need to view your pass later? You can look it up at any time by visiting the <a href="https://partner-summit-26.botconsulting.io/sessions" style="color:#2a8a8a;text-decoration:none;font-weight:600;">Summit Sessions Page</a>.
               </p>
             </td>
           </tr>

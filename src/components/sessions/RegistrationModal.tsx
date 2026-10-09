@@ -255,33 +255,33 @@ export default function RegistrationModal({
   const slot3 = slots.find((s) => s.slotId === "slot-3")?.sessions || [];
 
   return (
-    <div className="fixed inset-0 z-150 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-teal-dark/85 backdrop-blur-md">
-      <div className="relative w-full max-w-4xl border border-rule-light bg-cream shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
-        {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-rule bg-teal-dark px-6 py-5 sm:px-8 text-cream">
-          <div>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-cyan-bright/15 px-3 py-0.5 text-micro font-bold uppercase tracking-wider text-cyan-bright">
-              Odyssey 2026 Summit
-            </span>
-            <h2 className="mt-1 font-display text-h2 text-white">
-              Breakout Session Registration
-            </h2>
-          </div>
-          <button
-            onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-cream/70 hover:bg-cream/15 hover:text-white transition-colors"
-            aria-label="Close"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
+    <div className="fixed inset-0 z-150 flex flex-col w-screen h-screen min-h-screen bg-cream overflow-hidden animate-fadeIn">
+      {/* Modal Header */}
+      <div className="flex items-center justify-between border-b border-rule bg-teal-dark px-6 py-4.5 sm:px-10 lg:px-12 text-cream shrink-0 shadow-md">
+        <div>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-cyan-bright/15 px-3 py-0.5 text-micro font-bold uppercase tracking-wider text-cyan-bright">
+            Odyssey 2026 Summit
+          </span>
+          <h2 className="mt-1 font-display text-h2 text-white">
+            Breakout Session Registration
+          </h2>
         </div>
+        <button
+          onClick={onClose}
+          className="flex h-10 w-10 items-center justify-center rounded-full text-cream/70 hover:bg-cream/15 hover:text-white transition-colors"
+          aria-label="Close Registration Modal"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
 
-        {/* Progress Stepper Bar */}
-        {!confirmedData && (
-          <div className="border-b border-rule bg-surface-sunk px-4 py-3 sm:px-8">
+      {/* Progress Stepper Bar */}
+      {!confirmedData && (
+        <div className="border-b border-rule bg-surface-sunk px-6 py-3.5 sm:px-10 lg:px-12 shrink-0">
+          <div className="max-w-7xl mx-auto w-full">
             {/* Desktop Stepper */}
             <div className="hidden sm:flex items-center justify-between">
               {STEP_LABELS.map((item, idx) => {
@@ -348,10 +348,12 @@ export default function RegistrationModal({
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Body content */}
-        <div className="overflow-y-auto p-5 sm:p-8 flex-1">
+      {/* Body content */}
+      <div className="overflow-y-auto p-6 sm:p-10 lg:p-12 flex-1">
+        <div className="max-w-7xl mx-auto w-full pb-8">
           {/* Confirmed State */}
           {confirmedData ? (
             <div className="text-center py-4 sm:py-6">
@@ -371,6 +373,13 @@ export default function RegistrationModal({
               <p className="mt-2 text-small text-muted max-w-lg mx-auto">
                 Your breakout session registration has been reserved. Keep your Registration ID handy for on-site theatre entry.
               </p>
+
+              {/* Finality Note */}
+              <div className="mt-4 mx-auto max-w-md rounded border border-orange-deep/25 bg-panel-orange p-3 text-center">
+                <p className="text-micro font-medium text-orange-deep">
+                  <strong>Please note:</strong> Registrations are final and cannot be cancelled or changed.
+                </p>
+              </div>
 
               {/* Pass Card */}
               <div className="mt-6 mx-auto max-w-md border-2 border-teal-mid/30 bg-white p-6 shadow-md text-left">
@@ -976,7 +985,14 @@ export default function RegistrationModal({
                 </div>
               </div>
 
-              <div className="mt-8 flex justify-between items-center border-t border-rule/50 pt-4">
+              {/* Finality Note */}
+              <div className="mt-4 rounded border border-orange-deep/20 bg-panel-orange p-3 text-center">
+                <p className="text-micro font-medium text-orange-deep">
+                  <strong>Please note:</strong> Registrations are final and cannot be cancelled or changed.
+                </p>
+              </div>
+
+              <div className="mt-6 flex justify-between items-center border-t border-rule/50 pt-4">
                 <button
                   type="button"
                   onClick={() => setStep(4)}
