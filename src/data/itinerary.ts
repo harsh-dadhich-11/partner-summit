@@ -82,7 +82,7 @@ export const itineraryDays: ItineraryDay[] = [
       },
       {
         /* Runs the whole afternoon, alongside the breakouts above. */
-        time: "14:00 – 17:15",
+        time: "14:00 – 17:00",
         label: "Kids Activity",
         category: "social",
         audience: "kids-families",
@@ -90,7 +90,7 @@ export const itineraryDays: ItineraryDay[] = [
         icon: "users",
       },
       {
-        time: "17:15 – 17:45",
+        time: "17:00 – 17:30",
         label: "High Tea",
         category: "meals",
         audience: "everyone",
@@ -193,7 +193,7 @@ export const itineraryDays: ItineraryDay[] = [
         icon: "meal",
       },
       {
-        time: "14:00 – 14:45",
+        time: "14:00 – 15:00",
         label: "Fireside Chat — VC Perspective",
         category: "sessions",
         audience: "bot-team",
@@ -201,7 +201,7 @@ export const itineraryDays: ItineraryDay[] = [
         icon: "users",
       },
       {
-        time: "14:45 – 15:30",
+        time: "15:00 – 16:00",
         label: "Session — Chris Barbin",
         category: "sessions",
         audience: "bot-team",
@@ -209,7 +209,7 @@ export const itineraryDays: ItineraryDay[] = [
         icon: "session",
       },
       {
-        time: "15:30 – 16:00",
+        time: "16:00 – 16:30",
         label: "High Tea",
         category: "meals",
         audience: "everyone",
@@ -217,7 +217,7 @@ export const itineraryDays: ItineraryDay[] = [
         icon: "meal",
       },
       {
-        time: "16:00 – 17:30",
+        time: "16:30 – 18:00",
         label: "Śrī Event",
         category: "community",
         audience: "everyone",

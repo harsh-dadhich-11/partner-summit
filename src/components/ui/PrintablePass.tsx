@@ -28,8 +28,8 @@ export default function PrintablePass({ registrationId, attendeeName, attendeeEm
   if (typeof document === "undefined") return null;
 
   return createPortal(
-    <div id="print-pass" className="hidden">
-      <div className="mx-auto max-w-[170mm] border-2 border-teal-mid p-8 text-ink">
+    <div id="print-pass" className="hidden print:block">
+      <div className="mx-auto max-w-[170mm] border-2 border-teal-mid p-8 text-ink bg-white">
         <div className="border-b border-rule pb-4 text-center">
           <p className="text-micro font-bold uppercase tracking-wider text-teal-mid">
             Odyssey 2026 · Partner Summit

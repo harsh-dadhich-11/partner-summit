@@ -382,17 +382,17 @@ export default function RegistrationModal({
               </div>
 
               {/* Pass Card */}
-              <div className="mt-6 mx-auto max-w-md border-2 border-teal-mid/30 bg-white p-6 shadow-md text-left">
-                <div className="flex justify-between items-start border-b border-rule/30 pb-4">
+              <div className="mt-6 mx-auto max-w-lg border-2 border-teal-mid/30 bg-white p-5 sm:p-6 shadow-md text-left">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 border-b border-rule/30 pb-4">
                   <div>
-                    <p className="text-micro uppercase text-muted font-bold">Registration ID</p>
+                    <p className="text-micro uppercase text-muted font-bold tracking-wider">Registration ID</p>
                     <p className="font-mono text-lead font-bold text-accent">
                       {confirmedData.registrationId}
                     </p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-micro uppercase text-muted font-bold">Attendee Email</p>
-                    <p className="text-small font-medium text-ink">{confirmedData.attendeeEmail}</p>
+                  <div className="sm:text-right min-w-0">
+                    <p className="text-micro uppercase text-muted font-bold tracking-wider">Attendee Email</p>
+                    <p className="text-small font-semibold text-ink break-all sm:break-normal">{confirmedData.attendeeEmail}</p>
                   </div>
                 </div>
 
@@ -402,10 +402,10 @@ export default function RegistrationModal({
                   </p>
 
                   {/* Slot 1 */}
-                  <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
-                    <div className="flex justify-between font-semibold text-ink">
-                      <span>3:00 – 3:45 PM</span>
-                      <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
+                  <div className="border border-rule/40 bg-surface-sunk p-3.5 text-small">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 font-semibold text-ink">
+                      <span className="text-small font-bold tabular-nums">3:00 – 3:45 PM</span>
+                      <span className="self-start sm:self-auto rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
                         {confirmedData.selections?.slot1?.theatreName}
                       </span>
                     </div>
@@ -421,10 +421,10 @@ export default function RegistrationModal({
                   </div>
 
                   {/* Slot 2 */}
-                  <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
-                    <div className="flex justify-between font-semibold text-ink">
-                      <span>3:45 – 4:30 PM</span>
-                      <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
+                  <div className="border border-rule/40 bg-surface-sunk p-3.5 text-small">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 font-semibold text-ink">
+                      <span className="text-small font-bold tabular-nums">3:45 – 4:30 PM</span>
+                      <span className="self-start sm:self-auto rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
                         {confirmedData.selections?.slot2?.theatreName}
                       </span>
                     </div>
@@ -440,10 +440,10 @@ export default function RegistrationModal({
                   </div>
 
                   {/* Slot 3 */}
-                  <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
-                    <div className="flex justify-between font-semibold text-ink">
-                      <span>4:30 – 5:15 PM</span>
-                      <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
+                  <div className="border border-rule/40 bg-surface-sunk p-3.5 text-small">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 font-semibold text-ink">
+                      <span className="text-small font-bold tabular-nums">4:30 – 5:15 PM</span>
+                      <span className="self-start sm:self-auto rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
                         {confirmedData.selections?.slot3?.theatreName}
                       </span>
                     </div>
@@ -471,9 +471,9 @@ export default function RegistrationModal({
                     slot1SessionId={selectedSlot1?.id}
                     slot2SessionId={selectedSlot2?.id}
                     slot3SessionId={selectedSlot3?.id}
-                    size={140}
+                    size={150}
                   />
-                  <p className="mt-2 text-micro text-muted text-center">
+                  <p className="mt-2 text-micro text-muted text-center max-w-xs">
                     Show this QR code at the door of each theatre for instant volunteer check-in.
                   </p>
                 </div>
@@ -508,16 +508,23 @@ export default function RegistrationModal({
                 ]}
               />
 
-              <div className="mt-8 flex justify-center gap-4">
+              <div className="mt-8 flex flex-col-reverse sm:flex-row justify-center gap-3 sm:gap-4 max-w-md mx-auto">
                 <button
+                  type="button"
                   onClick={() => window.print()}
-                  className="rounded-full border border-rule bg-white px-6 py-3 text-small font-semibold text-ink hover:bg-surface-sunk transition-colors shadow-sm"
+                  className="w-full sm:w-auto rounded-full border border-rule bg-white px-7 py-3.5 text-small font-semibold text-ink hover:bg-surface-sunk transition-colors shadow-sm flex items-center justify-center gap-2"
                 >
-                  Print / Save Pass
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="6 9 6 2 18 2 18 9" />
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                    <rect x="6" y="14" width="12" height="8" />
+                  </svg>
+                  <span>Print / Save Pass</span>
                 </button>
                 <button
+                  type="button"
                   onClick={onClose}
-                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-colors shadow-md hover:shadow-lg"
+                  className="w-full sm:w-auto rounded-full bg-accent px-9 py-3.5 text-small font-bold text-white hover:bg-orange-deep transition-colors shadow-md hover:shadow-lg"
                 >
                   Done
                 </button>
@@ -714,11 +721,11 @@ export default function RegistrationModal({
                 ))}
               </ul>
 
-              <div className="mt-8 flex justify-between items-center border-t border-rule/50 pt-4">
+              <div className="mt-8 flex flex-col-reverse sm:flex-row sm:justify-between items-stretch sm:items-center gap-3 border-t border-rule/50 pt-4">
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="flex items-center gap-1.5 text-small font-medium text-muted hover:text-ink transition-colors"
+                  className="flex items-center justify-center gap-1.5 py-3 text-small font-semibold text-muted hover:text-ink transition-colors"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12" />
@@ -730,7 +737,7 @@ export default function RegistrationModal({
                   type="button"
                   disabled={!selectedSlot1}
                   onClick={() => setStep(3)}
-                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="w-full sm:w-auto rounded-full bg-accent px-8 py-3.5 text-small font-bold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   <span>Continue to Slot 2</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -768,11 +775,11 @@ export default function RegistrationModal({
                 ))}
               </ul>
 
-              <div className="mt-8 flex justify-between items-center border-t border-rule/50 pt-4">
+              <div className="mt-8 flex flex-col-reverse sm:flex-row sm:justify-between items-stretch sm:items-center gap-3 border-t border-rule/50 pt-4">
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="flex items-center gap-1.5 text-small font-medium text-muted hover:text-ink transition-colors"
+                  className="flex items-center justify-center gap-1.5 py-3 text-small font-semibold text-muted hover:text-ink transition-colors"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12" />
@@ -784,7 +791,7 @@ export default function RegistrationModal({
                   type="button"
                   disabled={!selectedSlot2}
                   onClick={() => setStep(4)}
-                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="w-full sm:w-auto rounded-full bg-accent px-8 py-3.5 text-small font-bold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   <span>Continue to Slot 3</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -822,11 +829,11 @@ export default function RegistrationModal({
                 ))}
               </ul>
 
-              <div className="mt-8 flex justify-between items-center border-t border-rule/50 pt-4">
+              <div className="mt-8 flex flex-col-reverse sm:flex-row sm:justify-between items-stretch sm:items-center gap-3 border-t border-rule/50 pt-4">
                 <button
                   type="button"
                   onClick={() => setStep(3)}
-                  className="flex items-center gap-1.5 text-small font-medium text-muted hover:text-ink transition-colors"
+                  className="flex items-center justify-center gap-1.5 py-3 text-small font-semibold text-muted hover:text-ink transition-colors"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12" />
@@ -838,7 +845,7 @@ export default function RegistrationModal({
                   type="button"
                   disabled={!selectedSlot3}
                   onClick={() => setStep(5)}
-                  className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="w-full sm:w-auto rounded-full bg-accent px-8 py-3.5 text-small font-bold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   <span>Review & Confirm</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -876,22 +883,23 @@ export default function RegistrationModal({
                 </div>
               )}
 
-              <div className="border border-rule bg-white p-6 shadow-sm space-y-5">
+              <div className="border border-rule bg-white p-5 sm:p-6 shadow-sm space-y-5">
                 {/* Attendee Info Card */}
-                <div className="border-b border-rule/40 pb-4 flex justify-between items-center">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-base/10 text-teal-base font-bold text-small">
+                <div className="border-b border-rule/40 pb-4 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-base/10 text-teal-base font-bold text-small shrink-0">
                       {name.charAt(0).toUpperCase() || "A"}
                     </div>
-                    <div>
-                      <p className="text-micro uppercase font-bold text-muted">Attendee</p>
-                      <p className="text-body font-bold text-ink">{name}</p>
-                      <p className="text-small text-muted">{email}</p>
+                    <div className="min-w-0">
+                      <p className="text-micro uppercase font-bold text-muted tracking-wider">Attendee</p>
+                      <p className="text-body font-bold text-ink truncate">{name}</p>
+                      <p className="text-small text-muted break-all sm:break-normal">{email}</p>
                     </div>
                   </div>
                   <button
+                    type="button"
                     onClick={() => setStep(1)}
-                    className="rounded-full border border-rule px-3 py-1 text-micro font-semibold text-teal-base hover:bg-surface-sunk transition-colors"
+                    className="shrink-0 rounded-full border border-teal-mid/30 bg-surface-sunk px-3.5 py-1.5 text-micro font-bold text-teal-base hover:bg-white hover:border-teal-base transition-colors shadow-2xs"
                   >
                     Edit
                   </button>
@@ -900,87 +908,90 @@ export default function RegistrationModal({
                 {/* Selected Sessions list */}
                 <div className="space-y-3">
                   {/* Slot 1 */}
-                  <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
-                    <div className="space-y-1">
+                  <div className="border border-rule/50 bg-[#faf8f4] p-4 hover:border-teal-mid/40 transition-colors">
+                    <div className="flex items-center justify-between gap-2 border-b border-rule/20 pb-2 mb-2.5">
                       <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
                         Slot 1 · 3:00 – 3:45 PM
                       </span>
-                      <p className="font-semibold text-ink">{selectedSlot1?.title}</p>
-                      {selectedSlot1?.speaker_name && (
-                        <p className="text-micro font-medium text-teal-base">
-                          {selectedSlot1.speaker_name}
-                          {selectedSlot1.speaker_company && (
-                            <span className="text-muted font-normal"> · {selectedSlot1.speaker_company}</span>
-                          )}
-                        </p>
-                      )}
-                      <p className="text-micro text-muted flex items-center gap-1">
-                        <Icon name="pin" size={12} />
-                        <span>{selectedSlot1?.theatre_name}</span>
-                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setStep(2)}
+                        className="rounded-full border border-teal-mid/30 bg-white px-3 py-1 text-micro font-bold text-teal-base hover:border-teal-base transition-colors shadow-2xs"
+                      >
+                        Change
+                      </button>
                     </div>
-                    <button
-                      onClick={() => setStep(2)}
-                      className="text-micro font-semibold text-teal-base hover:text-accent transition-colors"
-                    >
-                      Change
-                    </button>
+                    <p className="font-semibold text-ink text-small sm:text-body">{selectedSlot1?.title}</p>
+                    {selectedSlot1?.speaker_name && (
+                      <p className="mt-1 text-micro font-medium text-teal-base">
+                        {selectedSlot1.speaker_name}
+                        {selectedSlot1.speaker_company && (
+                          <span className="text-muted font-normal"> · {selectedSlot1.speaker_company}</span>
+                        )}
+                      </p>
+                    )}
+                    <p className="mt-1.5 text-micro text-muted flex items-center gap-1">
+                      <Icon name="pin" size={12} />
+                      <span>{selectedSlot1?.theatre_name}</span>
+                    </p>
                   </div>
 
                   {/* Slot 2 */}
-                  <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
-                    <div className="space-y-1">
+                  <div className="border border-rule/50 bg-[#faf8f4] p-4 hover:border-teal-mid/40 transition-colors">
+                    <div className="flex items-center justify-between gap-2 border-b border-rule/20 pb-2 mb-2.5">
                       <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
                         Slot 2 · 3:45 – 4:30 PM
                       </span>
-                      <p className="font-semibold text-ink">{selectedSlot2?.title}</p>
-                      {selectedSlot2?.speaker_name && (
-                        <p className="text-micro font-medium text-teal-base">
-                          {selectedSlot2.speaker_name}
-                          {selectedSlot2.speaker_company && (
-                            <span className="text-muted font-normal"> · {selectedSlot2.speaker_company}</span>
-                          )}
-                        </p>
-                      )}
-                      <p className="text-micro text-muted flex items-center gap-1">
-                        <Icon name="pin" size={12} />
-                        <span>{selectedSlot2?.theatre_name}</span>
-                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setStep(3)}
+                        className="rounded-full border border-teal-mid/30 bg-white px-3 py-1 text-micro font-bold text-teal-base hover:border-teal-base transition-colors shadow-2xs"
+                      >
+                        Change
+                      </button>
                     </div>
-                    <button
-                      onClick={() => setStep(3)}
-                      className="text-micro font-semibold text-teal-base hover:text-accent transition-colors"
-                    >
-                      Change
-                    </button>
+                    <p className="font-semibold text-ink text-small sm:text-body">{selectedSlot2?.title}</p>
+                    {selectedSlot2?.speaker_name && (
+                      <p className="mt-1 text-micro font-medium text-teal-base">
+                        {selectedSlot2.speaker_name}
+                        {selectedSlot2.speaker_company && (
+                          <span className="text-muted font-normal"> · {selectedSlot2.speaker_company}</span>
+                        )}
+                      </p>
+                    )}
+                    <p className="mt-1.5 text-micro text-muted flex items-center gap-1">
+                      <Icon name="pin" size={12} />
+                      <span>{selectedSlot2?.theatre_name}</span>
+                    </p>
                   </div>
 
                   {/* Slot 3 */}
-                  <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
-                    <div className="space-y-1">
+                  <div className="border border-rule/50 bg-[#faf8f4] p-4 hover:border-teal-mid/40 transition-colors">
+                    <div className="flex items-center justify-between gap-2 border-b border-rule/20 pb-2 mb-2.5">
                       <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
                         Slot 3 · 4:30 – 5:15 PM
                       </span>
-                      <p className="font-semibold text-ink">{selectedSlot3?.title}</p>
-                      {selectedSlot3?.speaker_name && (
-                        <p className="text-micro font-medium text-teal-base">
-                          {selectedSlot3.speaker_name}
-                          {selectedSlot3.speaker_company && (
-                            <span className="text-muted font-normal"> · {selectedSlot3.speaker_company}</span>
-                          )}
-                        </p>
-                      )}
-                      <p className="text-micro text-muted flex items-center gap-1">
-                        <Icon name="pin" size={12} />
-                        <span>{selectedSlot3?.theatre_name}</span>
-                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setStep(4)}
+                        className="rounded-full border border-teal-mid/30 bg-white px-3 py-1 text-micro font-bold text-teal-base hover:border-teal-base transition-colors shadow-2xs"
+                      >
+                        Change
+                      </button>
                     </div>
-                    <button
-                      onClick={() => setStep(4)}
-                      className="text-micro font-semibold text-teal-base hover:text-accent transition-colors"
-                    >
-                      Change
-                    </button>
+                    <p className="font-semibold text-ink text-small sm:text-body">{selectedSlot3?.title}</p>
+                    {selectedSlot3?.speaker_name && (
+                      <p className="mt-1 text-micro font-medium text-teal-base">
+                        {selectedSlot3.speaker_name}
+                        {selectedSlot3.speaker_company && (
+                          <span className="text-muted font-normal"> · {selectedSlot3.speaker_company}</span>
+                        )}
+                      </p>
+                    )}
+                    <p className="mt-1.5 text-micro text-muted flex items-center gap-1">
+                      <Icon name="pin" size={12} />
+                      <span>{selectedSlot3?.theatre_name}</span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -992,11 +1003,11 @@ export default function RegistrationModal({
                 </p>
               </div>
 
-              <div className="mt-6 flex justify-between items-center border-t border-rule/50 pt-4">
+              <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-between items-stretch sm:items-center gap-3 border-t border-rule/50 pt-5">
                 <button
                   type="button"
                   onClick={() => setStep(4)}
-                  className="flex items-center gap-1.5 text-small font-medium text-muted hover:text-ink transition-colors"
+                  className="flex items-center justify-center gap-1.5 py-3 text-small font-semibold text-muted hover:text-ink transition-colors"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12" />
@@ -1008,7 +1019,7 @@ export default function RegistrationModal({
                   type="button"
                   disabled={isSubmitting}
                   onClick={handleSubmitRegistration}
-                  className="rounded-full bg-accent px-8 py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 flex items-center gap-2"
+                  className="w-full sm:w-auto rounded-full bg-accent px-8 py-3.5 text-small font-bold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>

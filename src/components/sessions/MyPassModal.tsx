@@ -222,13 +222,13 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
             </form>
           ) : (
             <div>
-              <div className="border-2 border-teal-mid/30 bg-white p-5 shadow-sm text-left">
-                <div className="flex justify-between items-start border-b border-rule/30 pb-3">
-                  <div>
-                    <p className="font-display text-h3 text-ink">{registration.attendee_name}</p>
-                    <p className="text-small text-muted">{registration.attendee_email}</p>
+              <div className="border-2 border-teal-mid/30 bg-white p-5 sm:p-6 shadow-sm text-left">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 border-b border-rule/30 pb-3">
+                  <div className="min-w-0">
+                    <p className="font-display text-h3 text-ink truncate">{registration.attendee_name}</p>
+                    <p className="text-small text-muted break-all sm:break-normal">{registration.attendee_email}</p>
                   </div>
-                  <span className="rounded-full bg-cyan-bright/15 px-3 py-1 text-micro font-bold text-teal-base uppercase">
+                  <span className="shrink-0 rounded-full bg-cyan-bright/15 px-3.5 py-1 text-micro font-bold text-teal-base uppercase">
                     {registration.registration_id}
                   </span>
                 </div>
@@ -339,13 +339,14 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                 ]}
               />
 
-              <div className="mt-6 flex justify-between items-center">
+              <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-between items-stretch sm:items-center gap-3">
                 <button
+                  type="button"
                   onClick={() => {
                     setRegistration(null);
                     setQuery("");
                   }}
-                  className="flex items-center gap-1.5 text-small font-medium text-muted hover:text-ink transition-colors"
+                  className="flex items-center justify-center gap-1.5 py-2.5 text-small font-semibold text-muted hover:text-ink transition-colors"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12" />
@@ -353,16 +354,23 @@ export default function MyPassModal({ isOpen, onClose }: Props) {
                   </svg>
                   <span>Search Another</span>
                 </button>
-                <div className="flex gap-3">
+                <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3">
                   <button
+                    type="button"
                     onClick={() => window.print()}
-                    className="rounded-full border border-rule bg-white px-5 py-2.5 text-small font-semibold text-ink hover:bg-surface-sunk transition-colors"
+                    className="w-full sm:w-auto rounded-full border border-rule bg-white px-5 py-2.5 text-small font-semibold text-ink hover:bg-surface-sunk transition-colors flex items-center justify-center gap-2"
                   >
-                    Print / Save Pass
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="6 9 6 2 18 2 18 9" />
+                      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                      <rect x="6" y="14" width="12" height="8" />
+                    </svg>
+                    <span>Print / Save Pass</span>
                   </button>
                   <button
+                    type="button"
                     onClick={onClose}
-                    className="rounded-full bg-accent px-6 py-2.5 text-small font-semibold text-white hover:bg-orange-deep"
+                    className="w-full sm:w-auto rounded-full bg-accent px-6 py-2.5 text-small font-bold text-white hover:bg-orange-deep"
                   >
                     Close
                   </button>
