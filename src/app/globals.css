@@ -320,39 +320,60 @@
 /* ---- Print: only the portalled pass (#print-pass) is printed, on a single clean page. ---- */
 @media print {
   @page {
-    size: A4 portrait;
-    margin: 10mm;
+    size: portrait;
+    margin: 8mm 6mm;
   }
+
   html,
   body {
     background: #ffffff !important;
-    height: auto !important;
+    height: 100% !important;
     min-height: 100% !important;
-    overflow: visible !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
     padding: 0 !important;
     margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-  body * {
-    visibility: hidden !important;
+
+  /* Completely remove all page elements from the print layout tree */
+  body > *:not(#print-pass) {
+    display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
   }
-  #print-pass,
-  #print-pass * {
-    visibility: visible !important;
-  }
+
+  /* Show ONLY the print pass and ensure it does not break into multiple pages */
   #print-pass {
-    position: fixed !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    height: auto !important;
     display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
     background: #ffffff !important;
     color: #101d22 !important;
-    z-index: 9999999 !important;
-    padding: 15mm 10mm !important;
-    margin: 0 !important;
     box-shadow: none !important;
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  #print-pass .pass-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  #print-pass * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 }
+

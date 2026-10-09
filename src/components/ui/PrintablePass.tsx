@@ -29,39 +29,39 @@ export default function PrintablePass({ registrationId, attendeeName, attendeeEm
 
   return createPortal(
     <div id="print-pass" className="hidden print:block">
-      <div className="mx-auto max-w-[170mm] border-2 border-teal-mid p-8 text-ink bg-white">
-        <div className="border-b border-rule pb-4 text-center">
-          <p className="text-micro font-bold uppercase tracking-wider text-teal-mid">
+      <div className="pass-card mx-auto max-w-[170mm] border-2 border-teal-mid p-5 sm:p-6 text-ink bg-white">
+        <div className="border-b border-rule pb-2.5 text-center">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-teal-mid">
             Odyssey 2026 · Partner Summit
           </p>
-          <h1 className="mt-1 font-display text-h2">Breakout Session Pass</h1>
+          <h1 className="mt-0.5 font-display text-lg sm:text-xl font-bold">Breakout Session Pass</h1>
         </div>
 
-        <div className="mt-5 flex items-start justify-between gap-6">
-          <div>
-            <p className="text-micro font-bold uppercase text-muted">Attendee</p>
-            <p className="text-lead font-bold">{attendeeName}</p>
-            <p className="text-small text-muted">{attendeeEmail}</p>
+        <div className="mt-3 flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <p className="text-[10px] font-bold uppercase text-muted">Attendee</p>
+            <p className="text-sm font-bold truncate">{attendeeName}</p>
+            <p className="text-xs text-muted truncate">{attendeeEmail}</p>
           </div>
-          <div className="text-right">
-            <p className="text-micro font-bold uppercase text-muted">Registration ID</p>
-            <p className="font-mono text-lead font-bold text-accent">{registrationId}</p>
+          <div className="text-right shrink-0">
+            <p className="text-[10px] font-bold uppercase text-muted">Registration ID</p>
+            <p className="font-mono text-sm font-bold text-accent">{registrationId}</p>
           </div>
         </div>
 
-        <div className="mt-6 space-y-3">
-          <p className="text-micro font-bold uppercase tracking-wider text-muted">
+        <div className="mt-3.5 space-y-2">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-muted">
             Your Day 1 Schedule · Oct 23, 2026
           </p>
           {slots.map((slot) => (
-            <div key={slot.label} className="border border-rule p-3">
-              <div className="flex justify-between text-small font-semibold">
+            <div key={slot.label} className="border border-rule/70 p-2 text-xs">
+              <div className="flex justify-between font-semibold">
                 <span>{slot.label}</span>
-                <span className="text-teal-base">{slot.theatreName}</span>
+                <span className="text-teal-base font-bold">{slot.theatreName}</span>
               </div>
-              <p className="mt-1 text-micro text-ink font-medium">{slot.title}</p>
+              <p className="mt-0.5 text-[11px] text-ink font-medium leading-snug">{slot.title}</p>
               {slot.speakerName && (
-                <p className="mt-0.5 text-micro text-teal-base">
+                <p className="mt-0.5 text-[10px] text-teal-base leading-tight">
                   {slot.speakerName}
                   {slot.speakerCompany && (
                     <span className="text-muted"> · {slot.speakerCompany}</span>
@@ -72,8 +72,8 @@ export default function PrintablePass({ registrationId, attendeeName, attendeeEm
           ))}
         </div>
 
-        <div className="mt-6 flex flex-col items-center border-t border-dashed border-rule pt-5">
-          <p className="mb-2 text-micro font-bold uppercase tracking-wider text-muted">
+        <div className="mt-3.5 flex flex-col items-center border-t border-dashed border-rule pt-3">
+          <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted">
             Volunteer Entry QR Pass
           </p>
           <PassQrCode
@@ -83,9 +83,9 @@ export default function PrintablePass({ registrationId, attendeeName, attendeeEm
             slot1SessionId={slots[0].sessionId}
             slot2SessionId={slots[1].sessionId}
             slot3SessionId={slots[2].sessionId}
-            size={200}
+            size={120}
           />
-          <p className="mt-2 text-micro text-muted">
+          <p className="mt-1.5 text-[10px] text-muted text-center">
             Show this QR code at the door of each theatre for instant check-in.
           </p>
         </div>
