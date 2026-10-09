@@ -1,5 +1,16 @@
 export type SessionSlotType = "slot-1" | "slot-2" | "slot-3";
-export type SessionTrackType = "ecosystems" | "ai" | "industries";
+export type SessionTrackType =
+  | "tech-aws"
+  | "tech-ai"
+  | "tech-data"
+  | "tech-salesforce"
+  | "tech-ai-salesforce"
+  | "partner"
+  | "consulting"
+  | "ecosystems"
+  | "ai"
+  | "industries"
+  | string;
 
 export interface DbSession {
   id: string; // e.g. "slot1-theatre1"
@@ -11,7 +22,6 @@ export interface DbSession {
   title: string;
   description?: string;
   speaker_name: string | null;
-  speaker_role: string | null;
   speaker_company: string | null;
   capacity: number;
   booked_seats: number;
@@ -23,8 +33,8 @@ export interface DbSession {
 export interface SessionWithAvailability extends DbSession {
   remaining_seats: number;
   is_full: boolean;
-  seats_left_badge: string | null; // e.g. "15 seats left", "7 seats left", or null
-  urgency_status: "available" | "low_seats" | "full";
+  seats_left_badge: "Sold Out" | "Filling Fast" | null;
+  urgency_status: "sold_out" | "filling_fast" | "available" | "full";
 }
 
 export interface GroupedSessionSlot {

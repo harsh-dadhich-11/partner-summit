@@ -6,108 +6,112 @@ import type { Session, SessionTrack } from "@/types";
  * a reader who has seen one can skim the other.
  */
 export const SESSION_TRACKS: Record<SessionTrack, { label: string; tile: string }> = {
+  "tech-aws": { label: "Tech Session · AWS", tile: "bg-orange-bright/12 text-orange-deep" },
+  "tech-ai": { label: "Tech Session · AI", tile: "bg-cyan-bright/12 text-teal-base" },
+  "tech-data": { label: "Tech Session · Data", tile: "bg-teal-mid/12 text-teal-mid" },
+  "tech-salesforce": { label: "Tech Session · Salesforce", tile: "bg-cyan-bright/12 text-teal-base" },
+  "tech-ai-salesforce": { label: "Tech Session · AI + Salesforce", tile: "bg-orange-bright/12 text-orange-deep" },
+  partner: { label: "Partner Session", tile: "bg-gold/15 text-gold" },
+  consulting: { label: "Consulting Session", tile: "bg-teal-dark/10 text-teal-dark" },
   ecosystems: { label: "Ecosystems", tile: "bg-cyan-bright/12 text-teal-base" },
   ai: { label: "AI", tile: "bg-orange-bright/12 text-orange-deep" },
   industries: { label: "Industries", tile: "bg-teal-mid/12 text-teal-mid" },
 };
 
 /**
- * The nine Day 1 breakouts: three 40-minute slots × three parallel tracks.
- *
- * Slots and rooms are real — they come straight from the three "Breakout Sessions"
- * entries in `itinerary.ts`, which describe "three parallel tracks running across
- * Theatres 1, 2 and 3". Track names come from the summit's own framing.
- *
- * TODO: every `title` and `description` below is a placeholder and says so on the page.
- * Replace them as the programme is confirmed — nothing else needs to change, the page
- * groups and renders off this array.
- */
+  * The nine Day 1 breakouts: three 45-minute slots × three parallel tracks.
+  *
+  * Slots and rooms correspond to:
+  * - Theatre 1 — UNCHARTED | Cultivate Curiosity
+  * - Theatre 2 — NORTH STAR | Customer Success
+  * - Theatre 3 — BEDROCK | Integrity & Trust
+  */
 export const sessions: Session[] = [
-  /* ---- 15:10 – 15:45 ---- */
+  /* ---- 3:00 – 3:45 PM (Slot 1) ---- */
   {
-    slot: "15:10 – 15:45",
-    track: "ecosystems",
-    title: "Ecosystems Track",
-    room: "Sakura · Theatre 1",
-    speaker: "Chris Barbin",
-    speakerRole: "Founder & CEO",
-    speakerCompany: "Tercera",
+    slot: "3:00 – 3:45 PM",
+    track: "tech-aws",
+    title: "Production-Grade AgentCore: Deploying Multi-Agent Systems at Scale",
+    description: "Tech Session — AWS: Architecture and patterns for scaling multi-agent workflows in enterprise production environments.",
+    room: "Theatre 1 — UNCHARTED | Cultivate Curiosity",
+    speaker: "Rishabh Nagar, Bhanvendra Gaur, Pankaj Phular",
+    speakerCompany: "GCC: Caylent",
   },
   {
-    slot: "15:10 – 15:45",
-    track: "ai",
-    title: "AI Track",
-    room: "Sakura · Theatre 2",
-    speaker: "Glenn Weinstein",
-    speakerRole: "CEO",
-    speakerCompany: "Cloudsmith",
+    slot: "3:00 – 3:45 PM",
+    track: "partner",
+    title: "New vs Seasoned CEO -> Same Seat. Different Lens.",
+    description: "Partner Session: Leadership choices across different journeys.",
+    room: "Theatre 2 — NORTH STAR | Customer Success",
+    speaker: "Partner & Leadership Panel",
+    speakerCompany: "BOT & Partners",
   },
   {
-    slot: "15:10 – 15:45",
-    track: "industries",
-    title: "Industries Track",
-    room: "Sakura · Theatre 3",
-    speaker: "Gurvendra Suri",
-    speakerRole: "Tailwind Operating Executive",
-    speakerCompany: "Tailwind Capital",
-  },
-
-  /* ---- 15:55 – 16:30 ---- */
-  {
-    slot: "15:55 – 16:30",
-    track: "ecosystems",
-    title: "Ecosystems Track",
-    room: "Sakura · Theatre 1",
-    speaker: "Eran Gil",
-    speakerRole: "CEO",
-    speakerCompany: "AllCloud",
-  },
-  {
-    slot: "15:55 – 16:30",
-    track: "ai",
-    title: "AI Track",
-    room: "Sakura · Theatre 2",
-    speaker: "Sanjay Gidwani",
-    speakerRole: "Founder & CEO",
-    speakerCompany: "KOSMOS",
-  },
-  {
-    slot: "15:55 – 16:30",
-    track: "industries",
-    title: "Industries Track",
-    room: "Sakura · Theatre 3",
-    speaker: "Justin Schneiderman",
-    speakerRole: "Vice President",
-    speakerCompany: "Tailwind Capital",
+    slot: "3:00 – 3:45 PM",
+    track: "tech-ai",
+    title: "Plug and Play: How AI Learned to Use Your Tools (Agentic AI + MCP)",
+    description: "Tech Session — AI: Model Context Protocol (MCP) and agentic tool integration in practice.",
+    room: "Theatre 3 — BEDROCK | Integrity & Trust",
+    speaker: "Adit Khandelwal, Harsh Dadhich",
+    speakerCompany: "GCC: CFG",
   },
 
-  /* ---- 16:40 – 17:15 ---- */
+  /* ---- 3:45 – 4:30 PM (Slot 2) ---- */
   {
-    slot: "16:40 – 17:15",
-    track: "ecosystems",
-    title: "Ecosystems Track",
-    room: "Sakura · Theatre 1",
-    speaker: "Lisa Burton",
-    speakerRole: "Partner & COO",
-    speakerCompany: "Tercera",
+    slot: "3:45 – 4:30 PM",
+    track: "tech-data",
+    title: "Your AI Is as Smart as Your Data",
+    description: "Tech Session — Data: Data foundation, pipelines, and contextual knowledge graphs powering AI models.",
+    room: "Theatre 1 — UNCHARTED | Cultivate Curiosity",
+    speaker: "Swasti Singhal, Kaushal, Rohit Raj Gupta",
+    speakerCompany: "GCC: Hakkoda",
   },
   {
-    slot: "16:40 – 17:15",
-    track: "ai",
-    title: "AI Track",
-    room: "Sakura · Theatre 2",
-    speaker: "William Sun",
-    speakerRole: "Co-Founder & CEO",
-    speakerCompany: "Auctor",
+    slot: "3:45 – 4:30 PM",
+    track: "partner",
+    title: "Odd Tables — Smaller groups. Sharper conversations",
+    description: "Partner Session: 10 Tables, A Partner + Leader at every table for focused discussion.",
+    room: "Theatre 2 — NORTH STAR | Customer Success",
+    speaker: "10 Tables · Partner + Leader at every table",
+    speakerCompany: "BOT & Partners",
   },
   {
-    slot: "16:40 – 17:15",
-    track: "industries",
-    title: "Industries Track",
-    room: "Sakura · Theatre 3",
-    speaker: "William Fleder",
-    speakerRole: "Partner",
-    speakerCompany: "Tailwind Capital",
+    slot: "3:45 – 4:30 PM",
+    track: "tech-salesforce",
+    title: "Headless 360: Salesforce in Your Interface?",
+    description: "Tech Session — Salesforce: Decoupling Salesforce backend from front-end customer experiences.",
+    room: "Theatre 3 — BEDROCK | Integrity & Trust",
+    speaker: "Naveen Sharma, Snehasis Hazra, Nikita Pahilwani",
+    speakerCompany: "GCC: CFG",
+  },
+
+  /* ---- 4:30 – 5:15 PM (Slot 3) ---- */
+  {
+    slot: "4:30 – 5:15 PM",
+    track: "tech-ai-salesforce",
+    title: "Salesforce Beyond CRM",
+    description: "Tech Session — AI + Salesforce: Modern AI agent workflows and intelligent orchestration on Salesforce.",
+    room: "Theatre 1 — UNCHARTED | Cultivate Curiosity",
+    speaker: "Rajat Khandelwal, Nitesh Soni",
+    speakerCompany: "GCC: AllCloud",
+  },
+  {
+    slot: "4:30 – 5:15 PM",
+    track: "partner",
+    title: "Proof of Success with BOT -> From Vision to Value",
+    description: "Partner Session: Real GCC journeys. What worked, what changed, what’s next (Story 1: Cloudsmith, Story 2: AllCloud).",
+    room: "Theatre 2 — NORTH STAR | Customer Success",
+    speaker: "Cloudsmith & AllCloud",
+    speakerCompany: "GCC Success Stories",
+  },
+  {
+    slot: "4:30 – 5:15 PM",
+    track: "consulting",
+    title: "Beyond the Ask: From Order-Taker to Tour Guide",
+    description: "Consulting Session: Elevating consulting engagements from transactional tasks to proactive strategic guidance.",
+    room: "Theatre 3 — BEDROCK | Integrity & Trust",
+    speaker: "Gaurav Verma, Nishant Khandal",
+    speakerCompany: "BOT Consulting",
   },
 ];
 

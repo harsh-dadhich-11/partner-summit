@@ -47,7 +47,7 @@ export default function SessionsClient({ initialSlots }: Props) {
         <div>
           <h2 className="font-display text-h2 text-ink">Day 1 Breakout Schedule</h2>
           <p className="mt-1 text-small text-muted">
-            3 parallel tracks across Sakura Theatres 1, 2, and 3. Registration is mandatory for all attendees.
+            3 parallel tracks across Theatres 1, 2, and 3. Registration is mandatory for all attendees.
           </p>
         </div>
 
@@ -83,7 +83,7 @@ export default function SessionsClient({ initialSlots }: Props) {
                 <div>
                   <h3 className="font-display text-h3 text-ink tabular-nums">{group.slotTime}</h3>
                   <p className="text-micro font-semibold uppercase tracking-wider text-muted">
-                    Slot {slotIndex + 1} · 40 Minutes
+                    Slot {slotIndex + 1} · 45 Minutes
                   </p>
                 </div>
               </div>

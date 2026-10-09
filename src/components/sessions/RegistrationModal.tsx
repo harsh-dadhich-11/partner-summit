@@ -31,9 +31,9 @@ const RESEND_COOLDOWN_SECONDS = 60;
 
 const STEP_LABELS = [
   { step: 1, title: "Attendee Info" },
-  { step: 2, title: "Slot 1 (15:10)" },
-  { step: 3, title: "Slot 2 (15:55)" },
-  { step: 4, title: "Slot 3 (16:40)" },
+  { step: 2, title: "Slot 1 (3:00 PM)" },
+  { step: 3, title: "Slot 2 (3:45 PM)" },
+  { step: 4, title: "Slot 3 (4:30 PM)" },
   { step: 5, title: "Confirm" },
 ];
 
@@ -395,7 +395,7 @@ export default function RegistrationModal({
                   {/* Slot 1 */}
                   <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
-                      <span>15:10 – 15:45</span>
+                      <span>3:00 – 3:45 PM</span>
                       <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
                         {confirmedData.selections?.slot1?.theatreName}
                       </span>
@@ -404,8 +404,8 @@ export default function RegistrationModal({
                     {selectedSlot1?.speaker_name && (
                       <p className="mt-0.5 text-micro font-medium text-teal-base">
                         {selectedSlot1.speaker_name}
-                        {(selectedSlot1.speaker_role || selectedSlot1.speaker_company) && (
-                          <span className="text-muted font-normal"> · {[selectedSlot1.speaker_role, selectedSlot1.speaker_company].filter(Boolean).join(" · ")}</span>
+                        {selectedSlot1.speaker_company && (
+                          <span className="text-muted font-normal"> · {selectedSlot1.speaker_company}</span>
                         )}
                       </p>
                     )}
@@ -414,7 +414,7 @@ export default function RegistrationModal({
                   {/* Slot 2 */}
                   <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
-                      <span>15:55 – 16:30</span>
+                      <span>3:45 – 4:30 PM</span>
                       <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
                         {confirmedData.selections?.slot2?.theatreName}
                       </span>
@@ -423,8 +423,8 @@ export default function RegistrationModal({
                     {selectedSlot2?.speaker_name && (
                       <p className="mt-0.5 text-micro font-medium text-teal-base">
                         {selectedSlot2.speaker_name}
-                        {(selectedSlot2.speaker_role || selectedSlot2.speaker_company) && (
-                          <span className="text-muted font-normal"> · {[selectedSlot2.speaker_role, selectedSlot2.speaker_company].filter(Boolean).join(" · ")}</span>
+                        {selectedSlot2.speaker_company && (
+                          <span className="text-muted font-normal"> · {selectedSlot2.speaker_company}</span>
                         )}
                       </p>
                     )}
@@ -433,7 +433,7 @@ export default function RegistrationModal({
                   {/* Slot 3 */}
                   <div className="border border-rule/40 bg-surface-sunk p-3 text-small">
                     <div className="flex justify-between font-semibold text-ink">
-                      <span>16:40 – 17:15</span>
+                      <span>4:30 – 5:15 PM</span>
                       <span className="rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base">
                         {confirmedData.selections?.slot3?.theatreName}
                       </span>
@@ -442,8 +442,8 @@ export default function RegistrationModal({
                     {selectedSlot3?.speaker_name && (
                       <p className="mt-0.5 text-micro font-medium text-teal-base">
                         {selectedSlot3.speaker_name}
-                        {(selectedSlot3.speaker_role || selectedSlot3.speaker_company) && (
-                          <span className="text-muted font-normal"> · {[selectedSlot3.speaker_role, selectedSlot3.speaker_company].filter(Boolean).join(" · ")}</span>
+                        {selectedSlot3.speaker_company && (
+                          <span className="text-muted font-normal"> · {selectedSlot3.speaker_company}</span>
                         )}
                       </p>
                     )}
@@ -476,27 +476,24 @@ export default function RegistrationModal({
                 attendeeEmail={confirmedData.attendeeEmail}
                 slots={[
                   {
-                    label: "Slot 1 · 15:10 – 15:45",
+                    label: "Slot 1 · 3:00 – 3:45 PM",
                     ...confirmedData.selections?.slot1,
                     sessionId: selectedSlot1?.id,
                     speakerName: selectedSlot1?.speaker_name || undefined,
-                    speakerRole: selectedSlot1?.speaker_role || undefined,
                     speakerCompany: selectedSlot1?.speaker_company || undefined,
                   },
                   {
-                    label: "Slot 2 · 15:55 – 16:30",
+                    label: "Slot 2 · 3:45 – 4:30 PM",
                     ...confirmedData.selections?.slot2,
                     sessionId: selectedSlot2?.id,
                     speakerName: selectedSlot2?.speaker_name || undefined,
-                    speakerRole: selectedSlot2?.speaker_role || undefined,
                     speakerCompany: selectedSlot2?.speaker_company || undefined,
                   },
                   {
-                    label: "Slot 3 · 16:40 – 17:15",
+                    label: "Slot 3 · 4:30 – 5:15 PM",
                     ...confirmedData.selections?.slot3,
                     sessionId: selectedSlot3?.id,
                     speakerName: selectedSlot3?.speaker_name || undefined,
-                    speakerRole: selectedSlot3?.speaker_role || undefined,
                     speakerCompany: selectedSlot3?.speaker_company || undefined,
                   },
                 ]}
@@ -686,7 +683,7 @@ export default function RegistrationModal({
               <div className="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-rule/40 pb-3">
                 <div>
                   <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase tracking-wider">
-                    Time Slot 1 · 15:10 – 15:45
+                    Time Slot 1 · 3:00 – 3:45 PM
                   </span>
                   <h3 className="mt-1.5 font-display text-h3 text-ink">Select One Session for Slot 1</h3>
                 </div>
@@ -740,7 +737,7 @@ export default function RegistrationModal({
               <div className="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-rule/40 pb-3">
                 <div>
                   <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase tracking-wider">
-                    Time Slot 2 · 15:55 – 16:30
+                    Time Slot 2 · 3:45 – 4:30 PM
                   </span>
                   <h3 className="mt-1.5 font-display text-h3 text-ink">Select One Session for Slot 2</h3>
                 </div>
@@ -794,7 +791,7 @@ export default function RegistrationModal({
               <div className="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-rule/40 pb-3">
                 <div>
                   <span className="rounded-full bg-teal-base/10 px-3 py-1 text-micro font-bold text-teal-base uppercase tracking-wider">
-                    Time Slot 3 · 16:40 – 17:15
+                    Time Slot 3 · 4:30 – 5:15 PM
                   </span>
                   <h3 className="mt-1.5 font-display text-h3 text-ink">Select One Session for Slot 3</h3>
                 </div>
@@ -897,14 +894,14 @@ export default function RegistrationModal({
                   <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
                     <div className="space-y-1">
                       <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
-                        Slot 1 · 15:10–15:45
+                        Slot 1 · 3:00 – 3:45 PM
                       </span>
                       <p className="font-semibold text-ink">{selectedSlot1?.title}</p>
                       {selectedSlot1?.speaker_name && (
                         <p className="text-micro font-medium text-teal-base">
                           {selectedSlot1.speaker_name}
-                          {(selectedSlot1.speaker_role || selectedSlot1.speaker_company) && (
-                            <span className="text-muted font-normal"> · {[selectedSlot1.speaker_role, selectedSlot1.speaker_company].filter(Boolean).join(" · ")}</span>
+                          {selectedSlot1.speaker_company && (
+                            <span className="text-muted font-normal"> · {selectedSlot1.speaker_company}</span>
                           )}
                         </p>
                       )}
@@ -925,14 +922,14 @@ export default function RegistrationModal({
                   <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
                     <div className="space-y-1">
                       <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
-                        Slot 2 · 15:55–16:30
+                        Slot 2 · 3:45 – 4:30 PM
                       </span>
                       <p className="font-semibold text-ink">{selectedSlot2?.title}</p>
                       {selectedSlot2?.speaker_name && (
                         <p className="text-micro font-medium text-teal-base">
                           {selectedSlot2.speaker_name}
-                          {(selectedSlot2.speaker_role || selectedSlot2.speaker_company) && (
-                            <span className="text-muted font-normal"> · {[selectedSlot2.speaker_role, selectedSlot2.speaker_company].filter(Boolean).join(" · ")}</span>
+                          {selectedSlot2.speaker_company && (
+                            <span className="text-muted font-normal"> · {selectedSlot2.speaker_company}</span>
                           )}
                         </p>
                       )}
@@ -953,14 +950,14 @@ export default function RegistrationModal({
                   <div className="border border-rule/50 bg-[#faf8f4] p-4 flex justify-between items-center hover:border-teal-mid/40 transition-colors">
                     <div className="space-y-1">
                       <span className="inline-block rounded-full bg-teal-base/10 px-2.5 py-0.5 text-micro font-bold text-teal-base uppercase">
-                        Slot 3 · 16:40–17:15
+                        Slot 3 · 4:30 – 5:15 PM
                       </span>
                       <p className="font-semibold text-ink">{selectedSlot3?.title}</p>
                       {selectedSlot3?.speaker_name && (
                         <p className="text-micro font-medium text-teal-base">
                           {selectedSlot3.speaker_name}
-                          {(selectedSlot3.speaker_role || selectedSlot3.speaker_company) && (
-                            <span className="text-muted font-normal"> · {[selectedSlot3.speaker_role, selectedSlot3.speaker_company].filter(Boolean).join(" · ")}</span>
+                          {selectedSlot3.speaker_company && (
+                            <span className="text-muted font-normal"> · {selectedSlot3.speaker_company}</span>
                           )}
                         </p>
                       )}

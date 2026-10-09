@@ -9,7 +9,6 @@ export interface PrintableSlot {
   title?: string;
   sessionId?: string;
   speakerName?: string;
-  speakerRole?: string;
   speakerCompany?: string;
 }
 
@@ -64,8 +63,8 @@ export default function PrintablePass({ registrationId, attendeeName, attendeeEm
               {slot.speakerName && (
                 <p className="mt-0.5 text-micro text-teal-base">
                   {slot.speakerName}
-                  {(slot.speakerRole || slot.speakerCompany) && (
-                    <span className="text-muted"> · {[slot.speakerRole, slot.speakerCompany].filter(Boolean).join(" · ")}</span>
+                  {slot.speakerCompany && (
+                    <span className="text-muted"> · {slot.speakerCompany}</span>
                   )}
                 </p>
               )}

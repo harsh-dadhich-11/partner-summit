@@ -51,11 +51,11 @@ export async function sendPassEmail({
       },
     });
 
-    const slot1Theatre = selections.slot1?.theatreName || "Sakura · Theatre 1";
+    const slot1Theatre = selections.slot1?.theatreName || "Theatre 1 — UNCHARTED";
     const slot1Title = selections.slot1?.title || "Breakout Session 1";
-    const slot2Theatre = selections.slot2?.theatreName || "Sakura · Theatre 2";
+    const slot2Theatre = selections.slot2?.theatreName || "Theatre 2 — NORTH STAR";
     const slot2Title = selections.slot2?.title || "Breakout Session 2";
-    const slot3Theatre = selections.slot3?.theatreName || "Sakura · Theatre 3";
+    const slot3Theatre = selections.slot3?.theatreName || "Theatre 3 — BEDROCK";
     const slot3Title = selections.slot3?.title || "Breakout Session 3";
 
     // 1. Generate RFC 5545 .ics Calendar Invite with 3 distinct session slot events
@@ -68,11 +68,11 @@ export async function sendPassEmail({
       "CALSCALE:GREGORIAN",
       "METHOD:REQUEST",
 
-      // Slot 1: 15:10 – 15:45 IST (09:40 – 10:15 UTC)
+      // Slot 1: 3:00 – 3:45 PM IST (15:00 – 15:45 IST / 09:30 – 10:15 UTC)
       "BEGIN:VEVENT",
       `UID:odyssey-slot1-${registrationId}@botconsulting.io`,
       `DTSTAMP:${nowIso}`,
-      `DTSTART:20261023T094000Z`,
+      `DTSTART:20261023T093000Z`,
       `DTEND:20261023T101500Z`,
       `SUMMARY:Slot 1: ${slot1Title} (${slot1Theatre})`,
       `DESCRIPTION:Odyssey 2026 Partner Summit — Breakout Slot 1\\nSession: ${slot1Title}\\nVenue / Room: ${slot1Theatre}\\nRegistration ID: ${registrationId}\\nAttendee: ${attendeeName} (${attendeeEmail})\\n\\nPlease arrive 5 minutes early with your QR pass.`,
@@ -87,11 +87,11 @@ export async function sendPassEmail({
       "END:VALARM",
       "END:VEVENT",
 
-      // Slot 2: 15:55 – 16:30 IST (10:25 – 11:00 UTC)
+      // Slot 2: 3:45 – 4:30 PM IST (15:45 – 16:30 IST / 10:15 – 11:00 UTC)
       "BEGIN:VEVENT",
       `UID:odyssey-slot2-${registrationId}@botconsulting.io`,
       `DTSTAMP:${nowIso}`,
-      `DTSTART:20261023T102500Z`,
+      `DTSTART:20261023T101500Z`,
       `DTEND:20261023T110000Z`,
       `SUMMARY:Slot 2: ${slot2Title} (${slot2Theatre})`,
       `DESCRIPTION:Odyssey 2026 Partner Summit — Breakout Slot 2\\nSession: ${slot2Title}\\nVenue / Room: ${slot2Theatre}\\nRegistration ID: ${registrationId}\\nAttendee: ${attendeeName} (${attendeeEmail})\\n\\nPlease arrive 5 minutes early with your QR pass.`,
@@ -106,11 +106,11 @@ export async function sendPassEmail({
       "END:VALARM",
       "END:VEVENT",
 
-      // Slot 3: 16:40 – 17:15 IST (11:10 – 11:45 UTC)
+      // Slot 3: 4:30 – 5:15 PM IST (16:30 – 17:15 IST / 11:00 – 11:45 UTC)
       "BEGIN:VEVENT",
       `UID:odyssey-slot3-${registrationId}@botconsulting.io`,
       `DTSTAMP:${nowIso}`,
-      `DTSTART:20261023T111000Z`,
+      `DTSTART:20261023T110000Z`,
       `DTEND:20261023T114500Z`,
       `SUMMARY:Slot 3: ${slot3Title} (${slot3Theatre})`,
       `DESCRIPTION:Odyssey 2026 Partner Summit — Breakout Slot 3\\nSession: ${slot3Title}\\nVenue / Room: ${slot3Theatre}\\nRegistration ID: ${registrationId}\\nAttendee: ${attendeeName} (${attendeeEmail})\\n\\nPlease arrive 5 minutes early with your QR pass.`,
@@ -206,7 +206,7 @@ export async function sendPassEmail({
                     <!-- Slot 1 -->
                     <div style="background-color:#ffffff;border:1px solid rgba(24,57,68,0.1);padding:12px;margin-bottom:10px;">
                       <div style="font-size:13px;font-weight:700;color:#101d22;margin-bottom:4px;">
-                        <span>15:10 – 15:45</span> &bull; <span style="color:#215052;">${slot1Theatre}</span>
+                        <span>3:00 – 3:45 PM</span> &bull; <span style="color:#215052;">${slot1Theatre}</span>
                       </div>
                       <div style="font-size:12px;color:#5c6b70;">${slot1Title}</div>
                     </div>
@@ -214,7 +214,7 @@ export async function sendPassEmail({
                     <!-- Slot 2 -->
                     <div style="background-color:#ffffff;border:1px solid rgba(24,57,68,0.1);padding:12px;margin-bottom:10px;">
                       <div style="font-size:13px;font-weight:700;color:#101d22;margin-bottom:4px;">
-                        <span>15:55 – 16:30</span> &bull; <span style="color:#215052;">${slot2Theatre}</span>
+                        <span>3:45 – 4:30 PM</span> &bull; <span style="color:#215052;">${slot2Theatre}</span>
                       </div>
                       <div style="font-size:12px;color:#5c6b70;">${slot2Title}</div>
                     </div>
@@ -222,7 +222,7 @@ export async function sendPassEmail({
                     <!-- Slot 3 -->
                     <div style="background-color:#ffffff;border:1px solid rgba(24,57,68,0.1);padding:12px;">
                       <div style="font-size:13px;font-weight:700;color:#101d22;margin-bottom:4px;">
-                        <span>16:40 – 17:15</span> &bull; <span style="color:#215052;">${slot3Theatre}</span>
+                        <span>4:30 – 5:15 PM</span> &bull; <span style="color:#215052;">${slot3Theatre}</span>
                       </div>
                       <div style="font-size:12px;color:#5c6b70;">${slot3Title}</div>
                     </div>

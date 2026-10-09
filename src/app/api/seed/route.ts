@@ -51,7 +51,6 @@ export async function POST(req: NextRequest) {
           title: s.title,
           description: s.description,
           speaker_name: s.speaker_name,
-          speaker_role: s.speaker_role,
           speaker_company: s.speaker_company,
           capacity: s.capacity,
           booked_seats: reset ? 0 : s.booked_seats,

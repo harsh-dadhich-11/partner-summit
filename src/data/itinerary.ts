@@ -57,24 +57,24 @@ export const itineraryDays: ItineraryDay[] = [
         icon: "session",
       },
       {
-        time: "15:10 – 15:45",
-        label: "Breakout Sessions",
+        time: "15:00 – 15:45",
+        label: "Breakout Sessions · Slot 1",
         category: "sessions",
         audience: "bot-team",
         location: "Sakura · Theatres 1–3",
         icon: "session",
       },
       {
-        time: "15:55 – 16:30",
-        label: "Breakout Sessions",
+        time: "15:45 – 16:30",
+        label: "Breakout Sessions · Slot 2",
         category: "sessions",
         audience: "bot-team",
         location: "Sakura · Theatres 1–3",
         icon: "session",
       },
       {
-        time: "16:40 – 17:15",
-        label: "Breakout Sessions",
+        time: "16:30 – 17:15",
+        label: "Breakout Sessions · Slot 3",
         category: "sessions",
         audience: "bot-team",
         location: "Sakura · Theatres 1–3",
@@ -82,7 +82,7 @@ export const itineraryDays: ItineraryDay[] = [
       },
       {
         /* Runs the whole afternoon, alongside the breakouts above. */
-        time: "14:00 – 17:00",
+        time: "14:00 – 17:15",
         label: "Kids Activity",
         category: "social",
         audience: "kids-families",
@@ -90,7 +90,7 @@ export const itineraryDays: ItineraryDay[] = [
         icon: "users",
       },
       {
-        time: "17:00 – 17:30",
+        time: "17:15 – 17:45",
         label: "High Tea",
         category: "meals",
         audience: "everyone",

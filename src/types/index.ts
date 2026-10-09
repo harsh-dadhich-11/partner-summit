@@ -40,7 +40,18 @@ export type ReliveItem = {
  * The three parallel tracks the Day 1 breakouts run across — one per theatre.
  * Named from the summit's own framing: "across our ecosystems, AI and industries".
  */
-export type SessionTrack = "ecosystems" | "ai" | "industries";
+export type SessionTrack =
+  | "tech-aws"
+  | "tech-ai"
+  | "tech-data"
+  | "tech-salesforce"
+  | "tech-ai-salesforce"
+  | "partner"
+  | "consulting"
+  | "ecosystems"
+  | "ai"
+  | "industries"
+  | string;
 
 export type Session = {
   /** Matches the en-dash format of ItineraryEntry.time, so the two pages agree. */
@@ -50,9 +61,8 @@ export type Session = {
   description?: string;
   /** Which theatre in Sakura to actually walk to. */
   room: string;
-  /** Speaker name */
+  /** Speaker or presenter name */
   speaker?: string;
-  speakerRole?: string;
   speakerCompany?: string;
 };
 

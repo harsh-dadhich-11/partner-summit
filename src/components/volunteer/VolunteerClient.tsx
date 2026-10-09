@@ -7,15 +7,15 @@ import VolunteerLogin, { VolunteerSession } from "@/components/volunteer/Volunte
 import type { DbSession, DbSessionAttendance } from "@/types/database";
 
 const THEATRES = [
-  { id: "theatre-1", name: "Sakura · Theatre 1" },
-  { id: "theatre-2", name: "Sakura · Theatre 2" },
-  { id: "theatre-3", name: "Sakura · Theatre 3" },
+  { id: "theatre-1", name: "Theatre 1 — UNCHARTED" },
+  { id: "theatre-2", name: "Theatre 2 — NORTH STAR" },
+  { id: "theatre-3", name: "Theatre 3 — BEDROCK" },
 ];
 
 const SLOTS = [
-  { id: "slot-1", time: "15:10–15:45", label: "Slot 1" },
-  { id: "slot-2", time: "15:55–16:30", label: "Slot 2" },
-  { id: "slot-3", time: "16:40–17:15", label: "Slot 3" },
+  { id: "slot-1", time: "3:00–3:45 PM", label: "Slot 1" },
+  { id: "slot-2", time: "3:45–4:30 PM", label: "Slot 2" },
+  { id: "slot-3", time: "4:30–5:15 PM", label: "Slot 3" },
 ];
 
 const STORAGE_KEY = "partner_summit_volunteer_session";
