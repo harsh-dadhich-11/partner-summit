@@ -13,13 +13,13 @@ export const featuredSpeakerGroups: CompanySpeakerGroup[] = [
         photo: "/assets/guests/chris-barbin.webp",
         linkedin: "https://www.linkedin.com/in/chrisbarbin/",
       },
-      {
-        name: "Michelle Swan",
-        role: "Partner & CMO",
-        company: "Tercera",
-        photo: "/assets/guests/michelle-swan.webp",
-        linkedin: "https://www.linkedin.com/in/michelleswan/",
-      },
+      // {
+      //   name: "Michelle Swan",
+      //   role: "Partner & CMO",
+      //   company: "Tercera",
+      //   photo: "/assets/guests/michelle-swan.webp",
+      //   linkedin: "https://www.linkedin.com/in/michelleswan/",
+      // },
       {
         name: "Lisa Burton",
         role: "Partner & COO",
