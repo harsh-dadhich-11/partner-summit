@@ -18,7 +18,7 @@ export default function SpeakersPage() {
   const singleSpeakerGroups = [
     featuredSpeakerGroups.find((g) => g.company.toLowerCase() === "auctor"),
     featuredSpeakerGroups.find((g) => g.company.toLowerCase() === "kosmos"),
-    featuredSpeakerGroups.find((g) => g.company.toLowerCase() === "eliza"),
+    featuredSpeakerGroups.find((g) => g.company.toLowerCase() === "mondelez international"),
   ].filter(Boolean) as typeof featuredSpeakerGroups;
 
   return (
@@ -57,7 +57,7 @@ export default function SpeakersPage() {
               />
             ))}
 
-            {/* Auctor, Kosmos, Eliza on the same line */}
+            {/* Auctor, Kosmos, Mondelez International on the same line */}
             {singleSpeakerGroups.length > 0 && (
               <div className="grid gap-10 md:grid-cols-3 lg:gap-12">
                 {singleSpeakerGroups.map((group, idx) => (
