@@ -156,7 +156,7 @@ export const itineraryDays: ItineraryDay[] = [
         label: "Socialising and Settling down at assigned Tables",
         category: "social",
         audience: "bot-team",
-        location: "NORTH STAR | Sakura",
+        location: "Sakura",
         icon: "users",
       },
       {
@@ -164,7 +164,7 @@ export const itineraryDays: ItineraryDay[] = [
         label: "Recap — Manpreet",
         category: "sessions",
         audience: "bot-team",
-        location: "NORTH STAR | Sakura",
+        location: "Sakura",
         icon: "session",
       },
       {
@@ -172,7 +172,7 @@ export const itineraryDays: ItineraryDay[] = [
         label: "Odyssey Demo",
         category: "sessions",
         audience: "bot-team",
-        location: "NORTH STAR | Sakura",
+        location: "Sakura",
         icon: "session",
       },
       {
@@ -188,11 +188,11 @@ export const itineraryDays: ItineraryDay[] = [
         label: "Boardroom Challenge",
         category: "sessions",
         audience: "bot-team",
-        location: "NORTH STAR | Sakura",
+        location: "Sakura",
         icon: "session",
       },
       {
-        /* Runs the whole morning, alongside the sessions above. */
+        /* Runs through the morning and afternoon, alongside the sessions above. */
         time: "11:00 – 15:00",
         label: "Kids Activity",
         category: "social",
@@ -209,23 +209,31 @@ export const itineraryDays: ItineraryDay[] = [
         icon: "meal",
       },
       {
-        time: "14:00 – 15:00",
-        label: "Fireside Chat — VC Perspective",
+        time: "14:00 – 14:45",
+        label: "Fireside Chat — AI That Works: From Pilots to P&L",
         category: "sessions",
         audience: "bot-team",
-        location: "NORTH STAR | Sakura",
+        location: "Sakura",
         icon: "session",
       },
       {
-        time: "15:00 – 16:00",
+        time: "14:45 – 15:15",
+        label: "The Untold Chapters",
+        category: "sessions",
+        audience: "bot-team",
+        location: "Sakura",
+        icon: "session",
+      },
+      {
+        time: "15:15 – 16:15",
         label: "Session — Chris Barbin",
         category: "sessions",
         audience: "bot-team",
-        location: "NORTH STAR | Sakura",
+        location: "Sakura",
         icon: "session",
       },
       {
-        time: "16:00 – 16:30",
+        time: "16:15 – 16:45",
         label: "High Tea",
         category: "meals",
         audience: "everyone",
@@ -233,11 +241,11 @@ export const itineraryDays: ItineraryDay[] = [
         icon: "meal",
       },
       {
-        time: "16:30 – 18:00",
+        time: "16:45 – 18:00",
         label: "Śrī Event",
         category: "community",
         audience: "everyone",
-        location: "NORTH STAR | Sakura",
+        location: "Sakura",
         icon: "heart",
       },
       {
