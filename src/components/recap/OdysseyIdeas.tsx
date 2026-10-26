@@ -21,7 +21,6 @@ export default function OdysseyIdeas() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.get("name"),
-          email: formData.get("email"),
           idea: formData.get("idea"),
         }),
       });
@@ -45,19 +44,27 @@ export default function OdysseyIdeas() {
           <p className="mt-6 max-w-[42ch] text-body text-cream/75">What should we explore, change or create together next year? Share the thought while the momentum is still fresh.</p>
         </div>
         <form onSubmit={submitIdea} className="grid gap-4 self-end" aria-describedby="odyssey-ideas-status">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <label className="grid gap-2 text-small font-medium text-cream">
-              Your name <span className="text-cream/55">(optional)</span>
-              <input name="name" autoComplete="name" maxLength={100} className="w-full border border-white/25 bg-white/8 px-4 py-3 text-cream outline-none transition placeholder:text-cream/40 focus:border-cyan-bright" placeholder="Name" />
-            </label>
-            <label className="grid gap-2 text-small font-medium text-cream">
-              Email <span className="text-cream/55">(optional)</span>
-              <input name="email" type="email" autoComplete="email" maxLength={254} className="w-full border border-white/25 bg-white/8 px-4 py-3 text-cream outline-none transition placeholder:text-cream/40 focus:border-cyan-bright" placeholder="you@company.com" />
-            </label>
-          </div>
           <label className="grid gap-2 text-small font-medium text-cream">
-            Your idea <span className="text-orange-soft">(required)</span>
-            <textarea name="idea" required maxLength={1500} rows={5} className="w-full resize-y border border-white/25 bg-white/8 px-4 py-3 text-cream outline-none transition placeholder:text-cream/40 focus:border-cyan-bright" placeholder="A speaker, conversation, format or moment you would like to see at Odyssey '27..." />
+            Your name
+            <input
+              name="name"
+              required
+              autoComplete="name"
+              maxLength={100}
+              className="w-full border border-white/25 bg-white/8 px-4 py-3 text-cream outline-none transition placeholder:text-cream/40 focus:border-cyan-bright"
+              placeholder="Name"
+            />
+          </label>
+          <label className="grid gap-2 text-small font-medium text-cream">
+            Your idea
+            <textarea
+              name="idea"
+              required
+              maxLength={1500}
+              rows={5}
+              className="w-full resize-y border border-white/25 bg-white/8 px-4 py-3 text-cream outline-none transition placeholder:text-cream/40 focus:border-cyan-bright"
+              placeholder="A speaker, conversation, format or moment you would like to see at Odyssey '27..."
+            />
           </label>
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <button type="submit" disabled={state === "sending"} className="rounded-full bg-orange-bright px-6 py-3 text-micro font-semibold uppercase text-white transition hover:bg-orange-deep disabled:cursor-wait disabled:opacity-70">

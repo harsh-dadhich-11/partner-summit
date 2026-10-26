@@ -34,13 +34,12 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const name = normalizeText(body.name, 100);
-    const email = normalizeText(body.email, 254);
     const idea = normalizeText(body.idea, 1500);
+    if (!name) {
+      return NextResponse.json({ error: "Please enter your name." }, { status: 400 });
+    }
     if (idea.length < 3) {
       return NextResponse.json({ error: "Please share a little more about your idea." }, { status: 400 });
-    }
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json({ error: "Please enter a valid email address." }, { status: 400 });
     }
 
     const { data: buckets, error: listError } = await supabaseAdmin.storage.listBuckets();
@@ -54,7 +53,7 @@ export async function POST(request: NextRequest) {
     const filename = `submissions/${submittedAt.replace(/[:.]/g, "-")}-${crypto.randomUUID()}.json`;
     const { error: uploadError } = await supabaseAdmin.storage.from(BUCKET).upload(
       filename,
-      JSON.stringify({ name: name || null, email: email || null, idea, submittedAt }),
+      JSON.stringify({ name, idea, submittedAt }),
       { contentType: "application/json", upsert: false }
     );
     if (uploadError) throw uploadError;

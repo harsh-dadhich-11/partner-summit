@@ -63,9 +63,9 @@ export default function InsightsLibrary({ insights }: Props) {
         {visibleInsights.length} {visibleInsights.length === 1 ? "insight" : "insights"}
       </p>
 
-      <div className="mt-5 grid gap-px bg-rule md:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-5 grid border-t border-l border-rule md:grid-cols-2 xl:grid-cols-3">
         {visibleInsights.map((insight) => (
-          <article key={insight.slug} className="group flex min-h-[22rem] flex-col bg-cream p-7 transition-colors hover:bg-panel-cyan">
+          <article key={insight.slug} className="group flex min-h-[22rem] flex-col border-r border-b border-rule bg-cream p-7 transition-colors hover:bg-panel-cyan">
             <div className="flex items-center justify-between gap-4 text-micro font-semibold uppercase">
               <span className="text-orange-deep">{insight.theme}</span>
               <span className="text-muted">{insight.format}</span>

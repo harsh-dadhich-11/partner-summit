@@ -46,12 +46,12 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "same-seat-different-lengths",
-    title: "Same Seat, Different Lengths",
+    title: "Same Seat, Different Lens",
     theme: "Leadership",
     format: "Panel",
-    speakers: "Laurie Williams, Manpreet Singh, Sanjay Gavani, Eran Gill, Glenn Weinstein and Chris Barbin",
+    speakers: "Lori Williams (Moderator), Manpreet Singh, Sanjay Gidwani, Eran Gil, Glenn Weinstein and Chris Barbin",
     summary:
-      "Five CEOs shared the judgment behind decisions on people, capital, growth and AI—showing that leadership is shaped by context as much as conviction.",
+      "Lori Williams moderated a candid conversation with five CEOs—Manpreet Singh, Sanjay Gidwani, Eran Gil, Glenn Weinstein and Chris Barbin on how judgment, context and conviction shape decisions across people, capital, growth and AI.",
     takeaways: [
       "Hire for the business a company is becoming, then trust the people brought in to lead it.",
       "Investor alignment and culture matter as much as the availability of capital.",
@@ -79,7 +79,7 @@ export const INSIGHTS: Insight[] = [
     title: "Production-Grade AgentCore: Deploying Multi-Agent Systems at Scale",
     theme: "Technology & AI",
     format: "Breakout",
-    speakers: "Rishabh Nagar, Bhanuendra Singh and Pankaj Fuller",
+    speakers: "Rishabh Nagar, Bhanvendra Singh Gaur and Pankaj Phular",
     summary:
       "A walkthrough of using Amazon Bedrock AgentCore, governed tools and policy guardrails to reduce incident investigation time while protecting production systems.",
     takeaways: [
@@ -91,10 +91,10 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "gcc-panel-allcloud-cloudsmith",
-    title: "GCC Panel: AllCloud & Cloudsmith",
+    title: "From Vision to Value: Real GCC Journeys",
     theme: "GCC & Business",
     format: "Panel",
-    speakers: "Chris Barbin, leaders from AllCloud and Cloudsmith, and Abhinav",
+    speakers: "Nick Peacock (Moderator), Abhinav Gehlot, Andrei Balea and Manish Khatri (with Chris Barbin)",
     summary:
       "A partner conversation on how Global Capability Centers create value through integrated culture, customer proximity and continuous learning—not simply offshore capacity.",
     takeaways: [
@@ -106,10 +106,10 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "what-odyssey-is",
-    title: "What Odyssey Is",
+    title: "CEO Keynote & Odyssey Demo",
     theme: "GCC & Business",
     format: "Presentation",
-    speakers: "Deepali and Ayushi",
+    speakers: "Deepali and Ayushi (Presented with Manpreet Singh and Harit Nanavati)",
     summary:
       "A live demonstration of BOT’s operating system for GCC efficiency, linking people, processes and platforms while reserving judgement for the people closest to the work.",
     takeaways: [
@@ -121,7 +121,7 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "pilot-to-p-and-l",
-    title: "Pilot to P&L: What Separates Durable AI from One-Off Experiments",
+    title: "AI That Works: From Pilots to P&L",
     theme: "GCC & Business",
     format: "Panel",
     speakers: "Odyssey panelists",
@@ -151,7 +151,7 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "chris-barbin-talk",
-    title: "Chris Barbin: The C-Brows Journey",
+    title: "CB-Rows The Documentary",
     theme: "Leadership",
     format: "Talk",
     speakers: "Chris Barbin",

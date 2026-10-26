@@ -80,13 +80,15 @@ export default function PageScripts() {
           if (!entry.isIntersecting) return;
           countIo.unobserve(entry.target);
           const figure = entry.target as HTMLElement;
-          // "300+" -> 300 and "+". The suffix is held back until the count lands.
-          const [, digits, suffix = ""] = /^(\d+)(.*)$/.exec(figure.dataset.count ?? "") ?? [];
+          // "+4" -> prefix "+", digits 4. "300+" -> digits 300, suffix "+".
+          const match = /^([^\d]*)(\d+)(.*)$/.exec(figure.dataset.count ?? "");
+          if (!match) return;
+          const [, prefix = "", digits = "", suffix = ""] = match;
           const target = Number(digits);
           if (!target) return;
 
           const startAt = performance.now() + Number(figure.dataset.countDelay ?? 0);
-          figure.textContent = "0";
+          figure.textContent = `${prefix}0`;
           // Written straight to the node, not through state: Stats is a server component
           // with static props, so React never re-renders these and 60fps of setState for
           // a decorative tick would be waste.
@@ -96,7 +98,9 @@ export default function PageScripts() {
             // easeOutCubic — the JS reading of the cubic-bezier(.16,1,.3,1) used in CSS.
             const eased = 1 - (1 - progress) ** 3;
             figure.textContent =
-              progress < 1 ? String(Math.round(target * eased)) : `${target}${suffix}`;
+              progress < 1
+                ? `${prefix}${Math.round(target * eased)}`
+                : `${prefix}${target}${suffix}`;
             if (progress < 1) frame = requestAnimationFrame(tick);
           };
           frame = requestAnimationFrame(tick);

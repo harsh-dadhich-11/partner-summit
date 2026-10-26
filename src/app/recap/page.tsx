@@ -54,13 +54,48 @@ export default function RecapPage() {
             </div>
             <p className="max-w-[44ch] text-small text-muted">A few markers of the scale and spirit that the Odyssey community brought to Jaipur.</p>
           </div>
-          <dl className="grid divide-y divide-rule border-b border-rule sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-3">
-            {POST_EVENT_STATS.map((stat, index) => (
-              <div key={stat.label} className="row-in visible py-7 sm:px-6 sm:first:pl-0 lg:even:border-l-0" style={{ "--i": index } as CSSProperties}>
-                <dt className="text-micro font-semibold uppercase text-muted">{stat.label}</dt>
-                <dd data-count={stat.value} data-count-delay={index * 55} className="mt-2 font-display text-h1 leading-none text-teal-dark tabular-nums">{stat.value}</dd>
+          <dl className="border-b border-rule">
+            {/* Top row: 4 stats across the full width */}
+            <div className="grid divide-y divide-rule sm:grid-cols-2 sm:divide-y-0 sm:divide-x lg:grid-cols-4">
+              {POST_EVENT_STATS.slice(0, 4).map((stat, index) => (
+                <div
+                  key={stat.label}
+                  className="row-in visible py-7 sm:px-6 sm:first:pl-0 sm:last:pr-0"
+                  style={{ "--i": index } as CSSProperties}
+                >
+                  <dt className="text-micro font-semibold uppercase text-muted">{stat.label}</dt>
+                  <dd
+                    data-count={stat.value}
+                    data-count-delay={index * 55}
+                    className="mt-2 font-display text-h1 leading-none text-teal-dark tabular-nums"
+                  >
+                    {stat.value}
+                  </dd>
+                </div>
+              ))}
+            </div>
+
+            {/* Bottom row: 3 stats centered in the middle of the 4 */}
+            <div className="border-t border-rule">
+              <div className="mx-auto flex flex-col divide-y divide-rule sm:flex-row sm:divide-y-0 sm:divide-x lg:w-3/4 lg:border-x lg:border-rule">
+                {POST_EVENT_STATS.slice(4).map((stat, index) => (
+                  <div
+                    key={stat.label}
+                    className="row-in visible flex-1 py-7 sm:px-6"
+                    style={{ "--i": index + 4 } as CSSProperties}
+                  >
+                    <dt className="text-micro font-semibold uppercase text-muted">{stat.label}</dt>
+                    <dd
+                      data-count={stat.value}
+                      data-count-delay={(index + 4) * 55}
+                      className="mt-2 font-display text-h1 leading-none text-teal-dark tabular-nums"
+                    >
+                      {stat.value}
+                    </dd>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </dl>
         </div>
       </section>

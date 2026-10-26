@@ -9,6 +9,7 @@ export const POST_EVENT = {
 export const POST_EVENT_STATS = [
   { value: "350+", label: "People" },
   { value: "16", label: "Guest speakers" },
+  { value: "4", label: "Panel Talks by our guest speakers" },
   { value: "8", label: "GCC teams" },
   { value: "4", label: "Data & AI sessions" },
   { value: "12", label: "Yearly R&R" },
