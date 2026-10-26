@@ -12,7 +12,7 @@ export const POST_EVENT_STATS = [
   { value: "4", label: "Panel Talks by our guest speakers" },
   { value: "8", label: "GCC teams" },
   { value: "4", label: "Data & AI sessions" },
-  { value: "12", label: "Yearly R&R" },
+  { value: "15", label: "Yearly R&R" },
   { value: "90 min", label: "Śrī volunteer activity" },
 ] as const;
 
@@ -40,14 +40,6 @@ export const RECAP_DESTINATIONS = [
     description:
       "A curated visual record of the people, ideas and energy behind the summit.",
     image: "celebration-selfie",
-  },
-  {
-    href: "/resources",
-    eyebrow: "The record",
-    title: "Summit report",
-    description:
-      "A concise executive resource bringing together the event’s key takeaways.",
-    image: "leadership-group",
   },
 ] as const;
 

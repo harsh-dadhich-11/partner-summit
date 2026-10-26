@@ -11,7 +11,7 @@ const storyMoments = [
   {
     image: "ceremony-opening",
     title: "A shared opening",
-    copy: "Odyssey began together: with ceremony, intent and a clear invitation to build the future of global teams with more imagination.",
+    copy: "Evening began together: with ceremony, intent and a clear invitation to build the future of global teams with more imagination.",
   },
   {
     image: "ai-panel",

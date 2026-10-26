@@ -29,10 +29,10 @@ export default function RecapPage() {
             <span className="h-px w-8 bg-cyan-soft/60" /> {POST_EVENT.dates} · {POST_EVENT.venue}
           </p>
           <h1 className="mt-7 max-w-[12ch] font-display text-display text-white">
-            The ideas travelled. The people made it matter.
+            From Jaipur to the world!
           </h1>
           <p className="mt-7 max-w-[47ch] text-lead text-cream/85">
-            Relive {POST_EVENT.name}: a gathering of global teams, bold conversations and the shared work of building what comes next.
+            Partner Summit: Odyssey’26 brought together our customers, our partners, and extended families- reminding us that the work we do may span continents, but the heart of it lives right here!
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link href="/highlights" className="rounded-full bg-orange-bright px-6 py-3 text-micro font-semibold uppercase text-white transition hover:bg-orange-deep">
@@ -102,9 +102,9 @@ export default function RecapPage() {
 
       <section className="bg-white py-16 lg:py-24" aria-labelledby="four-ways">
         <div className="mx-auto max-w-[80rem] px-6">
-          <p className="text-micro font-semibold uppercase text-orange-deep">Four ways to relive it</p>
+          <p className="text-micro font-semibold uppercase text-orange-deep">Three ways to relive it</p>
           <h2 id="four-ways" className="mt-3 max-w-[20ch] font-display text-h2 text-teal-dark">Choose the story you want to carry forward.</h2>
-          <div className="mt-10 grid gap-px bg-rule md:grid-cols-2">
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
             {RECAP_DESTINATIONS.map((destination) => {
               const photo = photos.find((item) => item.id === destination.image);
               return (

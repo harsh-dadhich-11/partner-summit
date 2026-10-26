@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
   GALLERY_CATEGORIES,
@@ -10,11 +10,18 @@ import {
 
 type Props = { photos: PublishedGalleryPhoto[] };
 
+type ShareTarget = {
+  title: string;
+  message: string;
+  url: string;
+};
+
 export default function GalleryClient({ photos }: Props) {
   const [category, setCategory] = useState<GalleryCategory | "All">("All");
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [galleryCopied, setGalleryCopied] = useState(false);
+  const [shareTarget, setShareTarget] = useState<ShareTarget | null>(null);
+  const [shareCopied, setShareCopied] = useState(false);
+  const shareLinkRef = useRef<HTMLInputElement>(null);
 
   // Sync URL on mount for deep linking (?photo=<id> or #<id>)
   useEffect(() => {
@@ -30,7 +37,7 @@ export default function GalleryClient({ photos }: Props) {
     }
   }, [photos]);
 
-  const selectPhoto = (id: string | null) => {
+  const selectPhoto = useCallback((id: string | null) => {
     setSelectedId(id);
     if (typeof window !== "undefined") {
       const url = new URL(window.location.href);
@@ -41,7 +48,7 @@ export default function GalleryClient({ photos }: Props) {
       }
       window.history.replaceState({}, "", url.toString());
     }
-  };
+  }, []);
 
   const visiblePhotos = useMemo(
     () => photos.filter((photo) => category === "All" || photo.category === category),
@@ -50,72 +57,71 @@ export default function GalleryClient({ photos }: Props) {
   const selectedIndex = selectedId ? visiblePhotos.findIndex((photo) => photo.id === selectedId) : -1;
   const selected = selectedIndex >= 0 ? visiblePhotos[selectedIndex] : null;
 
-  const closeLightbox = () => selectPhoto(null);
-  const move = (distance: number) => {
+  const closeLightbox = useCallback(() => selectPhoto(null), [selectPhoto]);
+  const move = useCallback((distance: number) => {
     if (!selected || visiblePhotos.length < 2) return;
     const nextIndex = (selectedIndex + distance + visiblePhotos.length) % visiblePhotos.length;
     selectPhoto(visiblePhotos[nextIndex].id);
-  };
+  }, [selected, selectedIndex, selectPhoto, visiblePhotos]);
 
   useEffect(() => {
-    if (!selected) return;
+    if (!selected && !shareTarget) return;
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeLightbox();
-      if (event.key === "ArrowLeft") move(-1);
-      if (event.key === "ArrowRight") move(1);
+      if (event.key === "Escape") {
+        if (shareTarget) setShareTarget(null);
+        else closeLightbox();
+      }
+      if (selected && !shareTarget && event.key === "ArrowLeft") move(-1);
+      if (selected && !shareTarget && event.key === "ArrowRight") move(1);
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  });
+  }, [closeLightbox, move, selected, shareTarget]);
 
-  const sharePhoto = async (photo: PublishedGalleryPhoto, event?: React.MouseEvent) => {
+  const openShareForPhoto = (photo: PublishedGalleryPhoto, event?: React.MouseEvent) => {
     if (event) event.stopPropagation();
     const url = `${window.location.origin}/gallery?photo=${encodeURIComponent(photo.id)}`;
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `Odyssey 2026 — ${photo.title}`,
-          text: `View "${photo.title}" from the Odyssey 2026 gallery.`,
-          url,
-        });
-        setCopiedId(photo.id);
-        setTimeout(() => setCopiedId(null), 2500);
-        return;
-      } catch (err) {
-        if ((err as Error)?.name === "AbortError") return;
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopiedId(photo.id);
-      setTimeout(() => setCopiedId(null), 2500);
-    } catch {
-      // Fallback
+    setShareCopied(false);
+    setShareTarget({
+      title: `Share “${photo.title}”`,
+      message: `View “${photo.title}” from the Odyssey 2026 photo gallery.`,
+      url,
+    });
+  };
+
+  const openShareGallery = () => {
+    const url = `${window.location.origin}/gallery`;
+    setShareCopied(false);
+    setShareTarget({
+      title: "Share the gallery",
+      message: "Explore the moments from Odyssey, Partner Summit ’26 in Jaipur.",
+      url,
+    });
+  };
+
+  const copyShareLink = () => {
+    if (!shareTarget) return;
+    const fallbackCopy = () => {
+      shareLinkRef.current?.select();
+      document.execCommand("copy");
+    };
+
+    setShareCopied(true);
+    setTimeout(() => setShareCopied(false), 2500);
+
+    if (navigator.clipboard?.writeText) {
+      void navigator.clipboard.writeText(shareTarget.url).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
     }
   };
 
-  const shareGallery = async () => {
-    const url = `${window.location.origin}/gallery`;
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Odyssey 2026 Photo Gallery",
-          text: "Explore the moments from Odyssey, Partner Summit '26 in Jaipur.",
-          url,
-        });
-        setGalleryCopied(true);
-        setTimeout(() => setGalleryCopied(false), 2500);
-        return;
-      } catch (err) {
-        if ((err as Error)?.name === "AbortError") return;
-      }
-    }
+  const openSystemShare = async () => {
+    if (!shareTarget || !navigator.share) return;
     try {
-      await navigator.clipboard.writeText(url);
-      setGalleryCopied(true);
-      setTimeout(() => setGalleryCopied(false), 2500);
-    } catch {
-      // Fallback
+      await navigator.share({ title: shareTarget.title, text: shareTarget.message, url: shareTarget.url });
+    } catch (err) {
+      if ((err as Error)?.name !== "AbortError") return;
     }
   };
 
@@ -145,7 +151,7 @@ export default function GalleryClient({ photos }: Props) {
 
           <button
             type="button"
-            onClick={shareGallery}
+            onClick={openShareGallery}
             className="inline-flex items-center gap-2 rounded-full border border-rule bg-white px-4 py-2 text-micro font-semibold uppercase text-teal-dark transition hover:border-cyan-bright hover:bg-cyan-bright/10"
           >
             <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -153,7 +159,7 @@ export default function GalleryClient({ photos }: Props) {
               <polyline points="16 6 12 2 8 6" />
               <line x1="12" y1="2" x2="12" y2="15" />
             </svg>
-            {galleryCopied ? "Link copied ✓" : "Share link"}
+            Share gallery
           </button>
         </div>
 
@@ -190,11 +196,11 @@ export default function GalleryClient({ photos }: Props) {
                 </span>
                 <button
                   type="button"
-                  onClick={(e) => sharePhoto(photo, e)}
-                  aria-label={`Share link to ${photo.title}`}
+                  onClick={(e) => openShareForPhoto(photo, e)}
+                  aria-label={`Share ${photo.title}`}
                   className="shrink-0 rounded-full border border-white/40 bg-black/60 px-3 py-1 text-micro font-semibold uppercase text-white backdrop-blur-sm transition hover:bg-white hover:text-black"
                 >
-                  {copiedId === photo.id ? "Copied ✓" : "Share link"}
+                  Share
                 </button>
               </div>
             </div>
@@ -221,6 +227,96 @@ export default function GalleryClient({ photos }: Props) {
         </div>
       </section>
 
+      {shareTarget && (
+        <div
+          className="fixed inset-0 z-[250] flex items-center justify-center bg-black/65 p-4 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="gallery-share-title"
+          onMouseDown={(event) => {
+            if (event.currentTarget === event.target) setShareTarget(null);
+          }}
+        >
+          <div className="w-full max-w-xl border border-white/15 bg-teal-dark p-6 text-white shadow-2xl sm:p-8">
+            <div className="flex items-start justify-between gap-5">
+              <div>
+                <p className="text-micro font-semibold uppercase text-cyan-soft">Odyssey 2026</p>
+                <h2 id="gallery-share-title" className="mt-2 font-display text-h2">{shareTarget.title}</h2>
+                <p className="mt-3 max-w-[52ch] text-small text-cream/75">Choose a channel, or copy the link below.</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShareTarget(null)}
+                className="shrink-0 border border-white/30 px-3 py-2 text-micro font-semibold uppercase text-white transition hover:bg-white hover:text-teal-dark"
+                aria-label="Close share panel"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="mt-7 flex gap-2">
+              <input
+                ref={shareLinkRef}
+                value={shareTarget.url}
+                readOnly
+                aria-label="Share link"
+                onFocus={(event) => event.currentTarget.select()}
+                className="min-w-0 flex-1 border border-white/25 bg-white/10 px-3 py-3 text-small text-white outline-none transition focus:border-cyan-bright"
+              />
+              <button
+                type="button"
+                onClick={copyShareLink}
+                className="shrink-0 bg-cyan-bright px-4 py-3 text-micro font-semibold uppercase text-teal-dark transition hover:bg-white"
+              >
+                {shareCopied ? "Copied ✓" : "Copy"}
+              </button>
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-2">
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(`${shareTarget.message} ${shareTarget.url}`)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="border border-white/30 px-4 py-2 text-micro font-semibold uppercase text-white transition hover:border-cyan-bright hover:bg-white hover:text-teal-dark"
+              >
+                WhatsApp
+              </a>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareTarget.url)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="border border-white/30 px-4 py-2 text-micro font-semibold uppercase text-white transition hover:border-cyan-bright hover:bg-white hover:text-teal-dark"
+              >
+                Facebook
+              </a>
+              <a
+                href={`mailto:?subject=${encodeURIComponent(shareTarget.title)}&body=${encodeURIComponent(`${shareTarget.message}\n\n${shareTarget.url}`)}`}
+                className="border border-white/30 px-4 py-2 text-micro font-semibold uppercase text-white transition hover:border-cyan-bright hover:bg-white hover:text-teal-dark"
+              >
+                Email
+              </a>
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareTarget.message)}&url=${encodeURIComponent(shareTarget.url)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="border border-white/30 px-4 py-2 text-micro font-semibold uppercase text-white transition hover:border-cyan-bright hover:bg-white hover:text-teal-dark"
+              >
+                X
+              </a>
+              {typeof navigator !== "undefined" && navigator.share && (
+                <button
+                  type="button"
+                  onClick={openSystemShare}
+                  className="border border-white/30 px-4 py-2 text-micro font-semibold uppercase text-white transition hover:border-cyan-bright hover:bg-white hover:text-teal-dark"
+                >
+                  More
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {selected && (
         <div
           className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 p-4 text-white"
@@ -235,11 +331,11 @@ export default function GalleryClient({ photos }: Props) {
             <div className="absolute top-0 right-0 z-10 flex flex-wrap items-center gap-2">
               <button
                 type="button"
-                onClick={(e) => sharePhoto(selected, e)}
+                onClick={(e) => openShareForPhoto(selected, e)}
                 className="rounded-full border border-white/40 bg-black/50 px-4 py-2 text-micro font-semibold uppercase text-white backdrop-blur-sm transition hover:bg-white hover:text-black"
-                aria-label="Share link to photograph"
+                aria-label="Share photograph"
               >
-                {copiedId === selected.id ? "Link copied ✓" : "Share link"}
+                Share
               </button>
               {selected.largeUrl && (
                 <a

@@ -6,7 +6,6 @@ const footerLinks = [
   { label: "Highlights", href: "/highlights" },
   { label: "Session insights", href: "/insights" },
   { label: "Photo gallery", href: "/gallery" },
-  { label: "Resources", href: "/resources" },
   { label: "Original programme", href: "/sessions" },
   { label: "Itinerary", href: "/itinerary" },
   { label: "Guests and Speakers", href: "/speakers" },

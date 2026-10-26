@@ -94,7 +94,7 @@ export const INSIGHTS: Insight[] = [
     title: "From Vision to Value: Real GCC Journeys",
     theme: "GCC & Business",
     format: "Panel",
-    speakers: "Nick Peacock (Moderator), Abhinav Gehlot, Andrei Balea and Manish Khatri (with Chris Barbin)",
+    speakers: "Chris Barbin (Moderator), Nick Peacock, Abhinav Gehlot, Eran Gil and Manish Khatri",
     summary:
       "A partner conversation on how Global Capability Centers create value through integrated culture, customer proximity and continuous learning—not simply offshore capacity.",
     takeaways: [
@@ -106,10 +106,10 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "what-odyssey-is",
-    title: "CEO Keynote & Odyssey Demo",
+    title: "Odyssey Demo",
     theme: "GCC & Business",
     format: "Presentation",
-    speakers: "Deepali and Ayushi (Presented with Manpreet Singh and Harit Nanavati)",
+    speakers: "Deepali Puri and Ayushi Sharma (Presented with Lisa Burton and Akshay Singh Thakur)",
     summary:
       "A live demonstration of BOT’s operating system for GCC efficiency, linking people, processes and platforms while reserving judgement for the people closest to the work.",
     takeaways: [
@@ -124,7 +124,7 @@ export const INSIGHTS: Insight[] = [
     title: "AI That Works: From Pilots to P&L",
     theme: "GCC & Business",
     format: "Panel",
-    speakers: "Odyssey panelists",
+    speakers: "Moderators: Deepali Puri and  Reem Seghairoun and Panelists: Chris Barbin, Gurvendra Suri, William Fleder, Glenn Weinstein, Sanjay Gidwani",
     summary:
       "A candid discussion about moving AI beyond promising pilots: confronting total cost, data readiness, operating-model change and a real measure of business value.",
     takeaways: [
