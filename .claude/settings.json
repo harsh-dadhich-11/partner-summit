@@ -4,7 +4,9 @@
       "Bash(pkill -f \"next start -p 3111\")",
       "Bash(npx tsc *)",
       "Bash(perl -0pi -e 's/\\\\n    wide: true,//g' src/data/pillars.ts)",
-      "Bash(perl -0pi -e 's{/\\\\*\\\\*\\\\n \\\\* Deliberately uneven.*?\\\\*/}{/**\\\\n * Deliberately uneven: lengths run from 17 to 28 words. Six identically-shaped blurbs is\\\\n * what made this read as generated.\\\\n */}s' src/data/pillars.ts)"
+      "Bash(perl -0pi -e 's{/\\\\*\\\\*\\\\n \\\\* Deliberately uneven.*?\\\\*/}{/**\\\\n * Deliberately uneven: lengths run from 17 to 28 words. Six identically-shaped blurbs is\\\\n * what made this read as generated.\\\\n */}s' src/data/pillars.ts)",
+      "Bash(sips -c 1500 1440 --cropOffset 700 0 home.png --out home-crop.png)",
+      "Bash(sips -Z 1100 home-crop.png --out home-crop-small.png)"
     ]
   }
 }

@@ -2,11 +2,14 @@ import Link from "next/link";
 import { SUMMIT_EMAIL } from "@/data/site";
 
 const footerLinks = [
-  { label: "Sessions", href: "/sessions" },
+  { label: "Odyssey 2026 recap", href: "/recap" },
+  { label: "Highlights", href: "/highlights" },
+  { label: "Session insights", href: "/insights" },
+  { label: "Photo gallery", href: "/gallery" },
+  { label: "Resources", href: "/resources" },
+  { label: "Original programme", href: "/sessions" },
   { label: "Itinerary", href: "/itinerary" },
   { label: "Guests and Speakers", href: "/speakers" },
-  // { label: "Relive’25", href: "/relive" },
-  { label: "Event experience", href: "/#experience" },
 ];
 
 export default function Footer() {

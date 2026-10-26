@@ -1,14 +1,25 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Poppins } from "next/font/google";
+import localFont from "next/font/local";
+import { Poppins } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageScripts from "@/components/PageScripts";
 import { SITE_DESCRIPTION } from "@/data/site";
 import "@/app/globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
+const jakarta = localFont({
+  src: [
+    {
+      path: "./fonts/PlusJakartaSans-VariableFont_wght.ttf",
+      style: "normal",
+      weight: "200 800",
+    },
+    {
+      path: "./fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf",
+      style: "italic",
+      weight: "200 800",
+    },
+  ],
   display: "swap",
   variable: "--font-jakarta",
 });
