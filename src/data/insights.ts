@@ -139,7 +139,7 @@ export const INSIGHTS: Insight[] = [
     title: "The Untold Chapters",
     theme: "Leadership",
     format: "Panel",
-    speakers: "Odyssey panelists",
+    speakers: "Manpreet Singh and Lisa Burton (Moderator), Reem Seghairoun, Lori Williams, Ronit Rubin, Anjali Jain",
     summary:
       "Four personal leadership journeys revealed how pivotal choices, mentors and difficult people decisions shape a meaningful working life.",
     takeaways: [

@@ -59,7 +59,7 @@ export default function Hero() {
           </p>
 
           <div className="fade-in visible mt-10 flex flex-wrap items-center gap-4">
-            <Button href="/itinerary">See the itinerary</Button>
+            <Button href="/recap">See the Recap</Button>
           </div>
         </div>
       </div>

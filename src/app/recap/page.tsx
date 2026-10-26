@@ -100,15 +100,19 @@ export default function RecapPage() {
         </div>
       </section>
 
-      <section className="bg-white py-16 lg:py-24" aria-labelledby="four-ways">
+      <section className="bg-white py-16 lg:py-24" aria-labelledby="ways-to-relive">
         <div className="mx-auto max-w-[80rem] px-6">
           <p className="text-micro font-semibold uppercase text-orange-deep">Three ways to relive it</p>
-          <h2 id="four-ways" className="mt-3 max-w-[20ch] font-display text-h2 text-teal-dark">Choose the story you want to carry forward.</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <h2 id="ways-to-relive" className="mt-3 max-w-[20ch] font-display text-h2 text-teal-dark">Choose the story you want to carry forward.</h2>
+          <div className="mt-10 flex flex-wrap justify-center gap-6">
             {RECAP_DESTINATIONS.map((destination) => {
               const photo = photos.find((item) => item.id === destination.image);
               return (
-                <Link key={destination.href} href={destination.href} className="group relative min-h-[25rem] overflow-hidden bg-teal-dark p-7 text-white lg:p-10">
+                <Link
+                  key={destination.href}
+                  href={destination.href}
+                  className="group relative min-h-[25rem] w-full overflow-hidden bg-teal-dark p-7 text-white md:w-[calc(50%-0.75rem)] lg:p-10"
+                >
                   {photo?.mediumUrl && (
                     <>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
