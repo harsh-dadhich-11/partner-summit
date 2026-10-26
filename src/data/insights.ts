@@ -124,7 +124,7 @@ export const INSIGHTS: Insight[] = [
     title: "AI That Works: From Pilots to P&L",
     theme: "GCC & Business",
     format: "Panel",
-    speakers: "Moderators: Deepali Puri and  Reem Seghairoun and Panelists: Chris Barbin, Gurvendra Suri, William Fleder, Glenn Weinstein, Sanjay Gidwani",
+    speakers: "Deepali Puri and  Reem Seghairoun (Moderator) and Chris Barbin, Gurvendra Suri, William Fleder, Glenn Weinstein, Sanjay Gidwani",
     summary:
       "A candid discussion about moving AI beyond promising pilots: confronting total cost, data readiness, operating-model change and a real measure of business value.",
     takeaways: [
@@ -151,7 +151,7 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "chris-barbin-talk",
-    title: "CB-Rows The Documentary",
+    title: "CB-ROWS The Documentary",
     theme: "Leadership",
     format: "Talk",
     speakers: "Chris Barbin",
