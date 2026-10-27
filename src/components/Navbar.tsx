@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import RecapLogoutButton from "@/components/recap/RecapLogoutButton";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -88,6 +89,8 @@ export default function Navbar() {
               );
             })}
           </div>
+
+          <RecapLogoutButton />
 
           {/* Lands on the footer's Support block — the address and numbers live there already. */}
           <Link

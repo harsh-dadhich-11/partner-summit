@@ -5,7 +5,10 @@ import { getPublishedGalleryPhotos, POST_EVENT } from "@/data/postEvent";
 export const metadata: Metadata = {
   title: "Highlights | Odyssey 2026",
   description: "The defining moments from Odyssey, Partner Summit '26 in Jaipur.",
+  robots: { index: false, follow: false },
 };
+
+export const dynamic = "force-dynamic";
 
 const storyMoments = [
   {
@@ -30,8 +33,8 @@ const storyMoments = [
   },
 ];
 
-export default function HighlightsPage() {
-  const photos = getPublishedGalleryPhotos();
+export default async function HighlightsPage() {
+  const photos = await getPublishedGalleryPhotos();
   return (
     <>
       <header className="bg-teal-dark text-cream">

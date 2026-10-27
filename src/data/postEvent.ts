@@ -1,3 +1,5 @@
+import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
+
 export const POST_EVENT = {
   name: "Odyssey, Partner Summit '26",
   shortName: "Odyssey 2026",
@@ -297,20 +299,32 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
 ];
 
-export const galleryPublicUrl = (path: string) => {
-  const baseUrl = process.env.SUPABASE_URL?.replace(/\/$/, "");
-  if (!baseUrl) return null;
-  return `${baseUrl}/storage/v1/object/public/${POST_EVENT.bucket}/${path}`;
-};
-
 export type PublishedGalleryPhoto = GalleryPhoto & {
   mediumUrl: string | null;
   largeUrl: string | null;
 };
 
-export const getPublishedGalleryPhotos = (): PublishedGalleryPhoto[] =>
-  GALLERY_PHOTOS.map((photo) => ({
+/**
+ * Gallery Storage is private. Signed URLs are created only after the access middleware has
+ * admitted the request, and expire before a copied URL can serve as durable access.
+ */
+export const getPublishedGalleryPhotos = async (): Promise<PublishedGalleryPhoto[]> => {
+  if (!isSupabaseConfigured()) {
+    return GALLERY_PHOTOS.map((photo) => ({ ...photo, mediumUrl: null, largeUrl: null }));
+  }
+
+  const paths = GALLERY_PHOTOS.flatMap((photo) => [photo.mediumPath, photo.largePath]);
+  const { data, error } = await supabaseAdmin.storage.from(POST_EVENT.bucket).createSignedUrls(paths, 60 * 60);
+
+  if (error) {
+    console.error("Could not create signed Odyssey gallery URLs:", error);
+    return GALLERY_PHOTOS.map((photo) => ({ ...photo, mediumUrl: null, largeUrl: null }));
+  }
+
+  const signedUrls = new Map(data.map((item) => [item.path, item.signedUrl]));
+  return GALLERY_PHOTOS.map((photo) => ({
     ...photo,
-    mediumUrl: galleryPublicUrl(photo.mediumPath),
-    largeUrl: galleryPublicUrl(photo.largePath),
+    mediumUrl: signedUrls.get(photo.mediumPath) ?? null,
+    largeUrl: signedUrls.get(photo.largePath) ?? null,
   }));
+};

@@ -29,14 +29,16 @@ if (bucketListError) throw bucketListError;
 
 if (!buckets.some(({ name }) => name === bucket)) {
   const { error } = await client.storage.createBucket(bucket, {
-    public: true,
+    public: false,
     fileSizeLimit: "10MB",
     allowedMimeTypes: ["image/jpeg"],
   });
   if (error) throw error;
-  console.log(`Created public storage bucket: ${bucket}`);
+  console.log(`Created private storage bucket: ${bucket}`);
 } else {
-  console.log(`Using existing public storage bucket: ${bucket}`);
+  const { error } = await client.storage.updateBucket(bucket, { public: false });
+  if (error) throw error;
+  console.log(`Using existing private storage bucket: ${bucket}`);
 }
 
 let uploaded = 0;

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { RECAP_ACCESS_COOKIE, verifyRecapAccessToken } from "@/lib/recapAccess";
 import { isSupabaseConfigured, supabaseAdmin } from "@/lib/supabase/admin";
 
 export const dynamic = "force-dynamic";
@@ -21,6 +22,11 @@ function canSubmit(ip: string) {
 }
 
 export async function POST(request: NextRequest) {
+  const access = await verifyRecapAccessToken(request.cookies.get(RECAP_ACCESS_COOKIE)?.value);
+  if (!access) {
+    return NextResponse.json({ error: "Please verify your email before sharing an idea." }, { status: 401 });
+  }
+
   if (!isSupabaseConfigured()) {
     return NextResponse.json({ error: "Suggestions are temporarily unavailable. Please try again later." }, { status: 503 });
   }

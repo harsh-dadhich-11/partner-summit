@@ -6,6 +6,7 @@ import { INSIGHTS } from "@/data/insights";
 export const metadata: Metadata = {
   title: "Session Insights | Odyssey 2026",
   description: "The ideas and practical takeaways shared at Odyssey, Partner Summit '26.",
+  robots: { index: false, follow: false },
 };
 
 export default function InsightsPage() {

@@ -7,10 +7,13 @@ import { getPublishedGalleryPhotos, POST_EVENT, POST_EVENT_STATS, RECAP_DESTINAT
 export const metadata: Metadata = {
   title: "Odyssey 2026 Recap | BOT Consulting",
   description: "Relive Odyssey, Partner Summit '26: the people, ideas and moments from Jaipur.",
+  robots: { index: false, follow: false },
 };
 
-export default function RecapPage() {
-  const photos = getPublishedGalleryPhotos();
+export const dynamic = "force-dynamic";
+
+export default async function RecapPage() {
+  const photos = await getPublishedGalleryPhotos();
   const hero = photos.find((photo) => photo.id === "team-photo");
 
   return (

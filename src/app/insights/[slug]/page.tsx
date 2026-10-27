@@ -12,7 +12,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const insight = getInsightBySlug((await params).slug);
   if (!insight) return {};
-  return { title: `${insight.title} | Odyssey 2026`, description: insight.summary };
+  return { title: `${insight.title} | Odyssey 2026`, description: insight.summary, robots: { index: false, follow: false } };
 }
 
 export default async function InsightDetailPage({ params }: Props) {

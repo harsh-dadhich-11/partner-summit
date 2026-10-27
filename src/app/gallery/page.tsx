@@ -6,9 +6,12 @@ import { getPublishedGalleryPhotos } from "@/data/postEvent";
 export const metadata: Metadata = {
   title: "Photo Gallery | Odyssey 2026",
   description: "A curated visual record of Odyssey, Partner Summit '26 in Jaipur.",
+  robots: { index: false, follow: false },
 };
 
-export default function GalleryPage() {
+export const dynamic = "force-dynamic";
+
+export default async function GalleryPage() {
   return (
     <>
       <PageHeader
@@ -16,7 +19,7 @@ export default function GalleryPage() {
         title="The moments between the moments."
         description="A curated visual record of the people, conversations, ceremony and celebration that made the Partner Summit what it was."
       />
-      <GalleryClient photos={getPublishedGalleryPhotos()} />
+      <GalleryClient photos={await getPublishedGalleryPhotos()} />
     </>
   );
 }
