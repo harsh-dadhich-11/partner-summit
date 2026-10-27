@@ -339,7 +339,7 @@ export default function GalleryClient({ photos }: Props) {
               </button>
               {selected.largeUrl && (
                 <a
-                  href={`${selected.largeUrl}?download`}
+                  href={`${selected.largeUrl}&download`}
                   className="rounded-full border border-white/40 bg-black/50 px-4 py-2 text-micro font-semibold uppercase text-white backdrop-blur-sm transition hover:bg-white hover:text-black"
                 >
                   Download
