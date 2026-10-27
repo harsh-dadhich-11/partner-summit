@@ -50,6 +50,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Access verification is temporarily unavailable." }, { status: 503 });
     }
     if (!captcha.success) {
+      if (captcha.reason === "hostname-mismatch") {
+        return NextResponse.json(
+          { success: false, error: "Human verification succeeded, but this website address is not approved for recap access yet." },
+          { status: 400 }
+        );
+      }
       return NextResponse.json({ success: false, error: "Please complete the human verification and try again." }, { status: 400 });
     }
 

@@ -8,6 +8,12 @@ type TurnstileResult = {
   "error-codes"?: string[];
 };
 
+export type TurnstileValidation = {
+  success: boolean;
+  configured: boolean;
+  reason?: "missing-token" | "verification-failed" | "hostname-mismatch" | "verification-unavailable";
+};
+
 function expectedHostnames(): string[] {
   const configuredHosts = process.env.TURNSTILE_EXPECTED_HOSTNAMES || process.env.TURNSTILE_EXPECTED_HOSTNAME;
   return (configuredHosts || "partner-summit-26.botconsulting.io")
@@ -16,10 +22,10 @@ function expectedHostnames(): string[] {
     .filter(Boolean);
 }
 
-export async function validateTurnstile(token: string, request: NextRequest): Promise<{ success: boolean; configured: boolean }> {
+export async function validateTurnstile(token: string, request: NextRequest): Promise<TurnstileValidation> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
   if (!secret) return { success: false, configured: false };
-  if (!token || token.length > 2048) return { success: false, configured: true };
+  if (!token || token.length > 2048) return { success: false, configured: true, reason: "missing-token" };
 
   const body = new FormData();
   body.set("secret", secret);
@@ -35,8 +41,14 @@ export async function validateTurnstile(token: string, request: NextRequest): Pr
     });
     const result = (await response.json()) as TurnstileResult;
     const hostnameMatches = expectedHostnames().includes(result.hostname || "");
-    return { success: response.ok && result.success === true && hostnameMatches, configured: true };
+    if (result.success !== true || !response.ok) {
+      return { success: false, configured: true, reason: "verification-failed" };
+    }
+    if (!hostnameMatches) {
+      return { success: false, configured: true, reason: "hostname-mismatch" };
+    }
+    return { success: true, configured: true };
   } catch {
-    return { success: false, configured: true };
+    return { success: false, configured: true, reason: "verification-unavailable" };
   }
 }
