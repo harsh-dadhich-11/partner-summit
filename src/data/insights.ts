@@ -106,10 +106,10 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "what-odyssey-is",
-    title: "Odyssey Demo",
+    title: "Odyssey Launch",
     theme: "GCC & Business",
     format: "Presentation",
-    speakers: "Deepali Puri and Ayushi Sharma (Presented with Lisa Burton and Akshay Singh Thakur)",
+    speakers: "Lisa Burton, Deepali Puri, Akshay Singh Thakur and Ayushi Sharma",
     summary:
       "A live demonstration of BOT’s operating system for GCC efficiency, linking people, processes and platforms while reserving judgement for the people closest to the work.",
     takeaways: [
