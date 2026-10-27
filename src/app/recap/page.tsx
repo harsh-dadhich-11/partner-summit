@@ -8,6 +8,27 @@ export const metadata: Metadata = {
   title: "Odyssey 2026 Recap | BOT Consulting",
   description: "Relive Odyssey, Partner Summit '26: the people, ideas and moments from Jaipur.",
   robots: { index: false, follow: false },
+  openGraph: {
+    title: "Odyssey 2026 Recap | BOT Consulting",
+    description: "Relive Odyssey, Partner Summit '26: the people, ideas and moments from Jaipur.",
+    url: "/recap",
+    siteName: "BOT Consulting",
+    type: "website",
+    images: [
+      {
+        url: "/assets/Odyssey'26 Team Image.jpg",
+        width: 1024,
+        height: 768,
+        alt: "Odyssey '26 Team Image",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Odyssey 2026 Recap | BOT Consulting",
+    description: "Relive Odyssey, Partner Summit '26: the people, ideas and moments from Jaipur.",
+    images: ["/assets/Odyssey'26 Team Image.jpg"],
+  },
 };
 
 export const dynamic = "force-dynamic";
@@ -32,10 +53,10 @@ export default async function RecapPage() {
             <span className="h-px w-8 bg-cyan-soft/60" /> {POST_EVENT.dates} · {POST_EVENT.venue}
           </p>
           <h1 className="mt-7 max-w-[12ch] font-display text-display text-white">
-            From Jaipur to the world!
+            We Built the Piano. Together, We Make the Music!
           </h1>
           <p className="mt-7 max-w-[47ch] text-lead text-cream/85">
-            Partner Summit: Odyssey’26 brought together our customers, our partners, and extended families- reminding us that the work we do may span continents, but the heart of it lives right here!
+            From Jaipur to the World, Odyssey’26 was a celebration of the people, partnerships and shared vision that made it one to remember. Relive the moments that made it special.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link href="/highlights" className="rounded-full bg-orange-bright px-6 py-3 text-micro font-semibold uppercase text-white transition hover:bg-orange-deep">

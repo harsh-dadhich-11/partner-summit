@@ -40,7 +40,7 @@ export default function OdysseyIdeas() {
       <div className="mx-auto grid max-w-[80rem] gap-12 px-6 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
         <div>
           <p className="text-micro font-semibold uppercase text-cyan-soft">Looking ahead</p>
-          <h2 id="odyssey-ideas-title" className="mt-4 max-w-[12ch] font-display text-h1">Put your ideas here for Odyssey &apos;27.</h2>
+          <h2 id="odyssey-ideas-title" className="mt-4 max-w-[12ch] font-display text-h1">Share your ideas here for Odyssey &apos;27.</h2>
           <p className="mt-6 max-w-[42ch] text-body text-cream/75">What should we explore, change or create together next year? Share the thought while the momentum is still fresh.</p>
         </div>
         <form onSubmit={submitIdea} className="grid gap-4 self-end" aria-describedby="odyssey-ideas-status">

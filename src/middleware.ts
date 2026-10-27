@@ -13,8 +13,19 @@ function isProtectedPath(pathname: string): boolean {
   return PROTECTED_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
 }
 
+function isBot(userAgent: string | null): boolean {
+  if (!userAgent) return false;
+  return /bot|crawler|spider|crawling|facebookexternalhit|whatsapp|slack|twitter|linkedin|discord|telegram|applebot|pinterest|skype/i.test(userAgent);
+}
+
 export async function middleware(request: NextRequest) {
   if (!isProtectedPath(request.nextUrl.pathname)) return NextResponse.next();
+
+  // Allow social media link preview crawlers to access metadata for link previews
+  const userAgent = request.headers.get("user-agent");
+  if (isBot(userAgent)) {
+    return NextResponse.next();
+  }
 
   const session = await verifyRecapAccessToken(request.cookies.get(RECAP_ACCESS_COOKIE)?.value);
   if (session) return NextResponse.next();

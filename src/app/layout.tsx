@@ -32,6 +32,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://partner-summit-26.botconsulting.io"),
   title: "Odyssey 2026 | BOT Consulting's Annual Partner Summit — Jaipur",
   description: SITE_DESCRIPTION,
   openGraph: {
