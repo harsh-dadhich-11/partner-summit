@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Icon } from "@/components/ui/Icon";
 import SessionCard from "@/components/sessions/SessionCard";
-import RegistrationModal from "@/components/sessions/RegistrationModal";
 import MyPassModal from "@/components/sessions/MyPassModal";
 import type { GroupedSessionSlot } from "@/types/database";
 
@@ -13,7 +12,6 @@ interface Props {
 
 export default function SessionsClient({ initialSlots }: Props) {
   const [slots, setSlots] = useState<GroupedSessionSlot[]>(initialSlots);
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isMyPassOpen, setIsMyPassOpen] = useState(false);
 
   const fetchSessions = useCallback(async () => {
@@ -58,16 +56,6 @@ export default function SessionsClient({ initialSlots }: Props) {
           >
             Find My Pass
           </button>
-          <button
-            onClick={() => setIsRegisterOpen(true)}
-            className="rounded-full bg-accent px-8 py-3 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg flex items-center gap-2"
-          >
-            <span>Register for Breakouts</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -106,46 +94,25 @@ export default function SessionsClient({ initialSlots }: Props) {
         ))}
       </div>
 
-      {/* Bottom CTA Banner */}
+      {/* Bottom Pass Lookup Banner */}
       <div className="mt-20 border border-rule-light bg-teal-dark p-8 md:p-12 text-cream text-center shadow-xl">
-        <span className="inline-block rounded-full bg-cyan-bright/15 px-4 py-1.5 text-micro font-bold uppercase tracking-wider text-cyan-bright">
-          Limited Seating Per Theatre
-        </span>
-        <h3 className="mt-4 font-display text-h2 text-white">
-          Secure Your Breakout Preferences Today
+        <h3 className="font-display text-h2 text-white">
+          Already Registered?
         </h3>
         <p className="mt-3 max-w-[50ch] mx-auto text-body text-cream/80">
-          Seats are allocated on a strictly first-come, first-served basis. Choose your 3 sessions before seats fill up.
+          Find your pass and view your confirmed breakout sessions.
         </p>
         <div className="mt-8 flex justify-center gap-4">
           <button
-            onClick={() => setIsRegisterOpen(true)}
+            onClick={() => setIsMyPassOpen(true)}
             className="rounded-full bg-accent px-8 py-3.5 text-small font-semibold text-white hover:bg-orange-deep transition-all shadow-md hover:shadow-lg flex items-center gap-2"
           >
-            <span>Start Registration</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
+            <span>Find My Pass</span>
           </button>
         </div>
       </div>
 
       {/* Modals — mounted only while open so each opening starts with fresh state */}
-      {isRegisterOpen && (
-        <RegistrationModal
-          isOpen={isRegisterOpen}
-          onClose={() => setIsRegisterOpen(false)}
-          slots={slots}
-          onRegistrationSuccess={() => {
-            fetchSessions();
-          }}
-          onOpenMyPass={() => {
-            setIsRegisterOpen(false);
-            setIsMyPassOpen(true);
-          }}
-        />
-      )}
 
       {isMyPassOpen && (
         <MyPassModal

@@ -48,16 +48,11 @@ export default function SessionCard({
           {track.label}
         </p>
 
-        {/* Live Availability Badges: Strictly 'Sold Out' or 'Filling Fast' */}
-        {isFull ? (
+        {/* Live Availability Badge: Strictly 'Sold Out' when full */}
+        {isFull && (
           <span className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 rounded-full bg-panel-orange px-2.5 py-0.5 text-micro font-bold text-orange-deep uppercase tracking-wider">
             <span className="h-1.5 w-1.5 rounded-full bg-orange-deep" />
             Sold Out
-          </span>
-        ) : (
-          <span className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 rounded-full bg-orange-bright/12 px-2.5 py-0.5 text-micro font-bold text-orange-deep uppercase tracking-wider">
-            <span className="h-1.5 w-1.5 rounded-full bg-orange-bright animate-pulse" />
-            Filling Fast
           </span>
         )}
       </div>

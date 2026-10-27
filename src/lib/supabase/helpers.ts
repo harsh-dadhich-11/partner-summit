@@ -20,8 +20,8 @@ export function computeSessionAvailability(session: DbSession): SessionWithAvail
   const remaining = Math.max(0, enriched.capacity - enriched.booked_seats);
   const isFull = enriched.booked_seats >= enriched.capacity;
 
-  const seatsLeftBadge = isFull ? "Sold Out" : "Filling Fast";
-  const urgencyStatus: SessionWithAvailability["urgency_status"] = isFull ? "sold_out" : "filling_fast";
+  const seatsLeftBadge = isFull ? "Sold Out" : null;
+  const urgencyStatus: SessionWithAvailability["urgency_status"] = isFull ? "sold_out" : "available";
 
   return {
     ...enriched,

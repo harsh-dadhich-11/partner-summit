@@ -52,8 +52,8 @@ export default async function SessionsPage() {
         description="Day 1 breaks out into nine immersive sessions across technology, AI, product innovation, industries and ecosystems. Seating is strictly limited per theatre and allocated first-come, first-served."
         action={
           <span className="inline-flex items-center gap-2 rounded-full border border-cyan-bright/40 bg-cyan-bright/10 px-5 py-2.5 text-micro font-semibold tracking-normal text-cyan-bright uppercase">
-            <span className="h-2 w-2 rounded-full bg-cyan-bright animate-pulse" />
-            Registration Open
+            <span className="h-2 w-2 rounded-full bg-cyan-bright" />
+            Registration Closed!
           </span>
         }
       />
