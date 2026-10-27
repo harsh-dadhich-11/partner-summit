@@ -15,6 +15,14 @@ declare global {
 
 const COOLDOWN_SECONDS = 60;
 
+function turnstileErrorMessage(errorCode?: string): string {
+  if (errorCode === "110200") {
+    return "Human verification is not authorised for this website address yet. Please contact the summit team.";
+  }
+
+  return "Human verification could not load. Please refresh the page or try again in a private window.";
+}
+
 function safeDestination(value: string | null): string {
   if (!value || !value.startsWith("/") || value.startsWith("//")) return "/recap";
   return value;
@@ -30,6 +38,7 @@ export default function RecapAccessForm() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [captchaError, setCaptchaError] = useState("");
   const captchaContainerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
 
@@ -48,9 +57,18 @@ export default function RecapAccessForm() {
       sitekey: siteKey,
       theme: "light",
       size: "flexible",
-      callback: (token: string) => setCaptchaToken(token),
-      "expired-callback": () => setCaptchaToken(""),
-      "error-callback": () => setCaptchaToken(""),
+      callback: (token: string) => {
+        setCaptchaToken(token);
+        setCaptchaError("");
+      },
+      "expired-callback": () => {
+        setCaptchaToken("");
+        setCaptchaError("Human verification expired. Please complete it again.");
+      },
+      "error-callback": (errorCode?: string) => {
+        setCaptchaToken("");
+        setCaptchaError(turnstileErrorMessage(errorCode));
+      },
     });
 
     return () => {
@@ -129,7 +147,14 @@ export default function RecapAccessForm() {
 
   return (
     <>
-      {siteKey && <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" onLoad={() => setTurnstileReady(true)} />}
+      {siteKey && (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+          strategy="afterInteractive"
+          onLoad={() => setTurnstileReady(true)}
+          onError={() => setCaptchaError(turnstileErrorMessage())}
+        />
+      )}
       <section className="mx-auto flex min-h-[calc(100vh-16rem)] max-w-[80rem] items-center px-6 py-32">
         <div className="grid w-full overflow-hidden border border-rule bg-white shadow-sm lg:grid-cols-[1fr_.9fr]">
           <div className="bg-teal-dark px-7 py-12 text-cream sm:px-12 lg:py-16">
@@ -165,6 +190,7 @@ export default function RecapAccessForm() {
 
                 <div className="mt-5 min-h-[65px]" ref={captchaContainerRef} />
                 {!siteKey && <p className="mt-3 text-small text-orange-deep">Human verification is not configured yet. Please contact the summit team.</p>}
+                {captchaError && <p className="mt-3 border-l-2 border-orange-bright bg-panel-orange px-4 py-3 text-small text-ink" role="alert">{captchaError}</p>}
 
                 {error && <p className="mt-5 border-l-2 border-orange-bright bg-panel-orange px-4 py-3 text-small text-ink" role="alert">{error}</p>}
                 <button
