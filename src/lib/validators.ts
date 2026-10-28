@@ -4,6 +4,12 @@ import { z } from "zod";
 // Strict validation pattern for @botconsulting.io emails
 export const BOTCONSULTING_EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@botconsulting\.io$/i;
 
+// Strict validation pattern for @cloud4good.com emails
+export const CLOUD4GOOD_EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@cloud4good\.com$/i;
+
+// Domains automatically permitted to access the recap
+export const RECAP_ALLOWED_EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(botconsulting\.io|cloud4good\.com)$/i;
+
 // Registration IDs are server-generated: REG- + 6 digits
 export const REGISTRATION_ID_REGEX = /^REG-\d{6}$/;
 

@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { createRecapAccessToken, RECAP_ACCESS_COOKIE, RECAP_ACCESS_SESSION_SECONDS } from "@/lib/recapAccess";
 import { hashValue, normalizeEmail, OTP_MAX_ATTEMPTS } from "@/lib/otp";
 import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
-import { BOTCONSULTING_EMAIL_REGEX } from "@/lib/validators";
+import { RECAP_ALLOWED_EMAIL_REGEX } from "@/lib/validators";
 
 export const dynamic = "force-dynamic";
 
 async function isEmailAllowed(email: string): Promise<boolean> {
-  if (BOTCONSULTING_EMAIL_REGEX.test(email)) return true;
+  if (RECAP_ALLOWED_EMAIL_REGEX.test(email)) return true;
   const { data, error } = await supabaseAdmin
     .from("recap_access_allowlist")
     .select("email")

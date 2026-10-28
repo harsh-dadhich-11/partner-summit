@@ -4,12 +4,12 @@ import { hashValue, generateOtp, normalizeEmail, OTP_RESEND_COOLDOWN_MS, OTP_TTL
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 import { validateTurnstile } from "@/lib/turnstile";
-import { BOTCONSULTING_EMAIL_REGEX } from "@/lib/validators";
+import { RECAP_ALLOWED_EMAIL_REGEX } from "@/lib/validators";
 
 export const dynamic = "force-dynamic";
 
 async function isEmailAllowed(email: string): Promise<boolean> {
-  if (BOTCONSULTING_EMAIL_REGEX.test(email)) return true;
+  if (RECAP_ALLOWED_EMAIL_REGEX.test(email)) return true;
 
   const { data, error } = await supabaseAdmin
     .from("recap_access_allowlist")
