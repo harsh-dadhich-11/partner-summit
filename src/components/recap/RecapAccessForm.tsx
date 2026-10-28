@@ -164,7 +164,9 @@ export default function RecapAccessForm() {
               Verify your email to revisit the people, ideas and moments from Partner Summit ’26.
             </p>
             <div className="mt-12 border-t border-white/15 pt-6 text-small leading-relaxed text-cream/65">
-              Access is available to BOT Consulting and Cloud for Good colleagues and invited guests.
+              Please acces the recap section with the email ID you used for RSVP.
+              Thanks!
+              Please feel free to reach out if you face any issues.
             </div>
           </div>
 
